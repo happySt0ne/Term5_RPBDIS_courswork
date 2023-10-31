@@ -7,13 +7,13 @@ using Term5_RPBDIS_library.models.views;
 
 namespace Term5_RPBDIS_library;
 
-public partial class CourseworkContext : DbContext
+public partial class ValuatingSystemContext : DbContext
 {
-    public CourseworkContext()
+    public ValuatingSystemContext()
     {
     }
 
-    public CourseworkContext(DbContextOptions<CourseworkContext> options)
+    public ValuatingSystemContext(DbContextOptions<ValuatingSystemContext> options)
         : base(options)
     {
     }
