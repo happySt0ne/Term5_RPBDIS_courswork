@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
 using System.Collections;
 using System.Threading.Channels;
@@ -8,6 +9,7 @@ using Term5_RPBDIS_library.models.tables;
 class Program {
     static void Main(string[] args) {
         CourseworkContext context = new();
+        context.Marks.ToList().ForEach(x => Console.WriteLine(x.Value));
 
 
     }

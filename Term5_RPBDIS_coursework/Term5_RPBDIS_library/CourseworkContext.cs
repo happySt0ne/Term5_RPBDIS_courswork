@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Term5_RPBDIS_library.models.tables;
 using Term5_RPBDIS_library.models.views;
 
@@ -39,8 +40,18 @@ public partial class CourseworkContext : DbContext
 
     public virtual DbSet<WholeEmployeeInfo> WholeEmployeeInfos { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=Term5_RPBDIS_Coursework;Trusted_Connection=True;TrustServerCertificate=True");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+        ConfigurationBuilder builder = new();
+        builder.SetBasePath(Directory.GetCurrentDirectory());
+        builder.AddJsonFile("appsettings.json");
+        IConfigurationRoot config = builder.Build();
+        string connectionString = config.GetConnectionString("DefaultConnection")!;
+        _ = optionsBuilder
+            .UseSqlServer(connectionString)
+            .Options;
+        optionsBuilder.LogTo(message => System.Diagnostics.Debug.WriteLine(message));
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
