@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Term5_RPBDIS_console", "Term5_RPBDIS_lab2_console\Term5_RPBDIS_console.csproj", "{7C388A82-9337-41BB-B428-35257179E133}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Term5_RPBDIS_library", "Term5_RPBDIS_library\Term5_RPBDIS_library.csproj", "{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C388A82-9337-41BB-B428-35257179E133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C388A82-9337-41BB-B428-35257179E133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C388A82-9337-41BB-B428-35257179E133}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C388A82-9337-41BB-B428-35257179E133}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CBB59823-F592-48E5-B4E5-DE68805148AE}
+	EndGlobalSection
+EndGlobal
