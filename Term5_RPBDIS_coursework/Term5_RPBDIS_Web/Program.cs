@@ -1,3 +1,7 @@
+using Microsoft.IdentityModel.Tokens;
+using System.Reflection.Metadata;
+using Term5_RPBDIS_mainLogic;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,5 +24,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.Map("/info", Middlewares.GetClientInfo);
 
 app.Run();
