@@ -41,30 +41,32 @@ namespace Term5_RPBDIS_mainLogic.Services {
         }
 
         private IEnumerable<T> GetValues() {
-            return typeof(T) switch {
+            List<T> data = typeof(T) switch {
                 Type type when type == typeof(Achievement) =>
-                    _valuatingSystemContext.Achievements.OrderBy(x => x.AchievementId).Take(ROWS_NUMBER).Cast<T>().ToList(),
+                    _valuatingSystemContext.Achievements.OrderBy(x => x.AchievementId).Cast<T>().ToList(),
 
                 Type type when type == typeof(Date) =>
-                    _valuatingSystemContext.Dates.OrderBy(x => x.DateId).Take(ROWS_NUMBER).Cast<T>().ToList(),
+                    _valuatingSystemContext.Dates.OrderBy(x => x.DateId).Cast<T>().ToList(),
 
                 Type type when type == typeof(Division) =>
-                    _valuatingSystemContext.Divisions.OrderBy(x => x.DivisionId).Take(ROWS_NUMBER).Cast<T>().ToList(),
+                    _valuatingSystemContext.Divisions.OrderBy(x => x.DivisionId).Cast<T>().ToList(),
 
                 Type type when type == typeof(Employee) =>
-                    _valuatingSystemContext.Employees.OrderBy(x => x.EmployeeId).Take(ROWS_NUMBER).Cast<T>().ToList(),
+                    _valuatingSystemContext.Employees.OrderBy(x => x.EmployeeId).Cast<T>().ToList(),
 
                 Type type when type == typeof(Mark) =>
-                    _valuatingSystemContext.Marks.OrderBy(x => x.MarkId).Take(ROWS_NUMBER).Cast<T>().ToList(),
+                    _valuatingSystemContext.Marks.OrderBy(x => x.MarkId).Cast<T>().ToList(),
 
                 Type type when type == typeof(PlannedEfficiency) =>
-                    _valuatingSystemContext.PlannedEfficiencies.OrderBy(x => x.PlannedEfficiencyId).Take(ROWS_NUMBER).Cast<T>().ToList(),
+                    _valuatingSystemContext.PlannedEfficiencies.OrderBy(x => x.PlannedEfficiencyId).Cast<T>().ToList(),
 
                 Type type when type == typeof(RealEfficiency) =>
-                    _valuatingSystemContext.RealEfficiencies.OrderBy(x => x.RealEfficiencyId).Take(ROWS_NUMBER).Cast<T>().ToList(),
+                    _valuatingSystemContext.RealEfficiencies.OrderBy(x => x.RealEfficiencyId).Cast<T>().ToList(),
 
                 _ => throw new Exception() //TODO: По хорошему нужно тут нормальное исключение поставить.
             };
+
+            return data.Take(ROWS_NUMBER);
         }
     }
 }
