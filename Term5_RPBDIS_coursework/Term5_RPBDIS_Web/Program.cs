@@ -16,8 +16,15 @@ builder.Services.AddRazorPages();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ValuatingSystemContext>(options => options.UseSqlServer(connection));
-builder.Services.AddTransient<AchievementService>();
 builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddTransient<AchievementService>();
+builder.Services.AddTransient<DateService>();
+builder.Services.AddTransient<DivisionService>();
+builder.Services.AddTransient<EmployeeService>();
+builder.Services.AddTransient<MarkService>();
+builder.Services.AddTransient<PlannedEfficiencyService>();
+builder.Services.AddTransient<RealEfficiencyService>();
 
 builder.Services.AddTransient(x => 
     new MemoryCacheEntryOptions {
@@ -46,9 +53,9 @@ app.MapRazorPages();
 app.Map("/info", Middlewares.GetClientInfo);
 
 app.Run(context => {
-    var a = context.RequestServices.GetService<AchievementService>();
-    var b = a?.GetAchievements("Achievements20");
-    return context.Response.WriteAsync(b.FirstOrDefault().Text);
+    var a = context.RequestServices.GetService<DateService>().Get("EmployeeService");
+
+    return context.Response.WriteAsync(a.FirstOrDefault().StartDate.ToString() );
 });
 
 app.Run();
