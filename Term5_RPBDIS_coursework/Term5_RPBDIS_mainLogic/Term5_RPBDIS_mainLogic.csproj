@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Term5_RPBDIS_library\Term5_RPBDIS_sql_library.csproj" />
+  </ItemGroup>
+
 </Project>
