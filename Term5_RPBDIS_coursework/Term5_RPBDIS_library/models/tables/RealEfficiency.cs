@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Term5_RPBDIS_sql_library;
 
 namespace Term5_RPBDIS_library.models.tables;
 
-public partial class RealEfficiency
+public partial class RealEfficiency : ISqlTable
 {
     public int RealEfficiencyId { get; set; }
 
@@ -14,4 +15,6 @@ public partial class RealEfficiency
     public virtual Date? Date { get; set; }
 
     public virtual ICollection<Division> Divisions { get; set; } = new List<Division>();
+
+    public int ID => RealEfficiencyId;
 }

@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_library.models.tables;
+using Term5_RPBDIS_sql_library;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Term5_RPBDIS_mainLogic.Services {
-    public abstract class CacheService<T> {
+    public abstract class CacheService<T> where T : ISqlTable {
         protected const int ROWS_NUMBER = 20;
         protected ValuatingSystemContext _valuatingSystemContext;
         protected IMemoryCache _cache;
@@ -41,32 +42,32 @@ namespace Term5_RPBDIS_mainLogic.Services {
         }
 
         private IEnumerable<T> GetValues() {
-            List<T> data = typeof(T) switch {
+            IQueryable<T> data = typeof(T) switch {
                 Type type when type == typeof(Achievement) =>
-                    _valuatingSystemContext.Achievements.OrderBy(x => x.AchievementId).Cast<T>().ToList(),
+                    _valuatingSystemContext.Achievements.Cast<T>(),
 
                 Type type when type == typeof(Date) =>
-                    _valuatingSystemContext.Dates.OrderBy(x => x.DateId).Cast<T>().ToList(),
+                    _valuatingSystemContext.Dates.Cast<T>(),
 
                 Type type when type == typeof(Division) =>
-                    _valuatingSystemContext.Divisions.OrderBy(x => x.DivisionId).Cast<T>().ToList(),
+                    _valuatingSystemContext.Divisions.Cast<T>(),
 
                 Type type when type == typeof(Employee) =>
-                    _valuatingSystemContext.Employees.OrderBy(x => x.EmployeeId).Cast<T>().ToList(),
+                    _valuatingSystemContext.Employees.Cast<T>(),
 
                 Type type when type == typeof(Mark) =>
-                    _valuatingSystemContext.Marks.OrderBy(x => x.MarkId).Cast<T>().ToList(),
+                    _valuatingSystemContext.Marks.Cast<T>(),
 
                 Type type when type == typeof(PlannedEfficiency) =>
-                    _valuatingSystemContext.PlannedEfficiencies.OrderBy(x => x.PlannedEfficiencyId).Cast<T>().ToList(),
+                    _valuatingSystemContext.PlannedEfficiencies.Cast<T>(),
 
                 Type type when type == typeof(RealEfficiency) =>
-                    _valuatingSystemContext.RealEfficiencies.OrderBy(x => x.RealEfficiencyId).Cast<T>().ToList(),
+                    _valuatingSystemContext.RealEfficiencies.Cast<T>(),
 
                 _ => throw new Exception() //TODO: По хорошему нужно тут нормальное исключение поставить.
             };
 
-            return data.Take(ROWS_NUMBER);
+            return data.AsEnumerable().OrderBy(x => x.ID).ToList().Take(ROWS_NUMBER);
         }
     }
 }
