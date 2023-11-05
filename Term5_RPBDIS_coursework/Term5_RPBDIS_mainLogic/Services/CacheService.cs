@@ -12,7 +12,7 @@ using Term5_RPBDIS_sql_library;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Term5_RPBDIS_mainLogic.Services {
-    public abstract class CacheService<T> where T : ISqlTable {
+    public abstract class CacheService<T> where T : class, ISqlTable {
         protected const int ROWS_NUMBER = 20;
         protected ValuatingSystemContext _valuatingSystemContext;
         protected IMemoryCache _cache;
@@ -31,43 +31,19 @@ namespace Term5_RPBDIS_mainLogic.Services {
                 return result;
             }
 
-            result = GetValues();
-           
+            result = _valuatingSystemContext
+                .Set<T>()
+                .AsEnumerable()
+                .OrderBy(x => x.ID)
+                .Take(ROWS_NUMBER)
+                .ToList();
+
             if (result is not null) {
 
                 _cache.Set(cacheKey, result, _serviceProvider.GetService<MemoryCacheEntryOptions>());
             }
             Console.WriteLine("Взято из бд");
             return result;
-        }
-
-        private IEnumerable<T> GetValues() {
-            IQueryable<T> data = typeof(T) switch {
-                Type type when type == typeof(Achievement) =>
-                    _valuatingSystemContext.Achievements.Cast<T>(),
-
-                Type type when type == typeof(Date) =>
-                    _valuatingSystemContext.Dates.Cast<T>(),
-
-                Type type when type == typeof(Division) =>
-                    _valuatingSystemContext.Divisions.Cast<T>(),
-
-                Type type when type == typeof(Employee) =>
-                    _valuatingSystemContext.Employees.Cast<T>(),
-
-                Type type when type == typeof(Mark) =>
-                    _valuatingSystemContext.Marks.Cast<T>(),
-
-                Type type when type == typeof(PlannedEfficiency) =>
-                    _valuatingSystemContext.PlannedEfficiencies.Cast<T>(),
-
-                Type type when type == typeof(RealEfficiency) =>
-                    _valuatingSystemContext.RealEfficiencies.Cast<T>(),
-
-                _ => throw new Exception() //TODO: По хорошему нужно тут нормальное исключение поставить.
-            };
-
-            return data.AsEnumerable().OrderBy(x => x.ID).ToList().Take(ROWS_NUMBER);
         }
     }
 }
