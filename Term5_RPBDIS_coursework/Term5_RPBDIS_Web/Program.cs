@@ -6,6 +6,7 @@ using Term5_RPBDIS_library;
 using Term5_RPBDIS_library.models.tables;
 using Term5_RPBDIS_mainLogic;
 using Term5_RPBDIS_mainLogic.Services;
+using Term5_RPBDIS_sql_library;
 
 const int CACHE_TIME_SECONDS = 264;
 
@@ -51,11 +52,12 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Map("/info", Middlewares.GetClientInfo);
-
-app.Run(context => {
-    var a = context.RequestServices.GetService<DateService>().Get("EmployeeService");
-
-    return context.Response.WriteAsync(a.FirstOrDefault().StartDate.ToString() );
-});
+app.Map("/Achievement", Middlewares.ShowAchievement);
+app.Map("/Date", Middlewares.GetClientInfo);
+app.Map("/Division", Middlewares.GetClientInfo);
+app.Map("/Employee", Middlewares.GetClientInfo);
+app.Map("/Mark", Middlewares.GetClientInfo);
+app.Map("/PlannedEfficiency", Middlewares.GetClientInfo);
+app.Map("/RealEfficiency", Middlewares.GetClientInfo);
 
 app.Run();
