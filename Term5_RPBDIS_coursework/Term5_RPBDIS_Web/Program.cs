@@ -53,11 +53,11 @@ app.MapRazorPages();
 
 app.Map("/info", Middlewares.GetClientInfo);
 app.Map("/Achievement", Middlewares.ShowAchievement);
-app.Map("/Date", Middlewares.GetClientInfo);
-app.Map("/Division", Middlewares.GetClientInfo);
-app.Map("/Employee", Middlewares.GetClientInfo);
-app.Map("/Mark", Middlewares.GetClientInfo);
-app.Map("/PlannedEfficiency", Middlewares.GetClientInfo);
-app.Map("/RealEfficiency", Middlewares.GetClientInfo);
+app.Map("/Date", Middlewares.ShowDate);
+app.Map("/Division", Middlewares.ShowDivision);
+app.Map("/Employee", Middlewares.ShowEmployee);
+app.Map("/Mark", Middlewares.ShowMark);
+app.Map("/PlannedEfficiency", Middlewares.ShowPlannedEfficiency);
+app.Map("/RealEfficiency", Middlewares.ShowRealEfficiency);
 
 app.Run();
