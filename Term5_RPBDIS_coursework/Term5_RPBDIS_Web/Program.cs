@@ -15,8 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ValuatingSystemContext>(options => options.UseSqlServer(connection));
+//string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ValuatingSystemContext>(/*options => options.UseSqlServer(connection)*/);
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddTransient<AchievementService>();
@@ -59,5 +59,7 @@ app.Map("/Employee", Middlewares.ShowEmployee);
 app.Map("/Mark", Middlewares.ShowMark);
 app.Map("/PlannedEfficiency", Middlewares.ShowPlannedEfficiency);
 app.Map("/RealEfficiency", Middlewares.ShowRealEfficiency);
+app.Map("/searchform1", Middlewares.SearchForm1);
+app.Map("/searchform2", Middlewares.SearchForm2);
 
 app.Run();
