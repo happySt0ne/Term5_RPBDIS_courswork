@@ -51,15 +51,15 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.Map("/info", Middlewares.GetClientInfo);
-app.Map("/Achievement", Middlewares.ShowAchievement);
-app.Map("/Date", Middlewares.ShowDate);
-app.Map("/Division", Middlewares.ShowDivision);
-app.Map("/Employee", Middlewares.ShowEmployee);
-app.Map("/Mark", Middlewares.ShowMark);
-app.Map("/PlannedEfficiency", Middlewares.ShowPlannedEfficiency);
-app.Map("/RealEfficiency", Middlewares.ShowRealEfficiency);
-app.Map("/searchform1", Middlewares.SearchForm1);
-app.Map("/searchform2", Middlewares.SearchForm2);
+app.Map("/info", Middlewares.Info.GetClientInfo);
+app.Map("/Achievement", Middlewares.Tables.ShowAchievement);
+app.Map("/Date", Middlewares.Tables.ShowDate);
+app.Map("/Division", Middlewares.Tables.ShowDivision);
+app.Map("/Employee", Middlewares.Tables.ShowEmployee);
+app.Map("/Mark", Middlewares.Tables.ShowMark);
+app.Map("/PlannedEfficiency", Middlewares.Tables.ShowPlannedEfficiency);
+app.Map("/RealEfficiency", Middlewares.Tables.ShowRealEfficiency);
+app.Map("/searchform1", Middlewares.Search.ShowForm1);
+app.Map("/searchform2", Middlewares.Search.ShowForm2);
 
 app.Run();
