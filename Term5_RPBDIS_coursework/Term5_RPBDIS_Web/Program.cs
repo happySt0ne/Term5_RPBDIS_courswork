@@ -15,9 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-//string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ValuatingSystemContext>(/*options => options.UseSqlServer(connection)*/);
+builder.Services.AddDbContext<ValuatingSystemContext>();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<AchievementService>();
 builder.Services.AddTransient<DateService>();
@@ -61,5 +61,14 @@ app.Map("/PlannedEfficiency", Middlewares.Tables.ShowPlannedEfficiency);
 app.Map("/RealEfficiency", Middlewares.Tables.ShowRealEfficiency);
 app.Map("/searchform1", Middlewares.Search.ShowForm1);
 app.Map("/searchform2", Middlewares.Search.ShowForm2);
+
+// MVC here!
+app.UseRouting();
+app.UseAuthorization();
+app.UseEndpoints(endpoints => {
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.Run();
