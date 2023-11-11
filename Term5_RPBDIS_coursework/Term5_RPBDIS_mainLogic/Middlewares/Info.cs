@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Term5_RPBDIS_mainLogic {
     public static partial class Middlewares {
         public class Info {
-            public static void GetClientInfo(IApplicationBuilder app) {
+            public static void ShowClientInfo(IApplicationBuilder app) {
                 app.Run(async context => {
                     string answer = "";
                     answer += "remote ip:\n";

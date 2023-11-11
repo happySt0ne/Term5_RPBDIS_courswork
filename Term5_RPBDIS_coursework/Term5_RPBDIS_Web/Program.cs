@@ -51,7 +51,7 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.Map("/info", Middlewares.Info.GetClientInfo);
+app.Map("/info", Middlewares.Info.ShowClientInfo);
 app.Map("/Achievement", Middlewares.Tables.ShowAchievement);
 app.Map("/Date", Middlewares.Tables.ShowDate);
 app.Map("/Division", Middlewares.Tables.ShowDivision);
