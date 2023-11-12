@@ -18,6 +18,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ValuatingSystemContext>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
+builder.Services.Configure<CookiePolicyOptions>(options =>
+    options.CheckConsentNeeded = context => false
+);
 
 builder.Services.AddTransient<AchievementService>();
 builder.Services.AddTransient<DateService>();
@@ -35,6 +39,7 @@ builder.Services.AddTransient(x =>
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment()) {
     app.UseExceptionHandler("/Error");
@@ -44,6 +49,7 @@ if (!app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 

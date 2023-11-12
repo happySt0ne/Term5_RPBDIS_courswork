@@ -3,44 +3,65 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Dynamic.Core;
 using Term5_RPBDIS_library;
+using Term5_RPBDIS_mainLogic.sessionStuff;
 
-namespace Term5_RPBDIS_mainLogic {
+namespace Term5_RPBDIS_mainLogic
+{
     public static partial class Middlewares {
         public static class Search {
-            private static string _defaultSearchForm =
-            "<html> <head>Поиск по таблицам</head>" +
-            "<META http-equiv='Content-Type' content='text/html; charset=utf-8' /><body> " +
-            "<form action = /searchform1> " +
-
-            "<label for='choosingList'>Выберите таблицу для поиска:<br></label>" +
-            "<select name='choosingList' id='choosingList' required >" +
-            "<option value='Achievement'>Достижения</option>" +
-            "<option value='Date'>Даты</option>" +
-            "<option value='Division'>Отделы</option>" +
-            "<option value='Employee'>Работники</option>" +
-            "<option value='Term5_RPBDIS_libraryMark'>Оценки</option>" +
-            "<option value='PlannedEfficiecy'>Планируемая эффективность</option>" +
-            "<option value='RealEfficiecy'>Реальная эффективность</option>" +
-            "</select><br> " +
-
-            "<label for='column'>Введите название столбца для поиска по таблице:<br></label>" +
-            "<input type='text' name='column' id='column' required /> <br>" +
-
-            "<label for='textForSearch'>Введите фрагмент для поиска: <br></label>" +
-            "<input type='text' name='textForSearch' id='textForSearch' required /> <br>" +
-
-            "<input type='submit' value='найти' >" +
-            "</form> </body> </html>";
-
             public static void ShowForm1(IApplicationBuilder app) {
                 app.Run(async context => {
-                    string chosenTable = context.Request.Query["choosingList"];
-                    string chosenColumn = context.Request.Query["column"];
-                    string textForSearch = context.Request.Query["textForSearch"];
+                    bool isChosenTableNotNull = GetOrAddCookie("choosingList", context, out string? chosenTable);
+                    bool isChosenColumnNotNull = GetOrAddCookie("column", context, out string? chosenColumn);
+                    bool isTextForSearchNotNull = GetOrAddCookie("textForSearch", context, out string? textForSearch);
+                    
+                    string answer = GetDefaultForm(chosenTable, chosenColumn, textForSearch, 1);
 
-                    string answer = _defaultSearchForm;
+                    if (isChosenTableNotNull && isChosenColumnNotNull && isTextForSearchNotNull) {
+
+                        answer += $"Результат поиска в таблице {chosenTable} по столбцу {chosenColumn}:";
+                        answer += Find(chosenTable, chosenColumn, textForSearch, context);
+                        
+                        // Без этого поиск больше нормально работать не будет.
+                        context.Response.Cookies.Delete("choosingList");
+                        context.Response.Cookies.Delete("column");
+                        context.Response.Cookies.Delete("textForSearch");
+                    }
+
+                    await context.Response.WriteAsync(answer);
+                });
+            }
+
+            public static void ShowForm2(IApplicationBuilder app) {
+                app.Run(async context => {
+                    // из-за сессии теперь эта форма не позволяет делать больше одного поиска.
+                    // Оставил потому что иначе пропадёт фишка использования сессий.
+
+                    var searchSession = context.Session.Get<SearchSession>("searchSession") ?? new SearchSession();
+
+                    string chosenTable;
+                    string chosenColumn;
+                    string textForSearch;
+                    if (searchSession.isSaved) {
+                        
+                        chosenTable = searchSession.tableName;
+                        chosenColumn = searchSession.columnName;
+                        textForSearch = searchSession.textForSearch;
+                    } else {
+                        chosenTable = context.Request.Query["choosingList"];
+                        chosenColumn = context.Request.Query["column"];
+                        textForSearch = context.Request.Query["textForSearch"];
+                    }
+
+                    string answer = GetDefaultForm(chosenTable, chosenColumn, textForSearch, 2);
 
                     if (chosenTable is not null) {
+                        searchSession.tableName = chosenTable;
+                        searchSession.columnName = chosenColumn;
+                        searchSession.textForSearch = textForSearch;
+                        searchSession.isSaved = true;
+
+                        context.Session.Set("searchSession", searchSession);
 
                         answer += $"Результат поиска в таблице {chosenTable} по столбцу {chosenColumn}:";
                         answer += Find(chosenTable, chosenColumn, textForSearch, context);
@@ -50,22 +71,63 @@ namespace Term5_RPBDIS_mainLogic {
                 });
             }
 
-            public static void ShowForm2(IApplicationBuilder app) {
-                app.Run(async context => {
-                    string chosenTable = context.Request.Query["choosingList"];
-                    string chosenColumn = context.Request.Query["column"];
-                    string textForSearch = context.Request.Query["textForSearch"];
+            /// <summary>
+            /// Получает куки по ключу. Если этой куки ещё не существует, но в запросе фигурирует, то будет добавлена кука.
+            /// </summary>
+            /// <param name="key"></param>
+            /// <param name="context"></param>
+            /// <param name="res"></param>
+            /// <returns>true, если получилось получить элемент из кук или из запроса.</returns>
+            private static bool GetOrAddCookie(string key, HttpContext context, out string? res) {
+                if (context.Request.Cookies.ContainsKey(key)) {
 
-                    string answer = _defaultSearchForm;
+                    res = context.Request.Cookies[key];
+                    return true;
+                }
 
-                    if (chosenTable is not null) {
+                if (context.Request.Query.ContainsKey(key)) {
 
-                        answer += $"Результат поиска в таблице {chosenTable} по столбцу {chosenColumn}:";
-                        answer += Find(chosenTable, chosenColumn, textForSearch, context);
-                    }
+                    res = context.Request.Query[key];
+                    context.Response.Cookies.Append(key, res);
+                    return true;
+                }
 
-                    await context.Response.WriteAsync(answer);
-                });
+                res = null;
+                return false;
+            }
+
+            private static string GetDefaultForm(string? table, string? column, string? searchText, int formNumber) {
+                string _defaultSearchForm =
+                    "<html> <head>Поиск по таблицам</head>" +
+                    "<META http-equiv='Content-Type' content='text/html; charset=utf-8' /><body> " +
+                    $"<form action = /searchform{formNumber}> " +
+
+                    "<label for='choosingList'>Выберите таблицу для поиска:<br></label>" +
+                    "<select name='choosingList' id='choosingList' required >" +
+                    $"<option value='Achievement'>Достижения</option>" +
+                    $"<option value='Date'>Даты</option>" +
+                    $"<option value='Division'>Отделы</option>" +
+                    $"<option value='Employee'>Работники</option>" +
+                    $"<option value='Term5_RPBDIS_libraryMark'>Оценки</option>" +
+                    $"<option value='PlannedEfficiecy'>Планируемая эффективность</option>" +
+                    $"<option value='RealEfficiecy'>Реальная эффективность</option>" +
+                    "</select><br> " +
+
+                    "<label for='column'>Введите название столбца для поиска по таблице:<br></label>" +
+                    $"<input type='text' name='column' id='column' value='{column}' required /> <br>" +
+
+                    "<label for='textForSearch'>Введите фрагмент для поиска: <br></label>" +
+                    $"<input type='text' name='textForSearch' id='textForSearch' value='{searchText}' required /> <br>" +
+
+                    "<input type='submit' value='найти' >" +
+                    "</form> </body> </html>" +
+                    "<script>" +
+                    "window.onload = function() {" +
+                    $"document.getElementById(\"choosingList\").value = \"{table}\"" +
+                    "}" +
+                    "</script>";
+
+                return _defaultSearchForm;
             }
 
             private static string Find(string chosenTable, string chosenColumn, string textForSearch, HttpContext context) {
