@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Term5_RPBDIS_sql_library;
 
 namespace Term5_RPBDIS_library.models.tables;
 
-public partial class Employee
+public partial class Employee : ISqlTable
 {
     public int EmployeeId { get; set; }
 
@@ -22,4 +23,6 @@ public partial class Employee
     public virtual Division? Division { get; set; }
 
     public virtual Mark? Mark { get; set; }
+
+    public int ID => EmployeeId;
 }
