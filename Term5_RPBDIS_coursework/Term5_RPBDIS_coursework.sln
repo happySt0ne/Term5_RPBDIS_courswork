@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Term5_RPBDIS_sql_library", "Term5_RPBDIS_library\Term5_RPBDIS_sql_library.csproj", "{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Term5_RPBDIS_console", "Term5_RPBDIS_lab2_console\Term5_RPBDIS_console.csproj", "{7C388A82-9337-41BB-B428-35257179E133}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Term5_RPBDIS_Web", "Term5_RPBDIS_Web\Term5_RPBDIS_Web.csproj", "{55BA5328-87AF-4AF7-8AF1-70E91BDF0A01}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Term5_RPBDIS_mainLogic", "Term5_RPBDIS_mainLogic\Term5_RPBDIS_mainLogic.csproj", "{1AD4C9A6-05D7-400E-A026-9B3FA965B9A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Term5_RPBDIS_library", "Term5_RPBDIS_library\Term5_RPBDIS_library.csproj", "{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C388A82-9337-41BB-B428-35257179E133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C388A82-9337-41BB-B428-35257179E133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C388A82-9337-41BB-B428-35257179E133}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C388A82-9337-41BB-B428-35257179E133}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A719EED-7F2D-4D26-89C6-5E8B5291AA07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55BA5328-87AF-4AF7-8AF1-70E91BDF0A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55BA5328-87AF-4AF7-8AF1-70E91BDF0A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55BA5328-87AF-4AF7-8AF1-70E91BDF0A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55BA5328-87AF-4AF7-8AF1-70E91BDF0A01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1AD4C9A6-05D7-400E-A026-9B3FA965B9A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1AD4C9A6-05D7-400E-A026-9B3FA965B9A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1AD4C9A6-05D7-400E-A026-9B3FA965B9A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1AD4C9A6-05D7-400E-A026-9B3FA965B9A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

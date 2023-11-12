@@ -11,15 +11,11 @@ public partial class ValuatingSystemContext : DbContext
 {
     public ValuatingSystemContext()
     {
-        ChangeTracker.LazyLoadingEnabled = true;
-        Database.EnsureCreated();
     }
 
     public ValuatingSystemContext(DbContextOptions<ValuatingSystemContext> options)
         : base(options)
     {
-        ChangeTracker.LazyLoadingEnabled = true;
-        Database.EnsureCreated();
     }
 
     public virtual DbSet<Achievement> Achievements { get; set; }
@@ -54,7 +50,6 @@ public partial class ValuatingSystemContext : DbContext
             .UseSqlServer(connectionString)
             .Options;
         optionsBuilder.LogTo(message => System.Diagnostics.Debug.WriteLine(message));
-        optionsBuilder.UseLazyLoadingProxies();
     }
 
 

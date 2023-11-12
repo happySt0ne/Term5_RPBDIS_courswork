@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Term5_RPBDIS_sql_library;
 
 namespace Term5_RPBDIS_library.models.tables;
 
-public partial class Division : ISqlTable
+public partial class Division
 {
     public int DivisionId { get; set; }
 
@@ -23,6 +22,4 @@ public partial class Division : ISqlTable
     public virtual PlannedEfficiency? PlannedEfficiency { get; set; }
 
     public virtual RealEfficiency? RealEfficiency { get; set; }
-
-    public int ID => DivisionId;
 }
