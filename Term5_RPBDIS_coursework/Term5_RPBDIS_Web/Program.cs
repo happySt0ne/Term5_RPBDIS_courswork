@@ -50,5 +50,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "Division",
     pattern: "{controller=Division}/{action=ShowTable}");
+app.MapControllerRoute(
+    name: "Division",
+    pattern: "{controller=Employee}/{action=ShowTable}");
 
 app.Run();
