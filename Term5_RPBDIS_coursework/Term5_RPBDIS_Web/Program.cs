@@ -47,5 +47,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "Date",
     pattern: "{controller=Date}/{action=ShowTable}");
+app.MapControllerRoute(
+    name: "Division",
+    pattern: "{controller=Division}/{action=ShowTable}");
 
 app.Run();
