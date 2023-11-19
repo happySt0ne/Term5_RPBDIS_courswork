@@ -2,14 +2,13 @@ using Microsoft.Extensions.Caching.Memory;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_mainLogic.Services;
 
-const int CACHE_TIME_SECONDS = 264;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ValuatingSystemContext>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddControllersWithViews(); // Add MVC to DI.
 builder.Services.AddSession();
+builder.Services.AddResponseCaching();
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
     options.CheckConsentNeeded = context => false
@@ -23,18 +22,12 @@ builder.Services.AddTransient<MarkService>();
 builder.Services.AddTransient<PlannedEfficiencyService>();
 builder.Services.AddTransient<RealEfficiencyService>();
 
-builder.Services.AddTransient(x => 
-    new MemoryCacheEntryOptions {
-        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(CACHE_TIME_SECONDS),
-    }
-);
-
 var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
-
+app.UseResponseCaching();
 app.UseAuthorization();
 
 app.MapControllerRoute(
