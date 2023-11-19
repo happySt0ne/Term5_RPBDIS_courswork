@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Term5_RPBDIS_library;
+using Term5_RPBDIS_library.models.tables;
 using Term5_RPBDIS_mainLogic.Services;
 
 namespace Term5_RPBDIS_Web.Controllers {
-    public class EmployeeController : Controller {
-        public IActionResult ShowTable([FromServices] EmployeeService employeeCacheService) {
-            ViewBag.Data = employeeCacheService.Get("Employee20");
-
-            return View();
-        }
-    }
+    public class EmployeeController : ExpandedController<Employee> { }
 }
