@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +14,7 @@ const int CACHE_TIME_SECONDS = 264;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+//builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<ValuatingSystemContext>();
 builder.Services.AddDistributedMemoryCache();
@@ -55,7 +56,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapRazorPages();
+//app.MapRazorPages();
 
 app.Map("/info", Middlewares.Info.ShowClientInfo);
 app.Map("/Achievement", Middlewares.Tables.ShowAchievement);
@@ -69,12 +70,8 @@ app.Map("/searchform1", Middlewares.Search.ShowForm1);
 app.Map("/searchform2", Middlewares.Search.ShowForm2);
 
 // MVC here!
-app.UseRouting();
-app.UseAuthorization();
-app.UseEndpoints(endpoints => {
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-});
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
