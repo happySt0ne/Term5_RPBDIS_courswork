@@ -55,5 +55,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "Mark",
     pattern: "{controller=Mark}/{action=ShowTable}");
+app.MapControllerRoute(
+    name: "PlannedEfficiency",
+    pattern: "{controller=PLannedEfficiency}/{action=ShowTable}");
 
 app.Run();
