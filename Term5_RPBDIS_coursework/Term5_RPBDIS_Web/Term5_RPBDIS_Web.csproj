@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Term5_RPBDIS_library\Term5_RPBDIS_sql_library.csproj" />
-    <ProjectReference Include="..\Term5_RPBDIS_mainLogic\Term5_RPBDIS_mainLogic.csproj" />
+    <ProjectReference Include="..\Term5_RPBDIS_mainLogic\Term5_RPBDIS_Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
