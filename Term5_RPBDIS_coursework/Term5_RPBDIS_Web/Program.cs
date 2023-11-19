@@ -44,5 +44,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "Achievement",
     pattern: "{controller=Achievement}/{action=ShowTable}");
+app.MapControllerRoute(
+    name: "Date",
+    pattern: "{controller=Date}/{action=ShowTable}");
 
 app.Run();
