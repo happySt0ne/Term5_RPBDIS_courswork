@@ -1,5 +1,4 @@
 using Term5_RPBDIS_library;
-using Term5_RPBDIS_mainLogic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,14 +11,6 @@ builder.Services.AddResponseCaching();
 builder.Services.Configure<CookiePolicyOptions>(options =>
     options.CheckConsentNeeded = context => false
 );
-
-builder.Services.AddTransient<AchievementService>();
-builder.Services.AddTransient<DateService>();
-builder.Services.AddTransient<DivisionService>();
-builder.Services.AddTransient<EmployeeService>();
-builder.Services.AddTransient<MarkService>();
-builder.Services.AddTransient<PlannedEfficiencyService>();
-builder.Services.AddTransient<RealEfficiencyService>();
 
 var app = builder.Build();
 
