@@ -11,12 +11,4 @@
     <ProjectReference Include="..\Term5_RPBDIS_mainLogic\Term5_RPBDIS_mainLogic.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Division\" />
-    <Folder Include="Views\Employee\" />
-    <Folder Include="Views\Mark\" />
-    <Folder Include="Views\RealEfficiency\" />
-    <Folder Include="Views\PlannedEfficiency\" />
-  </ItemGroup>
-
 </Project>

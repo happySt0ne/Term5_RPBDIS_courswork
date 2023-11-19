@@ -1,6 +1,6 @@
 ﻿@using Term5_RPBDIS_library.models.tables;
 @{
-    var data = ViewBag.Data as List<RealEfficiency>;
+    var realEfficiencies = ViewBag.Data as List<RealEfficiency>;
 }
 
 <html>
@@ -18,7 +18,7 @@
             <th> Конечная дата </th>
         </tr>
 
-        @foreach (RealEfficiency realEfficiency in data) {
+        @foreach (RealEfficiency realEfficiency in realEfficiencies) {
             <tr>
                 <td> @realEfficiency.ID </td>
                 <td> @realEfficiency.Efficiecy </td>

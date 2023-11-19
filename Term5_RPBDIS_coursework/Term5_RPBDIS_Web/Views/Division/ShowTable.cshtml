@@ -1,6 +1,6 @@
 ﻿@using Term5_RPBDIS_library.models.tables;
 @{
-    var data = ViewBag.Data as List<Division>;
+    var divisions = ViewBag.Data as List<Division>;
 }
 
 <html>
@@ -21,7 +21,7 @@
             <th>Конечная дата оценивания</th>
         </tr>
 
-        @foreach (Division division in data) {
+        @foreach (Division division in divisions) {
             <tr>
                 <td>@division.ID</td>
                 <td>@division.Name</td>

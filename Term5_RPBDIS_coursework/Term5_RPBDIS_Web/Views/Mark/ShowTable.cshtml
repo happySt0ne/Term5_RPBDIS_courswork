@@ -1,6 +1,6 @@
 ﻿@using Term5_RPBDIS_library.models.tables;
 @{
-    var data = ViewBag.Data as List<Mark>;
+    var marks = ViewBag.Data as List<Mark>;
 }
 
 <html>
@@ -16,7 +16,7 @@
             <th>Оценка</th>
         </tr>
 
-        @foreach (Mark mark in data) {
+        @foreach (Mark mark in marks) {
             <tr>
                 <td>@mark.ID</td>
                 <td>@mark.Value</td>

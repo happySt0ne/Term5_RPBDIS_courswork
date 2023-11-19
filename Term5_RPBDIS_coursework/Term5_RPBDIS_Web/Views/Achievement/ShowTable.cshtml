@@ -1,6 +1,6 @@
 ﻿@using Term5_RPBDIS_library.models.tables;
 @{
-    var data = ViewBag.data as List<Achievement>;
+    var achievements = ViewBag.data as List<Achievement>;
 }
 
 <html>
@@ -16,10 +16,10 @@
             <th>Текст</th>
         </tr>
 
-        @foreach (Achievement a in data) {
+        @foreach (Achievement achievement in achievements) {
             <tr>
-                <td>@a.ID</td>
-                <td>@a.Text</td>
+                <td>@achievement.ID</td>
+                <td>@achievement.Text</td>
             </tr>
         }
     </table>

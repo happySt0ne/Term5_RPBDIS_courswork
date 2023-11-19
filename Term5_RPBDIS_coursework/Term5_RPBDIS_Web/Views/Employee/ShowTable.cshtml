@@ -1,6 +1,6 @@
 ﻿@using Term5_RPBDIS_library.models.tables;
 @{
-    var data = ViewBag.Data as List<Employee>;
+    var employees = ViewBag.Data as List<Employee>;
 }
 
 <html>
@@ -20,7 +20,7 @@
             <th>Оценка</th>
         </tr>
 
-        @foreach (Employee employee in data) {
+        @foreach (Employee employee in employees) {
             <tr>
                 <td>@employee.ID</td>
                 <td>@employee.Name</td>
