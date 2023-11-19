@@ -37,7 +37,6 @@ app.UseSession();
 
 app.UseAuthorization();
 
-// MVC here!
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -51,7 +50,10 @@ app.MapControllerRoute(
     name: "Division",
     pattern: "{controller=Division}/{action=ShowTable}");
 app.MapControllerRoute(
-    name: "Division",
+    name: "Employee",
     pattern: "{controller=Employee}/{action=ShowTable}");
+app.MapControllerRoute(
+    name: "Mark",
+    pattern: "{controller=Mark}/{action=ShowTable}");
 
 app.Run();
