@@ -1,15 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Term5_RPBDIS_library;
-using Term5_RPBDIS_library.models.tables;
 using Term5_RPBDIS_sql_library;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Term5_RPBDIS_mainLogic.Services {
     public abstract class CacheService<T> where T : class, ISqlTable {
@@ -17,7 +9,7 @@ namespace Term5_RPBDIS_mainLogic.Services {
         protected ValuatingSystemContext _valuatingSystemContext;
         protected IMemoryCache _cache;
         protected readonly IServiceProvider _serviceProvider;
-        
+
         public CacheService(ValuatingSystemContext context, IMemoryCache cache, IServiceProvider serviceProvider) {
             _valuatingSystemContext = context;
             _cache = cache;

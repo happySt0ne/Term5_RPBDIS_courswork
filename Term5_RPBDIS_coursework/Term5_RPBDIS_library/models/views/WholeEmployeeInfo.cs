@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Term5_RPBDIS_library.models.views;
 
-namespace Term5_RPBDIS_library.models.views;
-
-public partial class WholeEmployeeInfo
-{
+public partial class WholeEmployeeInfo {
     public string? EmployeeName { get; set; }
 
     public string? DivisionName { get; set; }

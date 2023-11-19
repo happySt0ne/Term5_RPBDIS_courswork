@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Term5_RPBDIS_library.models.views;
 
-namespace Term5_RPBDIS_library.models.views;
-
-public partial class CompareRealPlannedEfficiency
-{
+public partial class CompareRealPlannedEfficiency {
     public string? DivisionName { get; set; }
 
     public int? RealEfficiecy { get; set; }

@@ -5,8 +5,7 @@ using System.Linq.Dynamic.Core;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_mainLogic.sessionStuff;
 
-namespace Term5_RPBDIS_mainLogic
-{
+namespace Term5_RPBDIS_mainLogic {
     public static partial class Middlewares {
         public static class Search {
             public static void ShowForm1(IApplicationBuilder app) {
@@ -14,14 +13,14 @@ namespace Term5_RPBDIS_mainLogic
                     bool isChosenTableNotNull = GetOrAddCookie("choosingList", context, out string? chosenTable);
                     bool isChosenColumnNotNull = GetOrAddCookie("column", context, out string? chosenColumn);
                     bool isTextForSearchNotNull = GetOrAddCookie("textForSearch", context, out string? textForSearch);
-                    
+
                     string answer = GetDefaultForm(chosenTable, chosenColumn, textForSearch, 1);
 
                     if (isChosenTableNotNull && isChosenColumnNotNull && isTextForSearchNotNull) {
 
                         answer += $"Результат поиска в таблице {chosenTable} по столбцу {chosenColumn}:";
                         answer += Find(chosenTable, chosenColumn, textForSearch, context);
-                        
+
                         // Без этого поиск больше нормально работать не будет.
                         context.Response.Cookies.Delete("choosingList");
                         context.Response.Cookies.Delete("column");
@@ -43,7 +42,7 @@ namespace Term5_RPBDIS_mainLogic
                     string chosenColumn;
                     string textForSearch;
                     if (searchSession.isSaved) {
-                        
+
                         chosenTable = searchSession.tableName;
                         chosenColumn = searchSession.columnName;
                         textForSearch = searchSession.textForSearch;
