@@ -1,45 +1,59 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Dynamic.Core;
 using Term5_RPBDIS_library;
+using Term5_RPBDIS_mainLogic.sessionStuff;
 
 namespace Term5_RPBDIS_Web.Controllers {
     public class SearchController : Controller {
         public IActionResult Form1() {
-            TryGetCookie("choosingList", out string? table);
-            TryGetCookie("column", out string? column);
-            TryGetCookie("textForSearch", out string? textForSearch);
-
-            ViewBag.Table = table; 
-            ViewBag.Column = column;
-            ViewBag.TextForSearch = textForSearch;
-
-            return View();
-        }
-
-        public IActionResult Response() {
             bool isChosenTableNotNull = TryGet("choosingList", out string? chosenTable);
             bool isChosenColumnNotNull = TryGet("column", out string? chosenColumn);
             bool isTextForSearchNotNull = TryGet("textForSearch", out string? textForSearch);
-            // TODO: Сделать Session.
-            // TODO: Сделать круды
-            // TODO: также хотелось бы выводить название таблицы и столбца по которому искали, сам всё увидишь.
+
             if (isChosenTableNotNull && isChosenColumnNotNull && isTextForSearchNotNull) {
 
                 ViewBag.Response = Find(chosenTable, chosenColumn, textForSearch);
             }
 
+            ViewBag.Table = chosenTable; 
+            ViewBag.Column = chosenColumn;
+            ViewBag.TextForSearch = textForSearch;
+
             return View();
         }
+            
+        public IActionResult Form2() {
+            var searchSession = HttpContext.Session.Get<SearchSession>("searchSession") ?? new SearchSession();
 
-        private bool TryGet(string key, out string? res) {
-            if (!HttpContext.Request.Query.ContainsKey(key)) {
-                
-                res = null;
+            if (searchSession.isSaved || TryGetFromServer(searchSession)) {
+
+                ViewBag.Response = Find(searchSession.tableName, searchSession.columnName, searchSession.textForSearch);
+            }
+
+            return View(searchSession);
+        }
+
+        private bool TryGetFromServer(SearchSession session) {
+            bool isContainTable = HttpContext.Request.Query.ContainsKey("choosingList");
+            bool isContainColumn = HttpContext.Request.Query.ContainsKey("column");
+            bool isContainText = HttpContext.Request.Query.ContainsKey("textForSearch");
+
+            if (!isContainColumn || !isContainTable || !isContainText) {
                 return false;
             }
 
-            return TryGetCookie(key, out res) || TryGetFromServer(key, out res);
+            var table = HttpContext.Request.Query["choosingList"];
+            var column = HttpContext.Request.Query["column"];
+            var textForSearch = HttpContext.Request.Query["textForSearch"];
+
+            session.Save(table, column, textForSearch, HttpContext);
+            return true;
         }
+
+        private bool TryGet(string key, out string? res) =>
+            TryGetCookie(key, out res) || TryGetFromServer(key, out res);
+        
 
         private bool TryGetCookie(string key, out string? res) {
             if (HttpContext.Request.Cookies.ContainsKey(key)) {
@@ -53,6 +67,12 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         private bool TryGetFromServer(string key, out string? res) {
+            if (!HttpContext.Request.Query.ContainsKey(key)) {
+
+                res = null;
+                return false;
+            }
+
             res = HttpContext.Request.Query[key];
             HttpContext.Response.Cookies.Append(key, res);
             return true;
@@ -77,7 +97,14 @@ namespace Term5_RPBDIS_Web.Controllers {
                 return answer;
             }
 
-            throw new Exception("Такого столбца нет в выбранной таблице.");
+            answer.Add("Такого столбца нет в выбранной таблице.");
+            answer.Add("Вы можете выбрать из:");
+
+            foreach (var a in columnNames) {
+                answer.Add(a);
+            }
+
+            return answer;
         }
 
         private List<string> GetColumnNames(string tableName) {

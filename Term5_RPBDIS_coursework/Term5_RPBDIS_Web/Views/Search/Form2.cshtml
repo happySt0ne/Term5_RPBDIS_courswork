@@ -1,6 +1,8 @@
-﻿@{
+﻿@using Term5_RPBDIS_mainLogic.sessionStuff;
+@{
     var responseList = ViewBag.Response as List<string>;
 }
+@model SearchSession
 
 <html>
 <head>
@@ -18,7 +20,7 @@
 <body>
     <div class="row">
         <div class="column">
-            <form action="/search/form1">
+            <form action="/search/form2">
 
                 <label for='choosingList'>Выберите таблицу для поиска:<br></label>
                 <select name='choosingList' id='choosingList' required>
@@ -32,10 +34,10 @@
                 </select><br>
 
                 <label for='column'>Введите название столбца для поиска по таблице:<br></label>
-                <input type='text' name='column' value="@ViewBag.Column" id='column' required /><br>
+                <input type='text' name='column' value="@Model.columnName" id='column' required /><br>
 
                 <label for='textForSearch'>Введите фрагмент для поиска:<br></label>
-                <input type='text' name='textForSearch' value="@ViewBag.TextForSearch" id='textForSearch' required /><br>
+                <input type='text' name='textForSearch' value="@Model.textForSearch" id='textForSearch' required /><br>
 
                 <input type='submit' value='найти'>
 
@@ -43,9 +45,11 @@
         </div>
 
         <div>
-            <h5> Результат поиска в таблице @ViewBag.Table по столбцу @ViewBag.Column </h5>
-            <h5> Текст для поиска "@ViewBag.TextForSearch" </h5>
+
             @if (responseList is not null) {
+            
+                <h5> Результат поиска в таблице @Model.tableName по столбцу @Model.columnName </h5>
+                <h5> Текст для поиска "@Model.textForSearch" </h5>
 
                 @foreach (string answer in responseList) {
 
@@ -60,7 +64,7 @@
 
 <script>
     window.onload = function () {
-        document.getElementById("choosingList").value = @ViewBag.Table
-            }
+        document.getElementById("choosingList").value = @Model.tableName
+                }
 </script>
 
