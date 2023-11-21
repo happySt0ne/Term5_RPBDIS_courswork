@@ -13,7 +13,8 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         public abstract IActionResult Create();
-        
+        public abstract IActionResult Update();
+
         public IActionResult Delete() {
             if (!TryGetFromQuery("Id", out int? id)) {
 
@@ -24,8 +25,6 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             return View();
         }
-
-        public abstract IActionResult Update();
 
         [ResponseCache(Duration = CacheDuration)]
         public IActionResult ShowTable() {
@@ -52,6 +51,9 @@ namespace Term5_RPBDIS_Web.Controllers {
             _context.SaveChanges();
         }
 
+        /// <param name="key"> Ключ из запроса. </param>
+        /// <param name="number"> Переменная, в которую может быть присвоено значение. </param>
+        /// <returns>true, если <paramref name="number"/> было успешно присвоено значение.</returns>
         protected bool TryGetFromQuery(string key, out int? number) {
             if (!HttpContext.Request.Query.ContainsKey(key)) {
 
@@ -63,6 +65,9 @@ namespace Term5_RPBDIS_Web.Controllers {
             return true;
         }
 
+        /// <param name="key"> Ключ из запроса. </param>
+        /// <param name="str"> Переменная, в которую может быть присвоено значение. </param>
+        /// <returns>true, если <paramref name="str"/> было успешно присвоено значение.</returns>
         protected bool TryGetFromQuery(string key, out string? str) {
             if (!HttpContext.Request.Query.ContainsKey(key)) {
 
