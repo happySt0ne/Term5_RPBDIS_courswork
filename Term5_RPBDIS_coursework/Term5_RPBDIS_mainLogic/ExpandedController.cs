@@ -46,9 +46,11 @@ namespace Term5_RPBDIS_Web.Controllers {
             _context.SaveChanges();
         }
 
-        protected void AddToDb(T recordToAdd) {
+        protected int AddToDb<T>(T recordToAdd) where T: class, ISqlTable {
             _context.Set<T>().Add(recordToAdd);
             _context.SaveChanges();
+
+            return recordToAdd.ID;
         }
 
         /// <param name="key"> Ключ из запроса. </param>
@@ -76,6 +78,20 @@ namespace Term5_RPBDIS_Web.Controllers {
             }
 
             str = HttpContext.Request.Query[key];
+            return true;
+        }
+
+        /// <param name="key"> Ключ из запроса. </param>
+        /// <param name="dateTime"> Переменная, в которую может быть присвоено значение. </param>
+        /// <returns>true, если <paramref name="dateTime"/> было успешно присвоено значение.</returns>
+        protected bool TryGetFromQuery(string key, out DateTime? dateTime) {
+            if (!HttpContext.Request.Query.ContainsKey(key)) {
+
+                dateTime = null;
+                return false;
+            }
+
+            dateTime = DateTime.Parse(HttpContext.Request.Query[key]);
             return true;
         }
     }
