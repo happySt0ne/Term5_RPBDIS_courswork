@@ -46,8 +46,8 @@ namespace Term5_RPBDIS_Web.Controllers {
             _context.SaveChanges();
         }
 
-        protected int AddToDb<T>(T recordToAdd) where T: class, ISqlTable {
-            _context.Set<T>().Add(recordToAdd);
+        protected int AddToDb<TAdd>(TAdd recordToAdd) where TAdd : class, ISqlTable {
+            _context.Set<TAdd>().Add(recordToAdd);
             _context.SaveChanges();
 
             return recordToAdd.ID;
