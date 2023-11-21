@@ -94,5 +94,14 @@ namespace Term5_RPBDIS_Web.Controllers {
             dateTime = DateTime.Parse(HttpContext.Request.Query[key]);
             return true;
         }
+
+        /// <param name="Id">null, если в базе данных нет искомой записи, Id этой записи в ином случае</param>
+        /// <returns>true, если в базе данных существует запись, соответсвующая условию <paramref name="predicate"/>. </returns>
+        protected bool IsRecordExist<TFind>(Func<TFind, bool> predicate, out int? Id) where TFind: class, ISqlTable {
+            TFind? record = _context.Set<TFind>().FirstOrDefault(predicate);
+
+            Id = record is null ? null : record.ID;
+            return record is null ? false : true;
+        }
     }
 }
