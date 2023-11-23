@@ -16,6 +16,13 @@ namespace Term5_RPBDIS_Web.Controllers {
         public abstract IActionResult Create();
         public abstract IActionResult Update();
 
+        [ResponseCache(Duration = CacheDuration)]
+        public IActionResult ShowTable() {
+            ViewBag.data = _context.Set<T>().ToList();
+
+            return View();
+        }
+
         public IActionResult Delete() {
             if (!TryGetFromQuery("Id", out int? id)) {
 
@@ -26,14 +33,6 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             return View();
         }
-
-        [ResponseCache(Duration = CacheDuration)]
-        public IActionResult ShowTable() {
-            ViewBag.data = _context.Set<T>().ToList();
-
-            return View();
-        }
-
         protected void DeleteFromDb(int? id) {
             T? entity = _context.Set<T>().Find(id);
 
@@ -41,14 +40,8 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             DeleteFromDb(entity);
         }
-
         protected void DeleteFromDb(T recordToDelete) {
             _context.Set<T>().Remove(recordToDelete);
-            _context.SaveChanges();
-        }
-
-        protected void AddToDb<TAdd>(TAdd recordToAdd) where TAdd : class, ISqlTable {
-            _context.Set<TAdd>().Add(recordToAdd);
             _context.SaveChanges();
         }
 
@@ -65,7 +58,6 @@ namespace Term5_RPBDIS_Web.Controllers {
             number = int.Parse(HttpContext.Request.Query[key]);
             return true;
         }
-
         /// <param name="key"> Ключ из запроса. </param>
         /// <param name="str"> Переменная, в которую может быть присвоено значение. </param>
         /// <returns>true, если <paramref name="str"/> было успешно присвоено значение.</returns>
@@ -79,7 +71,6 @@ namespace Term5_RPBDIS_Web.Controllers {
             str = HttpContext.Request.Query[key];
             return true;
         }
-
         /// <param name="key"> Ключ из запроса. </param>
         /// <param name="dateTime"> Переменная, в которую может быть присвоено значение. </param>
         /// <returns>true, если <paramref name="dateTime"/> было успешно присвоено значение.</returns>
@@ -94,87 +85,31 @@ namespace Term5_RPBDIS_Web.Controllers {
             return true;
         }
 
-        /// <param name="record">null, если в базе данных нет искомой записи, Id этой записи в ином случае</param>
-        /// <returns>true, если в базе данных существует запись, соответсвующая условию <paramref name="predicate"/>. </returns>
-        protected bool IsRecordExist<TFind>(Func<TFind, bool> predicate, out TFind? record) where TFind: class, ISqlTable {
-            record = _context.Set<TFind>().FirstOrDefault(predicate);
+        protected Employee GetAdd(string? name, DateTime? hireDate, string? achievementText, int? markValue,
+                                  int? divisionMarkValue, string? divisionName, DateTime? startDate, DateTime? endDate, 
+                                  int? planned, int? real) {
+            Division division = GetAdd(divisionName, divisionMarkValue, startDate, endDate, planned, real);
+            Mark mark = GetAdd(markValue);
+            Achievement achievement = GetAdd(achievementText);
 
-            return record is null ? false : true;
-        }
+            if(!IsRecordExist(e => e.Name == name && 
+                                    e.HireDate == hireDate && 
+                                    e.Division == division && 
+                                    e.Mark == mark && 
+                                    e.Achievement == achievement , out Employee employee)) {
 
-        protected Date GetAdd(DateTime? startDate, DateTime? endDate) {
-            if (startDate is null || endDate is null) throw new NullReferenceException("getAdd получил null");
-            
-            if (!IsRecordExist(x => x.EndDate == endDate && x.StartDate == startDate, out Date? date)) {
-                date = new() {
-                    StartDate = startDate,
-                    EndDate = endDate
+                employee = new() {
+                    Name = name,
+                    Achievement = achievement,
+                    Mark = mark,
+                    Division = division,
                 };
 
-                AddToDb(date);
+                AddToDb(employee);
             }
 
-            return date;
+            return employee;
         }
-
-        protected Mark GetAdd(int? value) {
-            if (!IsRecordExist(x => x.Value == value, out Mark? mark)) {
-
-                mark = new() {
-                    Value = value
-                };
-
-                AddToDb(mark);
-            }
-
-            return mark;
-        }
-
-        protected Achievement GetAdd(string? text) {
-            if (!IsRecordExist(x => x.Text == text, out Achievement achievement)) {
-
-                achievement = new() {
-                    Text = text
-                };
-
-                AddToDb(achievement);
-            }
-
-            return achievement;
-        }
-
-        protected PlannedEfficiency GetAddPlanned(int? efficiency, DateTime? startDate, DateTime? endDate) {
-            var date = GetAdd(startDate, endDate);
-
-            if (!IsRecordExist(x => x.Date == date && x.Efficiecy == efficiency, out PlannedEfficiency? planned)) {
-
-                planned = new() {
-                    Date = date,
-                    Efficiecy = efficiency,
-                };
-
-                AddToDb(planned);
-            }
-
-            return planned;
-        }
-
-        protected RealEfficiency GetAddReal(int? efficiency, DateTime? startDate, DateTime? endDate) {
-            var date = GetAdd(startDate, endDate);
-
-            if (!IsRecordExist(x => x.Date == date && x.Efficiecy == efficiency, out RealEfficiency real)) {
-
-                real = new() {
-                    Date = date,
-                    Efficiecy = efficiency,
-                };
-
-                AddToDb(real);
-            }
-
-            return real;
-        }
-
         protected Division GetAdd(string? name, int? markValue, DateTime? startDate, 
                                   DateTime? endDate, int? plannedEfficiency, int? realEfficiency) {
             Mark mark = GetAdd(markValue);
@@ -197,6 +132,86 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             return division;
         }
+        protected PlannedEfficiency GetAddPlanned(int? efficiency, DateTime? startDate, DateTime? endDate) {
+            var date = GetAdd(startDate, endDate);
 
+            if (!IsRecordExist(x => x.Date == date && x.Efficiecy == efficiency, out PlannedEfficiency? planned)) {
+
+                planned = new() {
+                    Date = date,
+                    Efficiecy = efficiency,
+                };
+
+                AddToDb(planned);
+            }
+
+            return planned;
+        }
+        protected RealEfficiency GetAddReal(int? efficiency, DateTime? startDate, DateTime? endDate) {
+            var date = GetAdd(startDate, endDate);
+
+            if (!IsRecordExist(x => x.Date == date && x.Efficiecy == efficiency, out RealEfficiency real)) {
+
+                real = new() {
+                    Date = date,
+                    Efficiecy = efficiency,
+                };
+
+                AddToDb(real);
+            }
+
+            return real;
+        }
+        protected Date GetAdd(DateTime? startDate, DateTime? endDate) {
+            if (startDate is null || endDate is null) throw new NullReferenceException("getAdd получил null");
+            
+            if (!IsRecordExist(x => x.EndDate == endDate && x.StartDate == startDate, out Date? date)) {
+                date = new() {
+                    StartDate = startDate,
+                    EndDate = endDate
+                };
+
+                AddToDb(date);
+            }
+
+            return date;
+        }
+        protected Mark GetAdd(int? value) {
+            if (!IsRecordExist(x => x.Value == value, out Mark? mark)) {
+
+                mark = new() {
+                    Value = value
+                };
+
+                AddToDb(mark);
+            }
+
+            return mark;
+        }
+        protected Achievement GetAdd(string? text) {
+            if (!IsRecordExist(x => x.Text == text, out Achievement achievement)) {
+
+                achievement = new() {
+                    Text = text
+                };
+
+                AddToDb(achievement);
+            }
+
+            return achievement;
+        }
+
+        protected void AddToDb<TAdd>(TAdd recordToAdd) where TAdd : class, ISqlTable {
+            _context.Set<TAdd>().Add(recordToAdd);
+            _context.SaveChanges();
+        }
+
+        /// <param name="record">null, если в базе данных нет искомой записи, Id этой записи в ином случае</param>
+        /// <returns>true, если в базе данных существует запись, соответсвующая условию <paramref name="predicate"/>. </returns>
+        protected bool IsRecordExist<TFind>(Func<TFind, bool> predicate, out TFind? record) where TFind : class, ISqlTable {
+            record = _context.Set<TFind>().FirstOrDefault(predicate);
+
+            return record is not null;
+        }
     }
 }
