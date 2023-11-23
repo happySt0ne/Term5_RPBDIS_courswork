@@ -7,16 +7,10 @@ namespace Term5_RPBDIS_Web.Controllers {
         public AchievementController([FromServices] ValuatingSystemContext context) : base(context) { }
 
         public override IActionResult Create() {
-            if (!TryGetFromQuery("Text", out string? text)) {
-                
-                return View();
+            if (TryGetFromQuery("Text", out string? text)) {
+
+                GetAdd(text);
             }
-
-            Achievement achievement = new() {
-                Text = text
-            };
-
-            AddToDb(achievement);
 
             return View();
         }

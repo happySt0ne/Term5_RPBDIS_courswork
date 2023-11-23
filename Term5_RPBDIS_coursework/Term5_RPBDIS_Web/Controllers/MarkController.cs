@@ -7,16 +7,10 @@ namespace Term5_RPBDIS_Web.Controllers {
         public MarkController(ValuatingSystemContext context) : base(context) { }
 
         public override IActionResult Create() {
-            if (!TryGetFromQuery("mark", out int? value)) {
+            if (TryGetFromQuery("mark", out int? value)) {
 
-                return View();
+                GetAdd(value);
             }
-
-            Mark mark = new() {
-                Value = value
-            };
-
-            AddToDb(mark);
 
             return View();
         }

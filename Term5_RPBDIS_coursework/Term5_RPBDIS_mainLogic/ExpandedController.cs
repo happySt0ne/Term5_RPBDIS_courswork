@@ -117,6 +117,32 @@ namespace Term5_RPBDIS_Web.Controllers {
             return date;
         }
 
+        protected Mark GetAdd(int? value) {
+            if (!IsRecordExist(x => x.Value == value, out Mark? mark)) {
+
+                mark = new() {
+                    Value = value
+                };
+
+                AddToDb(mark);
+            }
+
+            return mark;
+        }
+
+        protected Achievement GetAdd(string? text) {
+            if (!IsRecordExist(x => x.Text == text, out Achievement achievement)) {
+
+                achievement = new() {
+                    Text = text
+                };
+
+                AddToDb(achievement);
+            }
+
+            return achievement;
+        }
+
         protected PlannedEfficiency GetAddPlanned(int? efficiency, DateTime? startDate, DateTime? endDate) {
             var date = GetAdd(startDate, endDate);
 
