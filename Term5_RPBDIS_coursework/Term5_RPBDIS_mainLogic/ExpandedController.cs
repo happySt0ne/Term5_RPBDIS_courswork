@@ -175,5 +175,28 @@ namespace Term5_RPBDIS_Web.Controllers {
             return real;
         }
 
+        protected Division GetAdd(string? name, int? markValue, DateTime? startDate, 
+                                  DateTime? endDate, int? plannedEfficiency, int? realEfficiency) {
+            Mark mark = GetAdd(markValue);
+            PlannedEfficiency planned = GetAddPlanned(plannedEfficiency, startDate, endDate);
+            RealEfficiency real = GetAddReal(realEfficiency, startDate, endDate);
+
+            if (!IsRecordExist(d => d.PlannedEfficiency == planned && 
+                                    d.RealEfficiency == real && 
+                                    d.Mark == mark && 
+                                    d.Name == name, out Division division)) {
+                division = new() {
+                    Name = name,
+                    Mark = mark,
+                    PlannedEfficiency = planned,
+                    RealEfficiency = real,
+                };
+
+                AddToDb(division);
+            }
+
+            return division;
+        }
+
     }
 }
