@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 using Term5_RPBDIS_library;
+using Term5_RPBDIS_library.models.tables;
 using Term5_RPBDIS_sql_library;
-
 namespace Term5_RPBDIS_Web.Controllers {
     public abstract class ExpandedController<T> : Controller where T : class, ISqlTable {
         private const int CacheDuration = 264;
@@ -46,11 +47,9 @@ namespace Term5_RPBDIS_Web.Controllers {
             _context.SaveChanges();
         }
 
-        protected int AddToDb<TAdd>(TAdd recordToAdd) where TAdd : class, ISqlTable {
+        protected void AddToDb<TAdd>(TAdd recordToAdd) where TAdd : class, ISqlTable {
             _context.Set<TAdd>().Add(recordToAdd);
             _context.SaveChanges();
-
-            return recordToAdd.ID;
         }
 
         /// <param name="key"> Ключ из запроса. </param>
@@ -95,13 +94,60 @@ namespace Term5_RPBDIS_Web.Controllers {
             return true;
         }
 
-        /// <param name="Id">null, если в базе данных нет искомой записи, Id этой записи в ином случае</param>
+        /// <param name="record">null, если в базе данных нет искомой записи, Id этой записи в ином случае</param>
         /// <returns>true, если в базе данных существует запись, соответсвующая условию <paramref name="predicate"/>. </returns>
-        protected bool IsRecordExist<TFind>(Func<TFind, bool> predicate, out int? Id) where TFind: class, ISqlTable {
-            TFind? record = _context.Set<TFind>().FirstOrDefault(predicate);
+        protected bool IsRecordExist<TFind>(Func<TFind, bool> predicate, out TFind? record) where TFind: class, ISqlTable {
+            record = _context.Set<TFind>().FirstOrDefault(predicate);
 
-            Id = record is null ? null : record.ID;
             return record is null ? false : true;
         }
+
+        protected Date GetAdd(DateTime? startDate, DateTime? endDate) {
+            if (startDate is null || endDate is null) throw new NullReferenceException("getAdd получил null");
+            
+            if (!IsRecordExist(x => x.EndDate == endDate && x.StartDate == startDate, out Date? date)) {
+                date = new() {
+                    StartDate = startDate,
+                    EndDate = endDate
+                };
+
+                AddToDb(date);
+            }
+
+            return date;
+        }
+
+        protected PlannedEfficiency GetAddPlanned(int? efficiency, DateTime? startDate, DateTime? endDate) {
+            var date = GetAdd(startDate, endDate);
+
+            if (!IsRecordExist(x => x.Date == date && x.Efficiecy == efficiency, out PlannedEfficiency? planned)) {
+
+                planned = new() {
+                    Date = date,
+                    Efficiecy = efficiency,
+                };
+
+                AddToDb(planned);
+            }
+
+            return planned;
+        }
+
+        protected RealEfficiency GetAddReal(int? efficiency, DateTime? startDate, DateTime? endDate) {
+            var date = GetAdd(startDate, endDate);
+
+            if (!IsRecordExist(x => x.Date == date && x.Efficiecy == efficiency, out RealEfficiency real)) {
+
+                real = new() {
+                    Date = date,
+                    Efficiecy = efficiency,
+                };
+
+                AddToDb(real);
+            }
+
+            return real;
+        }
+
     }
 }

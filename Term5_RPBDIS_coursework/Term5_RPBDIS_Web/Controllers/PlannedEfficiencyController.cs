@@ -7,28 +7,14 @@ namespace Term5_RPBDIS_Web.Controllers {
         public PlannedEfficiencyController(ValuatingSystemContext context) : base(context) { }
 
         public override IActionResult Create() {
-            if (!TryGetFromQuery("Efficiency", out int? efficiency) ||
-                !TryGetFromQuery("StartDate", out DateTime? startDate) ||
-                !TryGetFromQuery("EndDate", out DateTime? endDate)) {
+            if (TryGetFromQuery("Efficiency", out int? efficiency) &&
+                TryGetFromQuery("StartDate", out DateTime? startDate) &&
+                TryGetFromQuery("EndDate", out DateTime? endDate)) {
 
-                return View();
+                
+
+                GetAddPlanned(efficiency, startDate, endDate);
             }
-
-            if (!IsRecordExist<Date>(x => x.EndDate == endDate && x.StartDate == startDate, out int? dateId)) {
-                Date date = new() {
-                    StartDate = startDate,
-                    EndDate = endDate
-                };
-
-                dateId = AddToDb(date);
-            }
-            
-            PlannedEfficiency plannedEfficiency = new() {
-                DateId = dateId,
-                Efficiecy = efficiency,
-            };
-
-            AddToDb(plannedEfficiency);
 
             return View();
         }

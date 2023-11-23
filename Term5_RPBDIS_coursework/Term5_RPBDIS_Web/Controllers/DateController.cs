@@ -8,18 +8,11 @@ namespace Term5_RPBDIS_Web.Controllers {
         public DateController([FromServices] ValuatingSystemContext context) : base(context) { }
 
         public override IActionResult Create() {
-            if (!TryGetFromQuery("StartDate", out DateTime? startDate) || 
-                !TryGetFromQuery("EndDate", out DateTime? endDate)) {
+            if (TryGetFromQuery("StartDate", out DateTime? startDate) && 
+                TryGetFromQuery("EndDate", out DateTime? endDate)) {
 
-                return View();
+                GetAdd(startDate, endDate);
             }
-
-            Date date = new() {
-                StartDate = startDate,
-                EndDate = endDate
-            };
-
-            AddToDb(date);
 
             return View();
         }
