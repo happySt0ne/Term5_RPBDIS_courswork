@@ -1,0 +1,29 @@
+﻿@using Term5_RPBDIS_library.models.tables;
+@{
+    var achievements = ViewBag.Achievements as List<Achievement>;
+}
+
+
+<html>
+<head>
+    <title> Изменить достижение </title>
+</head>
+<body>
+    <form action="/achievement/update">
+
+        <label for="Id"> Выберите запись <br></label>
+        <select name="Id">
+            @foreach (Achievement achievement in achievements) {
+                <option value="@achievement.ID">
+                    @achievement.ID @achievement.Text
+                </option>
+            }
+        </select>
+
+        <label for="Text"> Введите текст достижения: <br></label>
+        <input type="text" name="Text" required />
+
+        <input type="submit" value="Изменить" />
+    </form>
+</body>
+</html>
