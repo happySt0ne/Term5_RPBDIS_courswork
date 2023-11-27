@@ -18,7 +18,25 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         public override IActionResult Update() {
-            throw new NotImplementedException();
+            ViewBag.Dates = _context.Dates.ToList();
+
+            if (!TryGetFromQuery("Id", out int? id)) return View();
+
+            Date date = _context.Dates.Find(id);
+
+            if (TryGetFromQuery("StartDate", out DateTime? startDate)) {
+
+                date.StartDate = startDate;
+            }
+
+            if (TryGetFromQuery("EndDate", out DateTime? endDate)) {
+
+                date.EndDate = endDate;
+            }
+
+            _context.SaveChanges();
+
+            return View();
         }
     }
 }
