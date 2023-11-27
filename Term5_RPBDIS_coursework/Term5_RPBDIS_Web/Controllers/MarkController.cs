@@ -16,7 +16,20 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         public override IActionResult Update() {
-            throw new NotImplementedException();
+            ViewBag.Marks = _context.Marks.ToList();
+
+            if (!TryGetFromQuery("Id", out int? id)) return View();
+            
+            Mark mark = _context.Marks.Find(id);
+
+            if (TryGetFromQuery("Value", out int? value)) { 
+            
+                mark.Value = value;
+            }
+            
+            _context.SaveChanges();
+
+            return View();
         }
     }
 }
