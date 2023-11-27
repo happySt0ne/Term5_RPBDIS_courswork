@@ -49,7 +49,8 @@ namespace Term5_RPBDIS_Web.Controllers {
         /// <param name="number"> Переменная, в которую может быть присвоено значение. </param>
         /// <returns>true, если <paramref name="number"/> было успешно присвоено значение.</returns>
         protected bool TryGetFromQuery(string key, out int? number) {
-            if (!HttpContext.Request.Query.ContainsKey(key)) {
+            if (!HttpContext.Request.Query.ContainsKey(key) ||
+                string.IsNullOrEmpty(HttpContext.Request.Query[key])) {
 
                 number = null;
                 return false;
@@ -62,7 +63,8 @@ namespace Term5_RPBDIS_Web.Controllers {
         /// <param name="str"> Переменная, в которую может быть присвоено значение. </param>
         /// <returns>true, если <paramref name="str"/> было успешно присвоено значение.</returns>
         protected bool TryGetFromQuery(string key, out string? str) {
-            if (!HttpContext.Request.Query.ContainsKey(key)) {
+            if (!HttpContext.Request.Query.ContainsKey(key) ||
+                string.IsNullOrEmpty(HttpContext.Request.Query[key])) {
 
                 str = null;
                 return false;
