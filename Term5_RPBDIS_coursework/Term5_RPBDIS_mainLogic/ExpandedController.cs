@@ -75,7 +75,8 @@ namespace Term5_RPBDIS_Web.Controllers {
         /// <param name="dateTime"> Переменная, в которую может быть присвоено значение. </param>
         /// <returns>true, если <paramref name="dateTime"/> было успешно присвоено значение.</returns>
         protected bool TryGetFromQuery(string key, out DateTime? dateTime) {
-            if (!HttpContext.Request.Query.ContainsKey(key)) {
+            if (!HttpContext.Request.Query.ContainsKey(key) || 
+                string.IsNullOrEmpty(HttpContext.Request.Query[key])) {
 
                 dateTime = null;
                 return false;
