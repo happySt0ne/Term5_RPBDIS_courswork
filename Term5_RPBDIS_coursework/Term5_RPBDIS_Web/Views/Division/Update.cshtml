@@ -13,7 +13,7 @@
 <body>
     <form action="/division/update">
 
-        <label for="Id"> Выберите запись <br></label>
+        <label for="Id"> Выберите запись </label> <br>
         <select name="Id">
             @foreach (Division division in divisions) {
                 <option value="@division.ID">
@@ -22,7 +22,7 @@
             }
         </select><br />
 
-        <label> Выберите новую оценку: <br> </label>
+        <label> Выберите новую оценку:  </label> <br>
         <select name="MarkId">
             <option value="" > Оценка </option>
             @foreach (Mark mark in marks) {
@@ -33,7 +33,7 @@
             }
         </select><br />
 
-        <label> Выберите новую планируемую эффективность: <br /></label>
+        <label> Выберите новую планируемую эффективность: </label> <br>
         <select name="PlannedEfficiencyId">
             <option value="" > Планируемая эффективность </option>
             @foreach (PlannedEfficiency plannedEfficiency in plannedEfficiencies) {
@@ -44,7 +44,7 @@
             }
         </select><br />
 
-        <label> Выберите новую реальную эффективность: <br /></label>
+        <label> Выберите новую реальную эффективность: </label> <br>
         <select name="RealEfficiencyId">
             <option value=""> Реальная эффективность </option>
             @foreach (RealEfficiency realEfficiency in realEfficiencies) {
@@ -55,7 +55,7 @@
             }
         </select><br />
         
-        <label> Введите новое название <br /></label>
+        <label> Введите новое название </label> <br />
         <input type="text" name="Name" /><br />
 
         <input type="submit" value="Изменить" />

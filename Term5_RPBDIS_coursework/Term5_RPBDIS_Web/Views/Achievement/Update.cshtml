@@ -11,17 +11,17 @@
 <body>
     <form action="/achievement/update">
 
-        <label for="Id"> Выберите запись <br></label>
+        <label for="Id"> Выберите запись </label> <br />
         <select name="Id">
             @foreach (Achievement achievement in achievements) {
                 <option value="@achievement.ID">
                     @achievement.ID @achievement.Text
                 </option>
             }
-        </select>
+        </select><br />
 
-        <label for="Text"> Введите текст достижения: <br></label>
-        <input type="text" name="Text" required />
+        <label for="Text"> Введите текст достижения: </label> <br>
+        <input type="text" name="Text" required /> <br />
 
         <input type="submit" value="Изменить" />
     </form>

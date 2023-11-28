@@ -11,7 +11,7 @@
 <body>
     <form action="/date/update">
 
-        <label for="Id"> Выберите запись <br></label>
+        <label for="Id"> Выберите запись </label> <br>
         <select name="Id">
             @foreach (Date date in dates) {
 
@@ -21,7 +21,7 @@
             }
         </select><br>
 
-        <label for="StartDate"> Введите новую начальную дату: <br></label>
+        <label for="StartDate"> Введите новую начальную дату: </label> <br>
         <input type="date" name="StartDate" /><br />
 
         <label for="EndDate"> Введите новую конечную дату: <br></label>
