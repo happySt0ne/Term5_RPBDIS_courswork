@@ -1,0 +1,31 @@
+﻿@using Term5_RPBDIS_library.models.tables;
+@{
+    var realEfficiencies = ViewBag.Data as List<RealEfficiency>;
+}
+
+<html>
+<head>
+    <title>Достигнутые результаты</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <h1>Список достигнутых эффективностей</h1>
+    <table border="1">
+        <tr>
+            <th> Код </th>
+            <th> Эффективность </th>
+            <th> Начальная дата </th>
+            <th> Конечная дата </th>
+        </tr>
+
+        @foreach (RealEfficiency realEfficiency in realEfficiencies) {
+            <tr>
+                <td> @realEfficiency.ID </td>
+                <td> @realEfficiency.Efficiecy </td>
+                <td> @realEfficiency.Date?.StartDate </td>
+                <td> @realEfficiency.Date?.EndDate </td>
+            </tr>
+        }
+    </table>
+</body>
+</html>

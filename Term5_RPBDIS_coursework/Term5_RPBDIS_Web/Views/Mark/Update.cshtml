@@ -1,0 +1,30 @@
+﻿@using Term5_RPBDIS_library.models.tables;
+@{
+    var marks = ViewBag.Marks as List<Mark>;
+}
+
+
+<html>
+<head>
+    <title> Изменить оценку </title>
+</head>
+<body>
+    <form action="/mark/update">
+
+        <label for="Id"> Выберите запись <br></label>
+        <select name="Id">
+            @foreach (Mark mark in marks) {
+                
+                <option value="@mark.ID">
+                    @mark.ID @mark.Value
+                </option>
+            }
+        </select><br />
+
+        <label for="Value"> Введите новое значение: <br></label>
+        <input type="number" name="Value" /><br />
+
+        <input type="submit" value="Изменить" />
+    </form>
+</body>
+</html>

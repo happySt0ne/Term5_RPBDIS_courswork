@@ -1,0 +1,42 @@
+﻿@using Term5_RPBDIS_library.models.tables;
+@{
+    var plannedEfficiencies = ViewBag.PlannedEfficiencies as List<PlannedEfficiency>;
+    var dates = ViewBag.Dates as List<Date>;
+}
+
+
+<html>
+<head>
+    <title> Изменить планы </title>
+</head>
+<body>
+    <form action="/plannedEfficiency/update">
+
+        <label for="Id"> Выберите запись <br></label>
+        <select name="Id">
+            @foreach (PlannedEfficiency plannedEfficiency in plannedEfficiencies) {
+                
+                <option value="@plannedEfficiency.ID">
+                    @plannedEfficiency.ID | @plannedEfficiency.Date.StartDate | @plannedEfficiency.Date.EndDate | @plannedEfficiency.Efficiecy
+                </option>
+            }
+        </select><br>
+
+        <label for="Date"> Выберите новый временной период: <br></label>
+        <select name="Date">
+            <option value=""> Выберите дату </option>
+            @foreach (Date date in dates) {
+
+                <option value="@date.ID">
+                    @date.ID | @date.StartDate | @date.EndDate 
+                </option>
+            }
+        </select><br />
+
+        <label for="Efficiecy"> Введите новую планируемую эффективность: <br></label>
+        <input type="number" name="Efficiecy" /><br />
+
+        <input type="submit" value="Изменить" />
+    </form>
+</body>
+</html>

@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Term5_RPBDIS_library.models.tables;
 using Term5_RPBDIS_library.models.views;
 
 namespace Term5_RPBDIS_library;
 
-public partial class ValuatingSystemContext : DbContext
-{
-    public ValuatingSystemContext()
-    {
+public partial class ValuatingSystemContext : DbContext {
+    public ValuatingSystemContext() {
         ChangeTracker.LazyLoadingEnabled = true;
         Database.EnsureCreated();
     }
 
     public ValuatingSystemContext(DbContextOptions<ValuatingSystemContext> options)
-        : base(options)
-    {
+        : base(options) {
         ChangeTracker.LazyLoadingEnabled = true;
         Database.EnsureCreated();
     }
@@ -58,17 +53,14 @@ public partial class ValuatingSystemContext : DbContext
     }
 
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Achievement>(entity =>
-        {
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        modelBuilder.Entity<Achievement>(entity => {
             entity.HasKey(e => e.AchievementId).HasName("PK__Achievem__276330E0772BD94E");
 
             entity.Property(e => e.AchievementId).HasColumnName("AchievementID");
         });
 
-        modelBuilder.Entity<CompareRealPlannedEfficiency>(entity =>
-        {
+        modelBuilder.Entity<CompareRealPlannedEfficiency>(entity => {
             entity
                 .HasNoKey()
                 .ToView("CompareRealPlannedEfficiencies");
@@ -78,8 +70,7 @@ public partial class ValuatingSystemContext : DbContext
             entity.Property(e => e.StartDate).HasColumnType("date");
         });
 
-        modelBuilder.Entity<Date>(entity =>
-        {
+        modelBuilder.Entity<Date>(entity => {
             entity.HasKey(e => e.DateId).HasName("PK__Dates__A426F253E09D6529");
 
             entity.Property(e => e.DateId).HasColumnName("DateID");
@@ -87,8 +78,7 @@ public partial class ValuatingSystemContext : DbContext
             entity.Property(e => e.StartDate).HasColumnType("date");
         });
 
-        modelBuilder.Entity<Division>(entity =>
-        {
+        modelBuilder.Entity<Division>(entity => {
             entity.HasKey(e => e.DivisionId).HasName("PK__Division__20EFC688A932A6C0");
 
             entity.Property(e => e.DivisionId).HasColumnName("DivisionID");
@@ -110,8 +100,7 @@ public partial class ValuatingSystemContext : DbContext
                 .HasConstraintName("FK__Divisions__RealE__47DBAE45");
         });
 
-        modelBuilder.Entity<DivisionsMark>(entity =>
-        {
+        modelBuilder.Entity<DivisionsMark>(entity => {
             entity
                 .HasNoKey()
                 .ToView("DivisionsMarks");
@@ -119,8 +108,7 @@ public partial class ValuatingSystemContext : DbContext
             entity.Property(e => e.DivisionName).HasMaxLength(30);
         });
 
-        modelBuilder.Entity<Employee>(entity =>
-        {
+        modelBuilder.Entity<Employee>(entity => {
             entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04FF11880FDB5");
 
             entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
@@ -143,15 +131,13 @@ public partial class ValuatingSystemContext : DbContext
                 .HasConstraintName("FK__Employees__MarkI__44FF419A");
         });
 
-        modelBuilder.Entity<Mark>(entity =>
-        {
+        modelBuilder.Entity<Mark>(entity => {
             entity.HasKey(e => e.MarkId).HasName("PK__Marks__4E30D346FA635726");
 
             entity.Property(e => e.MarkId).HasColumnName("MarkID");
         });
 
-        modelBuilder.Entity<PlannedEfficiency>(entity =>
-        {
+        modelBuilder.Entity<PlannedEfficiency>(entity => {
             entity.HasKey(e => e.PlannedEfficiencyId).HasName("PK__PlannedE__0642F6884D2F25DF");
 
             entity.Property(e => e.PlannedEfficiencyId).HasColumnName("PlannedEfficiencyID");
@@ -162,8 +148,7 @@ public partial class ValuatingSystemContext : DbContext
                 .HasConstraintName("FK__PlannedEf__DateI__48CFD27E");
         });
 
-        modelBuilder.Entity<RealEfficiency>(entity =>
-        {
+        modelBuilder.Entity<RealEfficiency>(entity => {
             entity.HasKey(e => e.RealEfficiencyId).HasName("PK__RealEffi__F21BFCE5E7E958DA");
 
             entity.Property(e => e.RealEfficiencyId).HasColumnName("RealEfficiencyID");
@@ -174,8 +159,7 @@ public partial class ValuatingSystemContext : DbContext
                 .HasConstraintName("FK__RealEffic__DateI__49C3F6B7");
         });
 
-        modelBuilder.Entity<WholeDivisionInfo>(entity =>
-        {
+        modelBuilder.Entity<WholeDivisionInfo>(entity => {
             entity
                 .HasNoKey()
                 .ToView("WholeDivisionInfo");
@@ -185,8 +169,7 @@ public partial class ValuatingSystemContext : DbContext
             entity.Property(e => e.StartDate).HasColumnType("date");
         });
 
-        modelBuilder.Entity<WholeEmployeeInfo>(entity =>
-        {
+        modelBuilder.Entity<WholeEmployeeInfo>(entity => {
             entity
                 .HasNoKey()
                 .ToView("WholeEmployeeInfo");

@@ -1,0 +1,33 @@
+﻿@using Term5_RPBDIS_library.models.tables;
+@{
+    var dates = ViewBag.Dates as List<Date>;
+}
+
+
+<html>
+<head>
+    <title> Изменить оценку </title>
+</head>
+<body>
+    <form action="/date/update">
+
+        <label for="Id"> Выберите запись </label> <br>
+        <select name="Id">
+            @foreach (Date date in dates) {
+
+                <option value="@date.ID">
+                    @date.ID | @date.StartDate | @date.EndDate 
+                </option>
+            }
+        </select><br>
+
+        <label for="StartDate"> Введите новую начальную дату: </label> <br>
+        <input type="date" name="StartDate" /><br />
+
+        <label for="EndDate"> Введите новую конечную дату: <br></label>
+        <input type="date" name="EndDate" /><br />
+
+        <input type="submit" value="Изменить" />
+    </form>
+</body>
+</html>

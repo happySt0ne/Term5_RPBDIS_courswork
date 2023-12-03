@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Term5_RPBDIS_sql_library;
+﻿using Term5_RPBDIS_sql_library;
 
 namespace Term5_RPBDIS_library.models.tables;
 
-public partial class Mark : ISqlTable
-{
+public partial class Mark : ISqlTable {
     public int MarkId { get; set; }
 
     public int? Value { get; set; }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Term5_RPBDIS_sql_library;
+﻿using Term5_RPBDIS_sql_library;
 
 namespace Term5_RPBDIS_library.models.tables;
 
-public partial class PlannedEfficiency : ISqlTable
-{
+public partial class PlannedEfficiency : ISqlTable {
     public int PlannedEfficiencyId { get; set; }
 
     public int? DateId { get; set; }

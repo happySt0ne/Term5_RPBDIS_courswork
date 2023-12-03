@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Term5_RPBDIS_sql_library", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Term5_RPBDIS_Web", "Term5_RPBDIS_Web\Term5_RPBDIS_Web.csproj", "{55BA5328-87AF-4AF7-8AF1-70E91BDF0A01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Term5_RPBDIS_mainLogic", "Term5_RPBDIS_mainLogic\Term5_RPBDIS_mainLogic.csproj", "{1AD4C9A6-05D7-400E-A026-9B3FA965B9A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Term5_RPBDIS_Infrastructure", "Term5_RPBDIS_mainLogic\Term5_RPBDIS_Infrastructure.csproj", "{1AD4C9A6-05D7-400E-A026-9B3FA965B9A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

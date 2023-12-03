@@ -1,0 +1,70 @@
+﻿@using Term5_RPBDIS_mainLogic.sessionStuff;
+@{
+    var responseList = ViewBag.Response as List<string>;
+}
+@model SearchSession
+
+<html>
+<head>
+    <style>
+        .row {
+            display: flex;
+        }
+
+        .column {
+            flex: 50%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="column">
+            <form action="/search/form2">
+
+                <label for='choosingList'>Выберите таблицу для поиска:<br></label>
+                <select name='choosingList' id='choosingList' required>
+                    <option value='Achievement'>Достижения</option>
+                    <option value='Date'>Даты</option>
+                    <option value='Division'>Отделы</option>
+                    <option value='Employee'>Работники</option>
+                    <option value='Term5_RPBDIS_libraryMark'>Оценки</option>
+                    <option value='PlannedEfficiecy'>Планируемая эффективность</option>
+                    <option value='RealEfficiecy'>Реальная эффективность</option>
+                </select><br>
+
+                <label for='column'>Введите название столбца для поиска по таблице:<br></label>
+                <input type='text' name='column' value="@Model.columnName" id='column' required /><br>
+
+                <label for='textForSearch'>Введите фрагмент для поиска:<br></label>
+                <input type='text' name='textForSearch' value="@Model.textForSearch" id='textForSearch' required /><br>
+
+                <input type='submit' value='найти'>
+
+            </form>
+        </div>
+
+        <div>
+
+            @if (responseList is not null) {
+            
+                <h5> Результат поиска в таблице @Model.tableName по столбцу @Model.columnName </h5>
+                <h5> Текст для поиска "@Model.textForSearch" </h5>
+
+                @foreach (string answer in responseList) {
+
+                    <p> @answer </p>
+                }
+            }
+
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    window.onload = function () {
+        document.getElementById("choosingList").value = @Model.tableName
+                }
+</script>
+

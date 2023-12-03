@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Term5_RPBDIS_sql_library;
+﻿using Term5_RPBDIS_sql_library;
 
 namespace Term5_RPBDIS_library.models.tables;
 
-public partial class Achievement : ISqlTable
-{
+public partial class Achievement : ISqlTable {
     public int AchievementId { get; set; }
 
     public string? Text { get; set; }
