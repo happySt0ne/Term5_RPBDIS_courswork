@@ -3,6 +3,7 @@
     var dates = ViewBag.Data as List<Date>;
     int pageNumber = ViewBag.pageNumber ?? 1;
     int totalPages = ViewBag.totalPages ?? 0;
+    ViewBag.PageType = "date";
 }
 
 <html>
@@ -39,10 +40,7 @@
         }
     </table>
 
-    <div class="pagination">
-        @for (int i = 1; i <= totalPages; i++) {
-            <a href="/date/showTable?pageNumber=@i" class="@(i == pageNumber ? "active" : "")">@i</a>
-        }
-    </div>
+    @Html.Partial("_pagingPartial")
+
 </body>
 </html>

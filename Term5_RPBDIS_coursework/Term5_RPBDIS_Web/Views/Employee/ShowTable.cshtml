@@ -3,6 +3,7 @@
     var employees = ViewBag.Data as List<Employee>;
     int pageNumber = ViewBag.pageNumber ?? 1;
     int totalPages = ViewBag.totalPages ?? 0;
+    ViewBag.PageType = "employee";
 }
 
 <html>
@@ -45,32 +46,7 @@
         }
     </table>
 
-
-
-    <div class="pagination">
-        <a href="/employee/showTable?pageNumber=1" class="@(1 == pageNumber ? "active" : "")">1</a>
-        @if (pageNumber > 21) {
-            <a href="/employee/showTable?pageNumber=@(pageNumber-20)">...</a>
-        }
-        @for (int i = Math.Max(2, pageNumber - 10); i <= Math.Min(totalPages - 1, pageNumber + 10); i++) {
-            <a href="/employee/showTable?pageNumber=@i" class="@(i == pageNumber ? "active" : "")">@i</a>
-        }
-        @if (pageNumber < totalPages - 20) {
-            <a href="/employee/showTable?pageNumber=@(pageNumber+20)">...</a>
-        }
-        <a href="/employee/showTable?pageNumber=@totalPages" class="@(totalPages == pageNumber ? "active" : "")">@totalPages</a>
-        <input type="number" id="pageNumberInput" min="1" max="@totalPages" value="@pageNumber" />
-        <button onclick="goToPage()">Go</button>
-    </div>
-
-    <script>
-        function goToPage() {
-            var pageNumber = document.getElementById('pageNumberInput').value;
-            if (!isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= @totalPages) {
-                location.href = "/employee/showTable?pageNumber=" + pageNumber;
-            }
-        }
-    </script>
+    @Html.Partial("_pagingPartial")
 
 </body>
 </html>
