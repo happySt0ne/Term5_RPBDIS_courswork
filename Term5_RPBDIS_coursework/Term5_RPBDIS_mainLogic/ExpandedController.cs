@@ -18,18 +18,19 @@ namespace Term5_RPBDIS_Web.Controllers {
         public abstract IActionResult Update();
 
         [ResponseCache(Duration = CacheDuration, VaryByQueryKeys = new[] { "pageNumber", "pageSize" })]
-        public IActionResult ShowTable(int pageNumber = 1) {
-            var data = _context.Set<T>().ToList();
-            
-            int total = data.Count;
+        public async Task<IActionResult> ShowTable(int pageNumber = 1) {
+            var query = _context.Set<T>().AsQueryable();
+
+            int total = await query.CountAsync();
             int totalPages = (int)Math.Ceiling((double)total / pageSize);
 
-            data = data.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var data = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             ViewBag.data = data;
             ViewBag.pageNumber = pageNumber;
-            ViewBag.pageSize = pageSize;
-            ViewBag.totalItems = total;
             ViewBag.totalPages = totalPages;
 
             return View();
