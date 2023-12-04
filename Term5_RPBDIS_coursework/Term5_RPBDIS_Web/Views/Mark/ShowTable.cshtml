@@ -2,8 +2,6 @@
 @{
     var marks = ViewBag.Data as List<Mark>;
     int pageNumber = ViewBag.pageNumber ?? 1;
-    int pageSize = ViewBag.pageSize ?? 10;
-    int totalItems = ViewBag.totalItems ?? 0;
     int totalPages = ViewBag.totalPages ?? 0;
 }
 
@@ -41,7 +39,7 @@
 
     <div class="pagination">
         @for (int i = 1; i <= totalPages; i++) {
-            <a href="/mark/showTable?pageNumber=@i&pageSize=@pageSize" class="@(i == pageNumber ? "active" : "")">@i</a>
+            <a href="/mark/showTable?pageNumber=@i" class="@(i == pageNumber ? "active" : "")">@i</a>
         }
     </div>
 </body>
