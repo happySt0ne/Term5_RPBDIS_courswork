@@ -17,7 +17,7 @@ namespace Term5_RPBDIS_Web.Controllers {
         public abstract IActionResult Create();
         public abstract IActionResult Update();
 
-        [ResponseCache(Duration = CacheDuration, VaryByQueryKeys = new[] { "pageNumber", "pageSize" })]
+        [ResponseCache(Duration = CacheDuration, VaryByQueryKeys = new[] { "pageNumber" })]
         public async Task<IActionResult> ShowTable(int pageNumber = 1) {
             var query = _context.Set<T>().AsQueryable();
 
