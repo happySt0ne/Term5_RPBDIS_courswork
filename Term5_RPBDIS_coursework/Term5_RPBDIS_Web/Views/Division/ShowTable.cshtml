@@ -1,6 +1,10 @@
 ﻿@using Term5_RPBDIS_library.models.tables;
 @{
     var divisions = ViewBag.Data as List<Division>;
+    int pageNumber = ViewBag.pageNumber ?? 1;
+    int pageSize = ViewBag.pageSize ?? 10;
+    int totalItems = ViewBag.totalItems ?? 0;
+    int totalPages = ViewBag.totalPages ?? 0;
 }
 
 <html>
@@ -44,5 +48,11 @@
             </tr>
         }
     </table>
+
+    <div class="pagination">
+        @for (int i = 1; i <= totalPages; i++) {
+            <a href="/division/showTable?pageNumber=@i&pageSize=@pageSize" class="@(i == pageNumber ? "active" : "")">@i</a>
+        }
+    </div>
 </body>
 </html>
