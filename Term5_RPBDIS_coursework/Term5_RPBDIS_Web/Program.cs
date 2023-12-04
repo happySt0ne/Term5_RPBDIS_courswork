@@ -12,6 +12,7 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseSession();
 app.UseResponseCaching();
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
