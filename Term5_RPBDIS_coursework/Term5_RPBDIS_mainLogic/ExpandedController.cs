@@ -7,6 +7,7 @@ using Term5_RPBDIS_sql_library;
 namespace Term5_RPBDIS_Web.Controllers {
     public abstract class ExpandedController<T> : Controller where T : class, ISqlTable {
         private const int CacheDuration = 264;
+        private const int pageSize = 20;
         protected ValuatingSystemContext _context;
 
         protected ExpandedController([FromServices] ValuatingSystemContext context) {
@@ -16,9 +17,21 @@ namespace Term5_RPBDIS_Web.Controllers {
         public abstract IActionResult Create();
         public abstract IActionResult Update();
 
-        [ResponseCache(Duration = CacheDuration)]
-        public IActionResult ShowTable() {
-            ViewBag.data = _context.Set<T>().ToList();
+        [ResponseCache(Duration = CacheDuration, VaryByQueryKeys = new[] { "pageNumber" })]
+        public async Task<IActionResult> ShowTable(int pageNumber = 1) {
+            var query = _context.Set<T>().AsQueryable();
+
+            int total = await query.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)total / pageSize);
+
+            var data = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.data = data;
+            ViewBag.pageNumber = pageNumber;
+            ViewBag.totalPages = totalPages;
 
             return View();
         }
