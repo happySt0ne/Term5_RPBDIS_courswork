@@ -16,9 +16,20 @@ namespace Term5_RPBDIS_Web.Controllers {
         public abstract IActionResult Create();
         public abstract IActionResult Update();
 
-        [ResponseCache(Duration = CacheDuration)]
-        public IActionResult ShowTable() {
-            ViewBag.data = _context.Set<T>().ToList();
+        [ResponseCache(Duration = CacheDuration, VaryByQueryKeys = new[] { "pageNumber", "pageSize" })]
+        public IActionResult ShowTable(int pageNumber = 1, int pageSize = 20) {
+            var data = _context.Set<T>().ToList();
+            
+            int total = data.Count;
+            int totalPages = (int)Math.Ceiling((double)total / pageSize);
+
+            data = data.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewBag.data = data;
+            ViewBag.pageNumber = pageNumber;
+            ViewBag.pageSize = pageSize;
+            ViewBag.totalItems = total;
+            ViewBag.totalPages = totalPages;
 
             return View();
         }
