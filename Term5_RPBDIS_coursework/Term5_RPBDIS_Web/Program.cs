@@ -10,10 +10,13 @@ builder.Services.AddDbContext<ValuatingSystemContext>(options =>
 builder.Services.AddControllersWithViews(); // Add MVC to DI.
 builder.Services.AddSession();
 builder.Services.AddResponseCaching();
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ValuatingSystemContext>()
     .AddDefaultTokenProviders();
-
+builder.Services.ConfigureApplicationCookie(options => {
+    options.LoginPath = "/Account/Login";
+});
 
 var app = builder.Build();
 
@@ -21,6 +24,9 @@ app.UseHttpsRedirection();
 app.UseSession();
 app.UseResponseCaching();
 app.UseStaticFiles();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
