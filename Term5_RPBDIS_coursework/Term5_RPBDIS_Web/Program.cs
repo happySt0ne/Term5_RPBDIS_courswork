@@ -1,11 +1,19 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Term5_RPBDIS_library;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ValuatingSystemContext>();
+builder.Services.AddDbContext<ValuatingSystemContext>(options => 
+    options.UseSqlServer(
+        b => b.MigrationsAssembly("Term5_RPBDIS_Web")));
 builder.Services.AddControllersWithViews(); // Add MVC to DI.
 builder.Services.AddSession();
 builder.Services.AddResponseCaching();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ValuatingSystemContext>()
+    .AddDefaultTokenProviders();
+
 
 var app = builder.Build();
 

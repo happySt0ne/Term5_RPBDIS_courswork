@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Term5_RPBDIS_library.models.tables;
 using Term5_RPBDIS_library.models.views;
 
 namespace Term5_RPBDIS_library;
 
-public partial class ValuatingSystemContext : DbContext {
+public partial class ValuatingSystemContext : IdentityDbContext<IdentityUser> {
     public ValuatingSystemContext() {
         ChangeTracker.LazyLoadingEnabled = true;
         Database.EnsureCreated();
@@ -54,6 +56,8 @@ public partial class ValuatingSystemContext : DbContext {
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Achievement>(entity => {
             entity.HasKey(e => e.AchievementId).HasName("PK__Achievem__276330E0772BD94E");
 
