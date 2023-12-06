@@ -16,7 +16,12 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         public IActionResult AccessDenied(string returnUrl) => RedirectToAction("Index", "Home");
-        
+
+        public async Task<IActionResult> Logout() {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UsersList() {
             var users = await _userManager.Users.ToListAsync();
