@@ -15,8 +15,14 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         public async Task<IActionResult> UsersList() {
-            ViewBag.Users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users.ToListAsync();
+            
+            foreach (var user in users) {
 
+                ViewData[$"Roles_{user.Id}"] = await _userManager.GetRolesAsync(user);
+            }
+
+            ViewBag.Users = users;
             return View();
         }
 
@@ -27,25 +33,23 @@ namespace Term5_RPBDIS_Web.Controllers {
         
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model) {
-            var user = new IdentityUser { PhoneNumber = model.PhoneNumber };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            IdentityUser user = new() { UserName = model.PhoneNumber, PhoneNumber = model.PhoneNumber };
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded) {
                 foreach (var error in result.Errors) {
                     ModelState.AddModelError("", error.Description);
                 }
+                // TODO: ссылка на регистрацию, ссылка на вход, скрытая вкладка для просмотра учетных записей и CRUD для неё.
 
-                return View(model); // Возвращение на страницу регистрации с сообщениями об ошибках
+                return View(model); 
             }
 
-            // Тут менять буду. 
-            if (_userManager.Users.Count() == 1) {
-                await _userManager.AddToRoleAsync(user, "Admin");
-            } else {
-                await _userManager.AddToRoleAsync(user, "User");
-            }
-            return RedirectToAction("Index", "Home"); // Перенаправление на главную страницу после успешной регистрации
+            model.Rights = model.Rights ?? false;
+            
+            await _userManager.AddToRoleAsync(user, (bool)model.Rights ? "Admin" : "User");
+
+            return RedirectToAction("Index", "Home");         
         }
-
     }
 }

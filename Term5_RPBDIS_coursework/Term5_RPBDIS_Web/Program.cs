@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Term5_RPBDIS_library;
@@ -37,14 +38,29 @@ app.MapControllerRoute(
 
 CreateTableRoutes();
 
+using (var scope = app.Services.CreateScope()) {
+    var serviceProvider = scope.ServiceProvider;
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    EnsureRoleExists("Admin", roleManager).Wait();
+    EnsureRoleExists("User", roleManager).Wait();
+}
+
 app.Run();
 
 void CreateTableRoutes() {
     string[] controllers = { "Achievemtnt", "Date", "Division", "Employee", "Mark", "PlannedEfficiency", "RealEfficiency" };
 
     foreach (var controller in controllers) {
+
         app.MapControllerRoute(
             name: controller,
             pattern:  $"{{controller={controller}}}/{{action=ShowTable}}");
+    }
+}
+
+async Task EnsureRoleExists(string roleName, RoleManager<IdentityRole> roleManager) {
+    if (!await roleManager.RoleExistsAsync(roleName)) {
+        await roleManager.CreateAsync(new IdentityRole(roleName));
     }
 }
