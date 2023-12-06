@@ -1,0 +1,22 @@
+﻿.account-actions {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.left-pannel {
+    float: left;
+}
+
+.right-pannel {
+    float: right;
+}
+
+.middle-pannel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

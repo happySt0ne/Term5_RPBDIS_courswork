@@ -1,9 +1,14 @@
-﻿<html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<html>
 <head>
     <title> Начальная страница </title>
+    <link rel="stylesheet" type="text/css" href="/css/Index.css" />
 </head>
 <body>
-    <div style="float: left;">
+    <div class="left-pannel">
         <h2> Достижения </h2>
         <ul>
             <li> <a href="achievement/ShowTable?pageNumber=1"> Список достижений </a> </li>
@@ -29,7 +34,7 @@
         </ul>
     </div>
 
-    <div style="float: right;">
+    <div class="right-pannel">
         <h2> Планируемые эффективности </h2>
         <ul>
             <li> <a href="plannedEfficiency/ShowTable?pageNumber=1"> Список планирумых эффективностей </a> </li>
@@ -63,7 +68,7 @@
         </ul>
     </div>
 
-    <div style="display: flex; flex-direction: column; align-items: center;">
+    <div class="middle-pannel">
         <h2> Информация </h2>
         <ul>
             <li> <a href="home/info"> Информация о клиенте </a> </li>
@@ -74,6 +79,24 @@
             <li> <a href="/search/form1"> Форма 1 (куки) </a> </li>
             <li> <a href="/search/form2"> Форма 2 (сессия) </a> </li>
         </ul>
+
+        @if (SignInManager.IsSignedIn(User)) {
+
+            var user = await UserManager.GetUserAsync(User);
+
+            if (await UserManager.IsInRoleAsync(user, "Admin")) {
+
+                <h2>Пользователи</h2>
+                <ul>
+                    <li><a href="/account/usersList">Список пользователей</a></li>
+                </ul>
+            }
+        }
+    </div>
+
+    <div class="account-actions">
+        <a href="/account/login">Вход</a>
+        <a href="/account/register">Регистрация</a>
     </div>
 </body>
 </html>

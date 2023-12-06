@@ -6,7 +6,6 @@ using Microsoft.Win32;
 using Term5_RPBDIS_Web.ViewModels;
 
 namespace Term5_RPBDIS_Web.Controllers {
-    // TODO: попробуй потом ограничить данные на странице Index. Типа для админа пусть там будет ещё вкладка для управления учетными записями пользователей.
     public class AccountController : Controller {
         private UserManager<IdentityUser> _userManager;
         private SignInManager<IdentityUser> _signInManager;
@@ -16,6 +15,9 @@ namespace Term5_RPBDIS_Web.Controllers {
             _signInManager = signInManager;
         }
 
+        public IActionResult AccessDenied(string returnUrl) => RedirectToAction("Index", "Home");
+        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UsersList() {
             var users = await _userManager.Users.ToListAsync();
             
@@ -54,7 +56,6 @@ namespace Term5_RPBDIS_Web.Controllers {
                 foreach (var error in result.Errors) {
                     ModelState.AddModelError("", error.Description);
                 }
-                // TODO: ссылка на регистрацию, ссылка на вход, скрытая вкладка для просмотра учетных записей и CRUD для неё.
 
                 return View(model); 
             }
