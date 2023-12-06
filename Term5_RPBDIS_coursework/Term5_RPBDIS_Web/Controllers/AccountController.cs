@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
-using Term5_RPBDIS_Web.ViewModels;
+using Term5_RPBDIS_Web.ViewModels.AccountViewModels;
 
-namespace Term5_RPBDIS_Web.Controllers {
+namespace Term5_RPBDIS_Web.Controllers
+{
     public class AccountController : Controller {
         private UserManager<IdentityUser> _userManager;
         private SignInManager<IdentityUser> _signInManager;
@@ -17,11 +18,7 @@ namespace Term5_RPBDIS_Web.Controllers {
 
         public IActionResult AccessDenied(string returnUrl) => RedirectToAction("Index", "Home");
 
-        public async Task<IActionResult> Logout() {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UsersList() {
             var users = await _userManager.Users.ToListAsync();
@@ -33,6 +30,49 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             ViewBag.Users = users;
             return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create() => View();
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create(RegisterViewModel model) {
+            IdentityUser user = new() { UserName = model.PhoneNumber, PhoneNumber = model.PhoneNumber };
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded) {
+                foreach (var error in result.Errors) {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+
+            model.Rights = model.Rights ?? false;
+
+            await _userManager.AddToRoleAsync(user, (bool)model.Rights ? "Admin" : "User");
+
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update() {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete() {
+            return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Logout() {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -56,7 +96,7 @@ namespace Term5_RPBDIS_Web.Controllers {
         public async Task<IActionResult> Register(RegisterViewModel model) {
             IdentityUser user = new() { UserName = model.PhoneNumber, PhoneNumber = model.PhoneNumber };
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-
+            // TODO: тут нужно добавить чтобы человек после регистрации сразу входил в учетную запись.
             if (!result.Succeeded) {
                 foreach (var error in result.Errors) {
                     ModelState.AddModelError("", error.Description);
@@ -68,6 +108,7 @@ namespace Term5_RPBDIS_Web.Controllers {
             model.Rights = model.Rights ?? false;
             
             await _userManager.AddToRoleAsync(user, (bool)model.Rights ? "Admin" : "User");
+            await _signInManager.SignInAsync(user, isPersistent: false);
 
             return RedirectToAction("Index", "Home");         
         }
