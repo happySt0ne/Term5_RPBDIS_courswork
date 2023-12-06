@@ -57,12 +57,51 @@ namespace Term5_RPBDIS_Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update() => View();
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update() {
+        public async Task<IActionResult> Update(UpdateAccountViewModel model) {
+            IdentityUser user = await _userManager.FindByNameAsync(model.OldPhoneNumber);
+
+            if (user is null) {
+
+                ModelState.AddModelError("", "Пользователь не найден.");
+                return View(model);
+            }
+
+            model.NewRights = model.NewRights ?? false;
+
+            user.PhoneNumber = model.NewPhoneNumber ?? user.PhoneNumber;
+            user.UserName = model.NewPhoneNumber ?? user.UserName;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded) {
+
+                foreach (var error in result.Errors) {
+
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+
+            if ((bool)model.NewRights) {
+
+                await _userManager.RemoveFromRoleAsync(user, "User");
+                await _userManager.AddToRoleAsync(user, "Admin");
+            } else {
+                await _userManager.RemoveFromRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "User");
+            }
+
             return View();
         }
 
+        // TODO: Доделать все оставшиеся CRUD методы, ограничить доступ к методам CRUD на остальных таблицах.
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete() {
@@ -96,7 +135,19 @@ namespace Term5_RPBDIS_Web.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model) {
             IdentityUser user = new() { UserName = model.PhoneNumber, PhoneNumber = model.PhoneNumber };
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-            // TODO: тут нужно добавить чтобы человек после регистрации сразу входил в учетную запись.
+
+            if (!ModelState.IsValid) {
+
+                foreach (var modelState in ViewData.ModelState.Values) {
+
+                    foreach (var error in modelState.Errors) {
+
+                        ModelState.AddModelError("", error.ErrorMessage);
+                    }
+                }
+                return View(model);
+            }
+
             if (!result.Succeeded) {
                 foreach (var error in result.Errors) {
                     ModelState.AddModelError("", error.Description);

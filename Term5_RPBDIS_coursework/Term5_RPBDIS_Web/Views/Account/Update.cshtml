@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Term5_RPBDIS_Web.ViewModels.AccountViewModels
+@model UpdateAccountViewModel
+
+<html>
+<head>
+    <title>Обновить пользователя</title>
+    <link rel="stylesheet" type="text/css" href="/css/Update.css"/>
+</head>
+<body>
+    <nav>
+        <a href="/home/index">На главную</a>
+        <a href="/account/register">Зарегестрироваться</a>
+    </nav>
+
+    <form method="post">
+        <div>
+            <label for="OldPhoneNumber">Введите старый номер телефона:</label>
+            <input type="number" id="OldPhoneNumber" name="OldPhoneNumber" required />
+        </div>
+        
+        <div>
+            <label for="NewPhoneNumber">Введите новый номер телефона: </label>
+            <input type="number" id="NewPhoneNumber" name="NewPhoneNumber" />
+        </div>
+
+        <div>
+            <label for="NewRights">Добавить\убрать права:</label>
+            <input type="checkbox" id="NewRights" name="NewRights" value="true"/>
+        </div>
+
+        <input type="submit" value="Обновить"/>
+    </form>
+
+    @Html.ValidationSummary(true, "", new { @class = "update-errors" })
+</body>
+</html>
