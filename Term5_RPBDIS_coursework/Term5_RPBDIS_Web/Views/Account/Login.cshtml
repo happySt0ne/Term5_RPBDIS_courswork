@@ -1,1 +1,25 @@
-﻿<p> Тут будет логин) </p>
+﻿@using Term5_RPBDIS_Web.ViewModels;
+@model LoginViewModel
+
+<html>
+<head>
+    <title>Вход</title>
+    <link rel="stylesheet" type="text/css" href="/css/Login.css" />
+</head>
+<body>
+    <form method="post">
+        <div>
+            <label for="PhoneNumber">Номер телефона:</label>
+            <input id="PhoneNumber" type="number" name="PhoneNumber" required />
+        </div>
+        <div>
+            <label for="Password">Пароль:</label>
+            <input id="Password" type="password" name="Password" required />
+        </div>
+        <button type="submit">Войти</button>
+
+        @Html.ValidationSummary(true, "", new { @class = "login-errors" });
+    </form>
+</body>
+</html>
+

@@ -9,9 +9,11 @@ namespace Term5_RPBDIS_Web.Controllers {
     // TODO: попробуй потом ограничить данные на странице Index. Типа для админа пусть там будет ещё вкладка для управления учетными записями пользователей.
     public class AccountController : Controller {
         private UserManager<IdentityUser> _userManager;
+        private SignInManager<IdentityUser> _signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager) {
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> UsersList() {
@@ -26,7 +28,19 @@ namespace Term5_RPBDIS_Web.Controllers {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Login() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model) {
+            var result = await _signInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, false, false);
+            
+            if (result.Succeeded) return RedirectToAction("Index", "Home");
+            
+            ModelState.AddModelError("", "Неверноый номер телефона или пароль.");
+            
+            return View(model);
+        }
 
         [HttpGet]
         public IActionResult Register() => View();
