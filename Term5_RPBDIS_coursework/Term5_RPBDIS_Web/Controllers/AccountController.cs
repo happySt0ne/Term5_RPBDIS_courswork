@@ -100,11 +100,32 @@ namespace Term5_RPBDIS_Web.Controllers
 
             return View();
         }
-
         // TODO: Доделать все оставшиеся CRUD методы, ограничить доступ к методам CRUD на остальных таблицах.
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete() => View();
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete() {
+        public async Task<IActionResult> Delete(DeleteAccountViewModel model) {
+            var user = await _userManager.FindByNameAsync(model.PhoneNumber);
+            
+            if (user is null) {
+
+                ModelState.AddModelError("", "Пользователь не найден.");
+                return View(model);
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded) {
+
+                foreach (var error in result.Errors) {
+
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+
             return View();
         }
 
