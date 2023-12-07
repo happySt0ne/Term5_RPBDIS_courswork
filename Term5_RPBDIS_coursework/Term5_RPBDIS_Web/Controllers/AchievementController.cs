@@ -6,7 +6,7 @@ using Term5_RPBDIS_library.models.tables;
 namespace Term5_RPBDIS_Web.Controllers {
     public class AchievementController : ExpandedController<Achievement> {
         public AchievementController(ValuatingSystemContext context) : base(context) { }
-
+        [Authorize]
         public override IActionResult Create() {
             if (TryGetFromQuery("Text", out string? text)) {
 

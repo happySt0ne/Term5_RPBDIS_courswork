@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 using Term5_RPBDIS_library;
@@ -36,6 +37,7 @@ namespace Term5_RPBDIS_Web.Controllers {
             return View();
         }
 
+        [Authorize]
         public IActionResult Delete() {
             if (!TryGetFromQuery("Id", out int? id)) {
 

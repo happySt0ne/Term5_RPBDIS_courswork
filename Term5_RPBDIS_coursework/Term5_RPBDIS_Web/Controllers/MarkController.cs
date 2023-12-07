@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_library.models.tables;
 
 namespace Term5_RPBDIS_Web.Controllers {
     public class MarkController : ExpandedController<Mark> {
         public MarkController(ValuatingSystemContext context) : base(context) { }
-
+        
+        [Authorize]
         public override IActionResult Create() {
             if (TryGetFromQuery("mark", out int? value)) {
 
@@ -15,6 +17,7 @@ namespace Term5_RPBDIS_Web.Controllers {
             return View();
         }
 
+        [Authorize]
         public override IActionResult Update() {
             ViewBag.Marks = _context.Marks.ToList();
 

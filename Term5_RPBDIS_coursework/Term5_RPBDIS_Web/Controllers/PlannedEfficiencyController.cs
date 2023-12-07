@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_library.models.tables;
@@ -7,6 +8,7 @@ namespace Term5_RPBDIS_Web.Controllers {
     public class PlannedEfficiencyController : ExpandedController<PlannedEfficiency> {
         public PlannedEfficiencyController(ValuatingSystemContext context) : base(context) { }
 
+        [Authorize]
         public override IActionResult Create() {
             if (TryGetFromQuery("Efficiency", out int? efficiency) &&
                 TryGetFromQuery("StartDate", out DateTime? startDate) &&
@@ -19,7 +21,8 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             return View();
         }
-    
+
+        [Authorize]
         public override IActionResult Update() {
             ViewBag.PlannedEfficiencies = _context.PlannedEfficiencies.ToList();
             ViewBag.Dates = _context.Dates.ToList();
