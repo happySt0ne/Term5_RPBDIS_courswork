@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_library.models.tables;
 
 namespace Term5_RPBDIS_Web.Controllers {
     public class AchievementController : ExpandedController<Achievement> {
         public AchievementController(ValuatingSystemContext context) : base(context) { }
-
+        [Authorize]
         public override IActionResult Create() {
             if (TryGetFromQuery("Text", out string? text)) {
 
@@ -15,6 +16,7 @@ namespace Term5_RPBDIS_Web.Controllers {
             return View();
         }
 
+        [Authorize]
         public override IActionResult Update() {
             ViewBag.Achievements = _context.Achievements.ToList();
 

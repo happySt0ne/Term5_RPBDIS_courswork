@@ -1,0 +1,38 @@
+﻿@using Term5_RPBDIS_Web.ViewModels.AccountViewModels
+@model RegisterViewModel
+
+<html>
+<head>
+    <title>Создать пользователя</title>
+    <link rel="stylesheet" type="text/css" href="/css/AccountCrud.css"/>
+</head>
+<body>
+    <nav>
+        <a href="/home/index">На главную</a>
+        <a href="/account/usersList">Список пользователей</a>
+        <a href="/account/delete">Удалить пользователя</a>
+        <a href="/account/update">Изменить пользователя</a>
+    </nav>
+
+    <form method="post">
+        <div>
+            <label for="PhoneNumber">Номер пользователя</label>
+            <input id="PhoneNumber" name="PhoneNumber" type="number" required/>
+        </div>
+
+        <div>
+            <label for="Password">Пароль пользователя</label>
+            <input id="Password" name="Password" type="password" required/>
+        </div>
+        
+        <div>
+            <label for="Rights">Права пользователя</label>
+            <input id="Rights" name="Rights" type="checkbox" value="true"/>
+        </div>
+
+        <button type="submit">Создать</button>
+    </form>
+
+    @Html.ValidationSummary(true, "")
+</body>
+</html>
