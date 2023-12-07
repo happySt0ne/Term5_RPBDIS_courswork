@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_library.models.tables;
 
@@ -6,7 +7,8 @@ namespace Term5_RPBDIS_Web.Controllers {
 	public class EmployeeController : ExpandedController<Employee> {
 		public EmployeeController(ValuatingSystemContext context) : base(context) { }
 
-		public override IActionResult Create() {
+        [Authorize]
+        public override IActionResult Create() {
 			if (TryGetFromQuery("Name", out string? name) &&
 				TryGetFromQuery("HireDate", out DateTime? hireDate) &&
 				TryGetFromQuery("Achievement", out string? achievement) &&
@@ -24,7 +26,8 @@ namespace Term5_RPBDIS_Web.Controllers {
 			return View();
 		}
 
-		public override IActionResult Update() {
+        [Authorize]
+        public override IActionResult Update() {
 			ViewBag.Employees = _context.Employees.ToList();
 			ViewBag.Divisions = _context.Divisions.ToList();
 			ViewBag.Achievements = _context.Achievements.ToList();

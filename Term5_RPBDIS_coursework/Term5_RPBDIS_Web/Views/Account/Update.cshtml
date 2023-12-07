@@ -1,0 +1,38 @@
+﻿@using Term5_RPBDIS_Web.ViewModels.AccountViewModels
+@model UpdateAccountViewModel
+
+<html>
+<head>
+    <title>Обновить пользователя</title>
+    <link rel="stylesheet" type="text/css" href="/css/AccountCrud.css"/>
+</head>
+<body>
+    <nav>
+        <a href="/home/index">На главную</a>
+        <a href="/account/usersList">Список пользователей</a>
+        <a href="/account/create">Создать пользователя</a>
+        <a href="/account/delete">Удалить пользователя</a>
+    </nav>
+
+    <form method="post">
+        <div>
+            <label for="OldPhoneNumber">Введите старый номер телефона:</label>
+            <input type="number" id="OldPhoneNumber" name="OldPhoneNumber" required />
+        </div>
+        
+        <div>
+            <label for="NewPhoneNumber">Введите новый номер телефона: </label>
+            <input type="number" id="NewPhoneNumber" name="NewPhoneNumber" />
+        </div>
+
+        <div>
+            <label for="NewRights">Добавить\убрать права:</label>
+            <input type="checkbox" id="NewRights" name="NewRights" value="true"/>
+        </div>
+
+        <input type="submit" value="Обновить"/>
+    </form>
+
+    @Html.ValidationSummary(true, "", new { @class = "errors" })
+</body>
+</html>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_library.models.tables;
 
@@ -6,6 +7,7 @@ namespace Term5_RPBDIS_Web.Controllers {
     public class DivisionController : ExpandedController<Division> {
         public DivisionController(ValuatingSystemContext context) : base(context) { }
 
+        [Authorize]
         public override IActionResult Create() {
             if (TryGetFromQuery("Name", out string? name) &&
                 TryGetFromQuery("Mark", out int? mark) &&
@@ -20,6 +22,7 @@ namespace Term5_RPBDIS_Web.Controllers {
             return View();
         }
 
+        [Authorize]
         public override IActionResult Update() {
             ViewBag.Divisions = _context.Divisions.ToList();
             ViewBag.PlannedEfficiencies = _context.PlannedEfficiencies.ToList();
