@@ -100,8 +100,7 @@ namespace Term5_RPBDIS_Web.Controllers
 
             return View();
         }
-        // TODO: Доделать все оставшиеся CRUD методы, ограничить доступ к методам CRUD на остальных таблицах.
-
+        
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete() => View();
@@ -154,9 +153,6 @@ namespace Term5_RPBDIS_Web.Controllers
         
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model) {
-            IdentityUser user = new() { UserName = model.PhoneNumber, PhoneNumber = model.PhoneNumber };
-            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-
             if (!ModelState.IsValid) {
 
                 foreach (var modelState in ViewData.ModelState.Values) {
@@ -168,6 +164,9 @@ namespace Term5_RPBDIS_Web.Controllers
                 }
                 return View(model);
             }
+
+            IdentityUser user = new() { UserName = model.PhoneNumber, PhoneNumber = model.PhoneNumber };
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded) {
                 foreach (var error in result.Errors) {

@@ -4,12 +4,14 @@
 <html>
 <head>
     <title>Обновить пользователя</title>
-    <link rel="stylesheet" type="text/css" href="/css/Update.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/AccountCrud.css"/>
 </head>
 <body>
     <nav>
         <a href="/home/index">На главную</a>
-        <a href="/account/register">Зарегестрироваться</a>
+        <a href="/account/usersList">Список пользователей</a>
+        <a href="/account/create">Создать пользователя</a>
+        <a href="/account/delete">Удалить пользователя</a>
     </nav>
 
     <form method="post">
@@ -31,6 +33,6 @@
         <input type="submit" value="Обновить"/>
     </form>
 
-    @Html.ValidationSummary(true, "", new { @class = "update-errors" })
+    @Html.ValidationSummary(true, "", new { @class = "errors" })
 </body>
 </html>

@@ -3,21 +3,34 @@
     var users = ViewBag.Users as List<IdentityUser>;
 }
 
-<h2>Список пользователей</h2>
+<html>
+<head>
+    <title>Список пользователей</title>
+    <link rel="stylesheet" type="text/css" href="/css/AccountCrud.css" />
+</head>
+<body>
+    <nav>
+        <a href="/home/index">На главную</a>
+        <a href="/account/create">Создать пользователя</a>
+        <a href="/account/delete">Удалить пользователя</a>
+        <a href="/account/update">Изменить пользователя</a>
+    </nav>
 
-<table border="1">
-<thead>
-    <tr>
-        <th>Номер телефона</th>
-        <th>Роль</th>
-    </tr>
-</thead>
-<tbody>
-    @foreach (var user in users) {
+    <table border="1">
+    <thead>
         <tr>
-            <td>@user.PhoneNumber</td>
-            <td>@string.Join("", ViewData[$"Roles_{user.Id}"] as IList<string>)</td>
-        </tr>        
-    }
-</tbody>
-</table>
+            <th>Номер телефона</th>
+            <th>Роль</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in users) {
+            <tr>
+                <td>@user.PhoneNumber</td>
+                <td>@string.Join("", ViewData[$"Roles_{user.Id}"] as IList<string>)</td>
+            </tr>        
+        }
+    </tbody>
+    </table>
+</body>
+</html>
