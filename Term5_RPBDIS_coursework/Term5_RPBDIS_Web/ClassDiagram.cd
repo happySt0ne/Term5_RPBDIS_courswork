@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Term5_RPBDIS_Web.Controllers.ExpandedController&lt;T&gt;" Collapsed="true">
+    <Position X="8.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Term5_RPBDIS_mainLogic.sessionStuff.SearchSession" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Term5_RPBDIS_mainLogic.sessionStuff.SessionExtensions" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.tables.Achievement" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.tables.Date" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.tables.Division" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.tables.Employee" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.tables.Mark" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.tables.PlannedEfficiency" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.tables.RealEfficiency" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.views.CompareRealPlannedEfficiency" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.views.DivisionsMark" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.views.WholeDivisionInfo" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.models.views.WholeEmployeeInfo" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Term5_RPBDIS_library.ValuatingSystemContext" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.ViewModels.AccountViewModels.DeleteAccountViewModel" Collapsed="true">
+    <Position X="12" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\AccountViewModels\DeleteAccountViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.ViewModels.AccountViewModels.LoginViewModel" Collapsed="true">
+    <Position X="13.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\AccountViewModels\LoginViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.ViewModels.AccountViewModels.RegisterViewModel" Collapsed="true">
+    <Position X="12" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAACAACAAAAAIAA=</HashCode>
+      <FileName>ViewModels\AccountViewModels\RegisterViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.ViewModels.AccountViewModels.UpdateAccountViewModel" Collapsed="true">
+    <Position X="13.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\AccountViewModels\UpdateAccountViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.AccountController" Collapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAIAAAAAAAAABAAAIAAAEBAEACAAAQAAAAAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.AchievementController" Collapsed="true">
+    <Position X="5.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\AchievementController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.DateController" Collapsed="true">
+    <Position X="7.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\DateController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.DivisionController" Collapsed="true">
+    <Position X="12.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\DivisionController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.EmployeeController" Collapsed="true">
+    <Position X="1" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\EmployeeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.HomeController" Collapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAEAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.MarkController" Collapsed="true">
+    <Position X="10" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\MarkController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.PlannedEfficiencyController" Collapsed="true">
+    <Position X="14.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\PlannedEfficiencyController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.RealEfficiencyController" Collapsed="true">
+    <Position X="3.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\RealEfficiencyController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Term5_RPBDIS_Web.Controllers.SearchController" Collapsed="true">
+    <Position X="12" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAABAAEAAAAAgAAAAAEAIAAAAAAADAAAAAAA=</HashCode>
+      <FileName>Controllers\SearchController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Term5_RPBDIS_sql_library.ISqlTable" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
