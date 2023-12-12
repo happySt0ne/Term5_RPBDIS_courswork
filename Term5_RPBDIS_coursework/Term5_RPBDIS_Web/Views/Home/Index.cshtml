@@ -85,8 +85,7 @@
             var user = await UserManager.GetUserAsync(User);
 
             if (await UserManager.IsInRoleAsync(user, "Admin")) {
-                // TODO: Добавь круды теперь.
-
+                
                 <h2>Пользователи</h2> 
                 <ul>
                     <li><a href="/account/usersList">Список пользователей</a></li>
