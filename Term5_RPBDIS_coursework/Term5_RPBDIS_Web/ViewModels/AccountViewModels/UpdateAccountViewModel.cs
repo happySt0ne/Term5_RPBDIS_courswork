@@ -6,7 +6,7 @@ namespace Term5_RPBDIS_Web.ViewModels.AccountViewModels {
         public string? OldPhoneNumber { get; set; }
 
         public string? NewPhoneNumber { get; set; }
-        
+
         public bool? NewRights { get; set; }
     }
 }

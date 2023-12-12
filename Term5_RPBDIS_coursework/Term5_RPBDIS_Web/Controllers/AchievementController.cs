@@ -21,14 +21,14 @@ namespace Term5_RPBDIS_Web.Controllers {
             ViewBag.Achievements = _context.Achievements.ToList();
 
             if (!TryGetFromQuery("Id", out int? id)) return View();
-            
+
             Achievement achievement = _context.Achievements.Find(id);
-            
+
             if (TryGetFromQuery("Text", out string? text)) {
-                
+
                 achievement.Text = text;
             }
-            
+
             _context.SaveChanges();
 
             return View();

@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Win32;
 using Term5_RPBDIS_Web.ViewModels.AccountViewModels;
 
-namespace Term5_RPBDIS_Web.Controllers
-{
+namespace Term5_RPBDIS_Web.Controllers {
     public class AccountController : Controller {
         private UserManager<IdentityUser> _userManager;
         private SignInManager<IdentityUser> _signInManager;
@@ -22,7 +20,7 @@ namespace Term5_RPBDIS_Web.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UsersList() {
             var users = await _userManager.Users.ToListAsync();
-            
+
             foreach (var user in users) {
 
                 ViewData[$"Roles_{user.Id}"] = await _userManager.GetRolesAsync(user);
@@ -100,7 +98,7 @@ namespace Term5_RPBDIS_Web.Controllers
 
             return View();
         }
-        
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete() => View();
@@ -109,7 +107,7 @@ namespace Term5_RPBDIS_Web.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(DeleteAccountViewModel model) {
             var user = await _userManager.FindByNameAsync(model.PhoneNumber);
-            
+
             if (user is null) {
 
                 ModelState.AddModelError("", "Пользователь не найден.");
@@ -140,17 +138,17 @@ namespace Term5_RPBDIS_Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model) {
             var result = await _signInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, false, false);
-            
+
             if (result.Succeeded) return RedirectToAction("Index", "Home");
-            
+
             ModelState.AddModelError("", "Неверноый номер телефона или пароль.");
-            
+
             return View(model);
         }
 
         [HttpGet]
         public IActionResult Register() => View();
-        
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model) {
             if (!ModelState.IsValid) {
@@ -173,15 +171,15 @@ namespace Term5_RPBDIS_Web.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
 
-                return View(model); 
+                return View(model);
             }
 
             model.Rights = model.Rights ?? false;
-            
+
             await _userManager.AddToRoleAsync(user, (bool)model.Rights ? "Admin" : "User");
             await _signInManager.SignInAsync(user, isPersistent: false);
 
-            return RedirectToAction("Index", "Home");         
+            return RedirectToAction("Index", "Home");
         }
     }
 }

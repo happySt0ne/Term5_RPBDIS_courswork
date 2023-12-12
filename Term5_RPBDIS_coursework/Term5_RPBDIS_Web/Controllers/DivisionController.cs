@@ -34,7 +34,7 @@ namespace Term5_RPBDIS_Web.Controllers {
             Division division = _context.Divisions.Find(id);
 
             if (TryGetFromQuery("Name", out string? name)) {
-                
+
                 division.Name = name;
             }
             if (TryGetFromQuery("MarkId", out int? markId)) {

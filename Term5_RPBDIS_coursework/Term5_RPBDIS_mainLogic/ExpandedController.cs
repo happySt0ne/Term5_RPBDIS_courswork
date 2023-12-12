@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_library.models.tables;
 using Term5_RPBDIS_sql_library;
@@ -92,7 +91,7 @@ namespace Term5_RPBDIS_Web.Controllers {
         /// <param name="dateTime"> Переменная, в которую может быть присвоено значение. </param>
         /// <returns>true, если <paramref name="dateTime"/> было успешно присвоено значение.</returns>
         protected bool TryGetFromQuery(string key, out DateTime? dateTime) {
-            if (!HttpContext.Request.Query.ContainsKey(key) || 
+            if (!HttpContext.Request.Query.ContainsKey(key) ||
                 string.IsNullOrEmpty(HttpContext.Request.Query[key])) {
 
                 dateTime = null;
@@ -104,17 +103,17 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         protected Employee GetAdd(string? name, DateTime? hireDate, string? achievementText, int? markValue,
-                                  int? divisionMarkValue, string? divisionName, DateTime? startDate, DateTime? endDate, 
+                                  int? divisionMarkValue, string? divisionName, DateTime? startDate, DateTime? endDate,
                                   int? planned, int? real) {
             Division division = GetAdd(divisionName, divisionMarkValue, startDate, endDate, planned, real);
             Mark mark = GetAdd(markValue);
             Achievement achievement = GetAdd(achievementText);
 
-            if(!IsRecordExist(e => e.Name == name && 
-                                    e.HireDate == hireDate && 
-                                    e.Division == division && 
-                                    e.Mark == mark && 
-                                    e.Achievement == achievement , out Employee employee)) {
+            if (!IsRecordExist(e => e.Name == name &&
+                                    e.HireDate == hireDate &&
+                                    e.Division == division &&
+                                    e.Mark == mark &&
+                                    e.Achievement == achievement, out Employee employee)) {
 
                 employee = new() {
                     Name = name,
@@ -128,15 +127,15 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             return employee;
         }
-        protected Division GetAdd(string? name, int? markValue, DateTime? startDate, 
+        protected Division GetAdd(string? name, int? markValue, DateTime? startDate,
                                   DateTime? endDate, int? plannedEfficiency, int? realEfficiency) {
             Mark mark = GetAdd(markValue);
             PlannedEfficiency planned = GetAddPlanned(plannedEfficiency, startDate, endDate);
             RealEfficiency real = GetAddReal(realEfficiency, startDate, endDate);
 
-            if (!IsRecordExist(d => d.PlannedEfficiency == planned && 
-                                    d.RealEfficiency == real && 
-                                    d.Mark == mark && 
+            if (!IsRecordExist(d => d.PlannedEfficiency == planned &&
+                                    d.RealEfficiency == real &&
+                                    d.Mark == mark &&
                                     d.Name == name, out Division division)) {
                 division = new() {
                     Name = name,
@@ -182,7 +181,7 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
         protected Date GetAdd(DateTime? startDate, DateTime? endDate) {
             if (startDate is null || endDate is null) throw new NullReferenceException("getAdd получил null");
-            
+
             if (!IsRecordExist(x => x.EndDate == endDate && x.StartDate == startDate, out Date? date)) {
                 date = new() {
                     StartDate = startDate,

@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Term5_RPBDIS_Web.ViewModels.AccountViewModels
-{
-    public class RegisterViewModel
-    {
+namespace Term5_RPBDIS_Web.ViewModels.AccountViewModels {
+    public class RegisterViewModel {
         [Phone]
         [Required]
         public string PhoneNumber { get; set; }

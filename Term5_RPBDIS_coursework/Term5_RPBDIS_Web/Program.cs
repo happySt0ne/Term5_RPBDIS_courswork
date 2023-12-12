@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Term5_RPBDIS_library;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ValuatingSystemContext>(options => 
+builder.Services.AddDbContext<ValuatingSystemContext>(options =>
     options.UseSqlServer(
         b => b.MigrationsAssembly("Term5_RPBDIS_Web")));
 builder.Services.AddControllersWithViews(); // Add MVC to DI.
@@ -55,7 +54,7 @@ void CreateTableRoutes() {
 
         app.MapControllerRoute(
             name: controller,
-            pattern:  $"{{controller={controller}}}/{{action=ShowTable}}");
+            pattern: $"{{controller={controller}}}/{{action=ShowTable}}");
     }
 }
 

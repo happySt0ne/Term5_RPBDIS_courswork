@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Dynamic.Core;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_mainLogic.sessionStuff;
@@ -16,13 +15,13 @@ namespace Term5_RPBDIS_Web.Controllers {
                 ViewBag.Response = Find(chosenTable, chosenColumn, textForSearch);
             }
 
-            ViewBag.Table = chosenTable; 
+            ViewBag.Table = chosenTable;
             ViewBag.Column = chosenColumn;
             ViewBag.TextForSearch = textForSearch;
 
             return View();
         }
-            
+
         public IActionResult Form2() {
             var searchSession = HttpContext.Session.Get<SearchSession>("searchSession") ?? new SearchSession();
 
@@ -53,7 +52,7 @@ namespace Term5_RPBDIS_Web.Controllers {
 
         private bool TryGet(string key, out string? res) =>
             TryGetCookie(key, out res) || TryGetFromServer(key, out res);
-        
+
 
         private bool TryGetCookie(string key, out string? res) {
             if (HttpContext.Request.Cookies.ContainsKey(key)) {
@@ -90,7 +89,7 @@ namespace Term5_RPBDIS_Web.Controllers {
 
                     if (item.ToString().Contains(textForSearch)) {
 
-                        answer.Add(item.ToString()) ;
+                        answer.Add(item.ToString());
                     }
                 }
 
