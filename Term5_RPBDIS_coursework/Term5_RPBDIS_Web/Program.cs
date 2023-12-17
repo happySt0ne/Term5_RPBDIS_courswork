@@ -5,8 +5,7 @@ using Term5_RPBDIS_library;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ValuatingSystemContext>(options =>
-    options.UseSqlServer(
-        b => b.MigrationsAssembly("Term5_RPBDIS_Web")));
+    options.UseSqlServer(b => b.MigrationsAssembly("Term5_RPBDIS_Web")));
 builder.Services.AddControllersWithViews(); // Add MVC to DI.
 builder.Services.AddSession();
 builder.Services.AddResponseCaching();
