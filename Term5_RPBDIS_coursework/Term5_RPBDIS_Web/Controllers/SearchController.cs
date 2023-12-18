@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using System.Linq.Dynamic.Core;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_mainLogic.sessionStuff;
@@ -45,10 +46,25 @@ namespace Term5_RPBDIS_Web.Controllers {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Form2() {
             var searchSession = HttpContext.Session.Get<SearchSession>("searchSession") ?? new SearchSession();
+            
+            if (searchSession.isSaved) {
 
-            if (searchSession.isSaved || TryGetFromServer(searchSession)) {
+                ViewBag.Response = Find(searchSession.tableName, 
+                                        searchSession.columnName, 
+                                        searchSession.textForSearch);
+            }
+
+            return View(searchSession);
+        }
+
+        [HttpPost]
+        public IActionResult Form2(int? id) {
+            var searchSession = HttpContext.Session.Get<SearchSession>("searchSession") ?? new SearchSession();
+
+            if (TryGetFromServer(searchSession)) {
 
                 ViewBag.Response = Find(searchSession.tableName, searchSession.columnName, searchSession.textForSearch);
             }
@@ -57,17 +73,15 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         private bool TryGetFromServer(SearchSession session) {
-            bool isContainTable = HttpContext.Request.Query.ContainsKey("choosingList");
-            bool isContainColumn = HttpContext.Request.Query.ContainsKey("column");
-            bool isContainText = HttpContext.Request.Query.ContainsKey("textForSearch");
+            bool isContainTable = HttpContext.Request.Form.ContainsKey("choosingList");
+            bool isContainColumn = HttpContext.Request.Form.ContainsKey("column");
+            bool isContainText = HttpContext.Request.Form.ContainsKey("textForSearch");
 
-            if (!isContainColumn || !isContainTable || !isContainText) {
-                return false;
-            }
-
-            var table = HttpContext.Request.Query["choosingList"];
-            var column = HttpContext.Request.Query["column"];
-            var textForSearch = HttpContext.Request.Query["textForSearch"];
+            if (!isContainColumn || !isContainTable || !isContainText) return false;
+            
+            var table = HttpContext.Request.Form["choosingList"];
+            var column = HttpContext.Request.Form["column"];
+            var textForSearch = HttpContext.Request.Form["textForSearch"];
 
             session.Save(table, column, textForSearch, HttpContext);
             return true;
