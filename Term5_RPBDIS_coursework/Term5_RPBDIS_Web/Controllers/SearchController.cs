@@ -1,31 +1,70 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using System.Linq.Dynamic.Core;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_mainLogic.sessionStuff;
 
 namespace Term5_RPBDIS_Web.Controllers {
     public class SearchController : Controller {
+
+        [HttpGet]
         public IActionResult Form1() {
-            bool isChosenTableNotNull = TryGet("choosingList", out string? chosenTable);
-            bool isChosenColumnNotNull = TryGet("column", out string? chosenColumn);
-            bool isTextForSearchNotNull = TryGet("textForSearch", out string? textForSearch);
-
-            if (isChosenTableNotNull && isChosenColumnNotNull && isTextForSearchNotNull) {
-
+            if (TryGetCookie("choosingList", out string? chosenTable) &&
+                TryGetCookie("column", out string? chosenColumn) &&
+                TryGetCookie("textForSearch", out string? textForSearch)) { 
+                
                 ViewBag.Response = Find(chosenTable, chosenColumn, textForSearch);
-            }
 
-            ViewBag.Table = chosenTable;
-            ViewBag.Column = chosenColumn;
-            ViewBag.TextForSearch = textForSearch;
+                ViewBag.Table = chosenTable;
+                ViewBag.Column = chosenColumn;
+                ViewBag.TextForSearch = textForSearch;
+            }
 
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Form1(int? id) {
+            bool isChosenTableNotNull = TryGetFromServer("choosingList", out string? chosenTable);
+            bool isChosenColumnNotNull = TryGetFromServer("column", out string? chosenColumn);
+            bool isTextForSearchNotNull = TryGetFromServer("textForSearch", out string? textForSearch);
+
+            if (isChosenTableNotNull && isChosenColumnNotNull && isTextForSearchNotNull) {
+
+                ViewBag.Response = Find(chosenTable, chosenColumn, textForSearch);
+
+                    Response.Cookies.Append("choosingList", chosenTable);
+                    Response.Cookies.Append("column", chosenColumn);
+                    Response.Cookies.Append("textForSearch", textForSearch);
+            }
+            
+            ViewBag.Table = chosenTable;
+            ViewBag.Column = chosenColumn;
+            ViewBag.TextForSearch = textForSearch;
+
+
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Form2() {
             var searchSession = HttpContext.Session.Get<SearchSession>("searchSession") ?? new SearchSession();
+            
+            if (searchSession.isSaved) {
 
-            if (searchSession.isSaved || TryGetFromServer(searchSession)) {
+                ViewBag.Response = Find(searchSession.tableName, 
+                                        searchSession.columnName, 
+                                        searchSession.textForSearch);
+            }
+
+            return View(searchSession);
+        }
+
+        [HttpPost]
+        public IActionResult Form2(int? id) {
+            var searchSession = HttpContext.Session.Get<SearchSession>("searchSession") ?? new SearchSession();
+
+            if (TryGetFromServer(searchSession)) {
 
                 ViewBag.Response = Find(searchSession.tableName, searchSession.columnName, searchSession.textForSearch);
             }
@@ -34,17 +73,15 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         private bool TryGetFromServer(SearchSession session) {
-            bool isContainTable = HttpContext.Request.Query.ContainsKey("choosingList");
-            bool isContainColumn = HttpContext.Request.Query.ContainsKey("column");
-            bool isContainText = HttpContext.Request.Query.ContainsKey("textForSearch");
+            bool isContainTable = HttpContext.Request.Form.ContainsKey("choosingList");
+            bool isContainColumn = HttpContext.Request.Form.ContainsKey("column");
+            bool isContainText = HttpContext.Request.Form.ContainsKey("textForSearch");
 
-            if (!isContainColumn || !isContainTable || !isContainText) {
-                return false;
-            }
-
-            var table = HttpContext.Request.Query["choosingList"];
-            var column = HttpContext.Request.Query["column"];
-            var textForSearch = HttpContext.Request.Query["textForSearch"];
+            if (!isContainColumn || !isContainTable || !isContainText) return false;
+            
+            var table = HttpContext.Request.Form["choosingList"];
+            var column = HttpContext.Request.Form["column"];
+            var textForSearch = HttpContext.Request.Form["textForSearch"];
 
             session.Save(table, column, textForSearch, HttpContext);
             return true;
@@ -66,13 +103,13 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         private bool TryGetFromServer(string key, out string? res) {
-            if (!HttpContext.Request.Query.ContainsKey(key)) {
+            if (!HttpContext.Request.Form.ContainsKey(key)) {  
 
                 res = null;
                 return false;
             }
 
-            res = HttpContext.Request.Query[key];
+            res = HttpContext.Request.Form[key];
             HttpContext.Response.Cookies.Append(key, res);
             return true;
         }
@@ -121,7 +158,11 @@ namespace Term5_RPBDIS_Web.Controllers {
             var dbContext = HttpContext.RequestServices.GetService<ValuatingSystemContext>();
 
             var modelType = Type.GetType(fullTableName);
-            return (IQueryable)dbContext.GetType().GetMethod("Set", Type.EmptyTypes).MakeGenericMethod(modelType).Invoke(dbContext, null);
+            return (IQueryable)dbContext
+                .GetType()
+                .GetMethod("Set", Type.EmptyTypes)
+                .MakeGenericMethod(modelType)
+                .Invoke(dbContext, null);
         }
     }
 }
