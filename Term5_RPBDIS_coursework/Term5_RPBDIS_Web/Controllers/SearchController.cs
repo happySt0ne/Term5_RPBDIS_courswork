@@ -5,19 +5,42 @@ using Term5_RPBDIS_mainLogic.sessionStuff;
 
 namespace Term5_RPBDIS_Web.Controllers {
     public class SearchController : Controller {
+
+        [HttpGet]
         public IActionResult Form1() {
-            bool isChosenTableNotNull = TryGet("choosingList", out string? chosenTable);
-            bool isChosenColumnNotNull = TryGet("column", out string? chosenColumn);
-            bool isTextForSearchNotNull = TryGet("textForSearch", out string? textForSearch);
+            if (TryGetCookie("choosingList", out string? chosenTable) &&
+                TryGetCookie("column", out string? chosenColumn) &&
+                TryGetCookie("textForSearch", out string? textForSearch)) { 
+                
+                ViewBag.Response = Find(chosenTable, chosenColumn, textForSearch);
+
+                ViewBag.Table = chosenTable;
+                ViewBag.Column = chosenColumn;
+                ViewBag.TextForSearch = textForSearch;
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Form1(int? id) {
+            bool isChosenTableNotNull = TryGetFromServer("choosingList", out string? chosenTable);
+            bool isChosenColumnNotNull = TryGetFromServer("column", out string? chosenColumn);
+            bool isTextForSearchNotNull = TryGetFromServer("textForSearch", out string? textForSearch);
 
             if (isChosenTableNotNull && isChosenColumnNotNull && isTextForSearchNotNull) {
 
                 ViewBag.Response = Find(chosenTable, chosenColumn, textForSearch);
-            }
 
+                    Response.Cookies.Append("choosingList", chosenTable);
+                    Response.Cookies.Append("column", chosenColumn);
+                    Response.Cookies.Append("textForSearch", textForSearch);
+            }
+            
             ViewBag.Table = chosenTable;
             ViewBag.Column = chosenColumn;
             ViewBag.TextForSearch = textForSearch;
+
 
             return View();
         }
@@ -66,13 +89,13 @@ namespace Term5_RPBDIS_Web.Controllers {
         }
 
         private bool TryGetFromServer(string key, out string? res) {
-            if (!HttpContext.Request.Query.ContainsKey(key)) {
+            if (!HttpContext.Request.Form.ContainsKey(key)) {  
 
                 res = null;
                 return false;
             }
 
-            res = HttpContext.Request.Query[key];
+            res = HttpContext.Request.Form[key];
             HttpContext.Response.Cookies.Append(key, res);
             return true;
         }
@@ -121,7 +144,11 @@ namespace Term5_RPBDIS_Web.Controllers {
             var dbContext = HttpContext.RequestServices.GetService<ValuatingSystemContext>();
 
             var modelType = Type.GetType(fullTableName);
-            return (IQueryable)dbContext.GetType().GetMethod("Set", Type.EmptyTypes).MakeGenericMethod(modelType).Invoke(dbContext, null);
+            return (IQueryable)dbContext
+                .GetType()
+                .GetMethod("Set", Type.EmptyTypes)
+                .MakeGenericMethod(modelType)
+                .Invoke(dbContext, null);
         }
     }
 }
