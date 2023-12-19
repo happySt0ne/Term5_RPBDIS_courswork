@@ -29,10 +29,10 @@ namespace Term5_RPBDIS_Web.Controllers {
 
                 achievement.Text = text;
             }
-
+            TryGetFromQuery("PageNumber", out int? PageNumber);
             _context.SaveChanges();
 
-            return RedirectToAction("ShowTable", "AchievementController");
+            return RedirectToAction("ShowTable", "Achievement", new {pageNumber = PageNumber} );
         }
     }
 }
