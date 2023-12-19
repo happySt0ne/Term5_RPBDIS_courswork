@@ -1,11 +1,120 @@
-﻿.errors {
-    color: red;
+﻿
+
+form {
+    backdrop-filter: blur(2px);
+    background-color: rgba(4,79,54, 0.4);
+    width: 500px;
+    border-radius: 20px;
 }
 
 nav {
     margin-bottom: 15px;
+    background-color: rgba(4,79,54, 0.8);
+    border-radius: 10px;
+    backdrop-filter: blur(2px);
 }
 
     nav a {
         margin-right: 10px;
+        background-color: transparent;
+        color: black;
+        text-decoration: none;
+        transition: color 0.3s;
     }
+
+        nav a:hover {
+            color: white; /* Новый цвет текста при наведении */
+        }
+
+body {
+    background-color: #055E69;
+    color: #369708;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    background-image: linear-gradient(to bottom, #055E69, #089E3A);
+    background-repeat: no-repeat;
+    background-position: center top 500px;
+}
+
+    body::after {
+        content: "";
+        background-image: url("../gif/snow.gif");
+        background-repeat: repeat;
+        background-size: auto;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+html {
+    font-size: 30px;
+}
+
+button {
+    margin: 10px;
+    color: red;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: rgba(4,79,54, 0.4);
+}
+
+    button:hover {
+        font-size: 25px;
+        color: #87f9fd;
+        background-color: darkred;
+    }
+
+input {
+    background-color: red;
+    color: #850797;
+    height: 30px;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+    input[type="checkbox"] {
+        appearance: none; /* Убирает стандартные стили браузера */
+        width: 30px;
+        height: 30px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        transition: border-color 0.3s;
+        cursor: pointer;
+        margin-top: 10px;
+        margin-bottom: 0px;
+    }
+
+        input[type="checkbox"]:checked {
+            /* Стили для отмеченного состояния checkbox */
+            border-color: #007bff;
+            background-color: #007bff;
+        }
+
+        input[type="checkbox"]::before {
+            /* Стили для маркера */
+            content: "\2717"; /* Значок Unicode для галочки */
+            font-size: 23px; /* Размер галочки */
+            position: absolute;
+            color: red; /* Цвет галочки */
+            visibility: hidden;
+        }
+
+        input[type="checkbox"]:checked::before {
+            /* Стили для отмеченной галочки */
+            visibility: visible; /* Показывает галочку */
+        }
+
+table {
+    background-color: rgba(4,79,54, 0.4);
+    backdrop-filter: blur(2px);
+    font-size: 22px;
+}
+
+.errors {
+    color: red;
+}
