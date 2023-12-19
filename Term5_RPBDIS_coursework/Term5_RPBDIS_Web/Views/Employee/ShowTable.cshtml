@@ -1,13 +1,14 @@
 ﻿@using Term5_RPBDIS_library
 @using Term5_RPBDIS_library.models.tables;
+@using Microsoft.EntityFrameworkCore;
 @{
     var employees = ViewBag.Data as List<Employee>;
     int pageNumber = ViewBag.pageNumber ?? 1;
     int totalPages = ViewBag.totalPages ?? 0;
     ViewBag.PageType = "employee";
-    var marks = (ViewBag.DbContext as ValuatingSystemContext).Marks.ToList();
-    var divisions = (ViewBag.DbContext as ValuatingSystemContext).Divisions.ToList();
-    var achievements = (ViewBag.DbContext as ValuatingSystemContext).Achievements.ToList();
+    var marks = await (ViewBag.DbContext as ValuatingSystemContext).Marks.ToListAsync();
+    var divisions = await (ViewBag.DbContext as ValuatingSystemContext).Divisions.ToListAsync();
+    var achievements = await (ViewBag.DbContext as ValuatingSystemContext).Achievements.ToListAsync();
 }
 
 <html>

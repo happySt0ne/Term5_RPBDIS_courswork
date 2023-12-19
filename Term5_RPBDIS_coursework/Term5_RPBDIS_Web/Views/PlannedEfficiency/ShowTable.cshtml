@@ -1,11 +1,12 @@
 ﻿@using Term5_RPBDIS_library
 @using Term5_RPBDIS_library.models.tables;
+@using Microsoft.EntityFrameworkCore;
 @{
     var plannedEfficiencies = ViewBag.Data as List<PlannedEfficiency>;
     int pageNumber = ViewBag.pageNumber ?? 1;
     int totalPages = ViewBag.totalPages ?? 0;
     ViewBag.PageType = "plannedEfficiency";
-    var dates = (ViewBag.DbContext as ValuatingSystemContext).Dates.ToList();
+    var dates = await (ViewBag.DbContext as ValuatingSystemContext).Dates.ToListAsync();
 }
 
 <html>

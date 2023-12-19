@@ -1,13 +1,14 @@
 ﻿@using Term5_RPBDIS_library
 @using Term5_RPBDIS_library.models.tables;
+@using Microsoft.EntityFrameworkCore;
 @{
     var divisions = ViewBag.Data as List<Division>;
     int pageNumber = ViewBag.pageNumber ?? 1;
     int totalPages = ViewBag.totalPages ?? 0;
     ViewBag.PageType = "division";
-    var marks = (ViewBag.DbContext as ValuatingSystemContext).Marks.ToList();
-    var plannedEfficiencies = (ViewBag.DbContext as ValuatingSystemContext).PlannedEfficiencies.ToList();
-    var realEfficiencies = (ViewBag.DbContext as ValuatingSystemContext).RealEfficiencies.ToList();
+    var marks = await (ViewBag.DbContext as ValuatingSystemContext).Marks.ToListAsync();
+    var plannedEfficiencies = await (ViewBag.DbContext as ValuatingSystemContext).PlannedEfficiencies.ToListAsync();
+    var realEfficiencies = await (ViewBag.DbContext as ValuatingSystemContext).RealEfficiencies.ToListAsync();
 }
 
 <html>
