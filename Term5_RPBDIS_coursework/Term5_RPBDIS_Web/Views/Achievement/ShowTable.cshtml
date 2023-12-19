@@ -23,7 +23,7 @@
         <a href="/achievement/update">Изменить достижение</a>
     </nav>
 
-    <table border="1">
+    <table id="table" border="1">
         <tr>
             <th>Код</th>
             <th>Текст</th>
@@ -31,22 +31,19 @@
 
         @foreach (Achievement achievement in achievements) {
             <tr>
-                <td>@achievement.ID</td>
-                <td>@achievement.Text</td>
+                <td>
+                    <button class="editButton" data-id="@achievement.ID">@achievement.ID</button>
+                </td>
+                <td>
+                    <button class="editButton" data-id="@achievement.ID">@achievement.Text</button>
+                </td>
             </tr>
         }
     </table>
 
     <form class="update-form" action="/achievement/update">
 
-        <label for="Id"> Выберите запись </label> <br />
-        <select name="Id">
-            @foreach (Achievement achievement in achievements) {
-                <option value="@achievement.ID">
-                    @achievement.ID @achievement.Text
-                </option>
-            }
-        </select><br />
+        <input value="" type="hidden" name="Id" id="Id"/>
 
         <label for="Text"> Введите текст достижения: </label> <br>
         <input type="text" name="Text" required /> <br />
@@ -54,6 +51,15 @@
 
         <input type="submit" value="Изменить" />
     </form>
+
+    <script>
+        document.querySelectorAll(".editButton").forEach(function (button) {
+            button.addEventListener("click", function () {
+                var id = this.getAttribute("data-id");
+                document.getElementById("Id").value = id;
+            });
+        });
+    </script>
     
     @Html.Partial("_pagingPartial")
 

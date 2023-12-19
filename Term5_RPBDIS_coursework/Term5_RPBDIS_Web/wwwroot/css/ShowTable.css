@@ -174,3 +174,12 @@ select {
     top: 0;
     margin: 80px;
 }
+
+.editButton {
+    margin: 0px;
+    font-size: 17px;
+}
+
+.editButton:hover {
+    font-size: 20px;
+}
