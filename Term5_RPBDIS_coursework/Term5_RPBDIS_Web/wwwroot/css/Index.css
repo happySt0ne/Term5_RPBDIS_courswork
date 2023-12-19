@@ -95,18 +95,15 @@ li {
     position: absolute;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
     height: 350px; /* Изменяем высоту на высоту картинки */
-    width: 1px;
     padding: 0;
-    left: 200px;
+    left: 230px;
     z-index: 1;
 }
 
     .rofl img {
         width: 500px;
         height: 450px;
-        z-index: 1;
         position: relative;
         margin: 0; /* Устанавливаем margin на 0 */
     }
@@ -137,5 +134,5 @@ li {
     }
         
         .account-actions a:hover {
-            color: red;
+            color: darkred;
         }
