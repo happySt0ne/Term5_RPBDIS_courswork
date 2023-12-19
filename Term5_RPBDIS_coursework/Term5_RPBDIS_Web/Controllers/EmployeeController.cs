@@ -28,13 +28,12 @@ namespace Term5_RPBDIS_Web.Controllers {
 
         [Authorize]
         public override IActionResult Update() {
-            ViewBag.Employees = _context.Employees.ToList();
-            ViewBag.Divisions = _context.Divisions.ToList();
-            ViewBag.Achievements = _context.Achievements.ToList();
-            ViewBag.Marks = _context.Marks.ToList();
+            TryGetFromQuery("PageNumber", out int? PageNumber);
 
-            if (!TryGetFromQuery("Id", out int? id)) return View();
-
+            if (!TryGetFromQuery("Id", out int? id)) {
+                
+                return RedirectToAction("ShowTable", "Employee", new { pageNumber = PageNumber });
+            } 
 
             Employee employee = _context.Employees.Find(id);
 
@@ -58,10 +57,10 @@ namespace Term5_RPBDIS_Web.Controllers {
 
                 employee.MarkId = markId;
             }
-
+            
             _context.SaveChanges();
 
-            return View();
+            return RedirectToAction("ShowTable", "Employee", new { pageNumber = PageNumber });
         }
     }
 }

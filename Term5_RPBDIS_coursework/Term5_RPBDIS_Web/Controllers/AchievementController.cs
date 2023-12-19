@@ -19,9 +19,12 @@ namespace Term5_RPBDIS_Web.Controllers {
 
         [Authorize]
         public override IActionResult Update() {
-            ViewBag.Achievements = _context.Achievements.ToList();
-
-            if (!TryGetFromQuery("Id", out int? id)) return View();
+            TryGetFromQuery("PageNumber", out int? PageNumber);
+            
+            if (!TryGetFromQuery("Id", out int? id)) { 
+            
+                return RedirectToAction("ShowTable", "Achievement", new { pageNumber = PageNumber });
+            }
 
             Achievement achievement = _context.Achievements.Find(id);
 
@@ -29,10 +32,9 @@ namespace Term5_RPBDIS_Web.Controllers {
 
                 achievement.Text = text;
             }
-            TryGetFromQuery("PageNumber", out int? PageNumber);
             _context.SaveChanges();
 
-            return RedirectToAction("ShowTable", "Achievement", new {pageNumber = PageNumber} );
+            return RedirectToAction("ShowTable", "Achievement", new { pageNumber = PageNumber } );
         }
     }
 }

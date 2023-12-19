@@ -1,9 +1,13 @@
-﻿@using Term5_RPBDIS_library.models.tables;
+﻿@using Term5_RPBDIS_library
+@using Term5_RPBDIS_library.models.tables;
 @{
     var divisions = ViewBag.Data as List<Division>;
     int pageNumber = ViewBag.pageNumber ?? 1;
     int totalPages = ViewBag.totalPages ?? 0;
     ViewBag.PageType = "division";
+    var marks = (ViewBag.DbContext as ValuatingSystemContext).Marks.ToList();
+    var plannedEfficiencies = (ViewBag.DbContext as ValuatingSystemContext).PlannedEfficiencies.ToList();
+    var realEfficiencies = (ViewBag.DbContext as ValuatingSystemContext).RealEfficiencies.ToList();
 }
 
 <html>
@@ -23,29 +27,88 @@
         <a href="/division/update"> Изменить отдел </a> 
     </nav>
 
-    <table border="1">
+    <table id ="table" border="1">
         <tr>
             <th>Код</th>
             <th>Название</th>
             <th>Оценка</th>
-            <th>Плариуемая эффективность</th>
-            <th>Реальная эффективность</th>
-            <th>Начальная дата оценивания</th>
-            <th>Конечная дата оценивания</th>
+            <th>Пл. эфф.</th>
+            <th>Реал. эфф</th>
+            <th>Начальная дата</th>
+            <th>Конечная дата</th>
         </tr>
 
         @foreach (Division division in divisions) {
             <tr>
-                <td>@division.ID</td>
-                <td>@division.Name</td>
-                <td>@division.Mark?.Value</td>
-                <td>@division.PlannedEfficiency?.Efficiecy</td>
-                <td>@division.RealEfficiency?.Efficiecy</td>
-                <td>@division.RealEfficiency?.Date?.StartDate</td>
-                <td>@division.RealEfficiency?.Date?.EndDate</td>
+                <td>
+                    <button class="editButton" data-id="@division.ID">@division.ID</button>
+                </td>
+                <td>
+                    <button class="editButton" data-id="@division.ID">@division.Name</button>
+                </td>
+                <td>
+                    <button class="editButton" data-id="@division.ID">@division.Mark?.Value</button>
+                </td>
+                <td>
+                    <button class="editButton" data-id="@division.ID">@division.PlannedEfficiency?.Efficiecy</button>
+                </td>
+                <td>
+                    <button class="editButton" data-id="@division.ID">@division.RealEfficiency?.Efficiecy</button>
+                </td>
+                <td>
+                    <button class="editButton" data-id="@division.ID">@division.RealEfficiency?.Date?.StartDate</button>
+                </td>
+                <td>
+                    <button class="editButton" data-id="@division.ID">@division.RealEfficiency?.Date?.EndDate</button>
+                </td>
             </tr>
         }
     </table>
+
+    <form class="update-form" action="/division/update">
+        <label> Выберите новую оценку:  </label> <br>
+        <select name="MarkId">
+            <option value=""> Оценка </option>
+            @foreach (Mark mark in marks) {
+
+                <option value="@mark.ID">
+                    @mark.Value
+                </option>
+            }
+        </select><br />
+
+        <label> Выберите новую планируемую эффективность: </label> <br>
+        <select name="PlannedEfficiencyId">
+            <option value=""> Планируемая эффективность </option>
+            @foreach (PlannedEfficiency plannedEfficiency in plannedEfficiencies) {
+
+                <option value="@plannedEfficiency.ID">
+                    @plannedEfficiency.Efficiecy | @plannedEfficiency.Date.StartDate | @plannedEfficiency.Date.EndDate
+                </option>
+            }
+        </select><br />
+
+        <label> Выберите новую реальную эффективность: </label> <br>
+        <select name="RealEfficiencyId">
+            <option value=""> Реальная эффективность </option>
+            @foreach (RealEfficiency realEfficiency in realEfficiencies) {
+
+                <option value="@realEfficiency.ID">
+                    @realEfficiency.Efficiecy | @realEfficiency.Date.StartDate | @realEfficiency.Date.EndDate
+                </option>
+            }
+        </select><br />
+
+        <label> Введите новое название </label> <br />
+        <input type="text" name="Name" /><br />
+
+        <input type="hidden" value="" name="Id" id="Id"/>
+        <input type="hidden" name="PageNumber" value="@pageNumber" />
+
+        <input type="submit" value="Изменить" />
+    </form>
+
+    <script src="/js/ShowTable.js"></script>
 
     @Html.Partial("_pagingPartial")
 

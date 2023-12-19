@@ -1,9 +1,13 @@
-﻿@using Term5_RPBDIS_library.models.tables;
+﻿@using Term5_RPBDIS_library
+@using Term5_RPBDIS_library.models.tables;
 @{
     var employees = ViewBag.Data as List<Employee>;
     int pageNumber = ViewBag.pageNumber ?? 1;
     int totalPages = ViewBag.totalPages ?? 0;
     ViewBag.PageType = "employee";
+    var marks = (ViewBag.DbContext as ValuatingSystemContext).Marks.ToList();
+    var divisions = (ViewBag.DbContext as ValuatingSystemContext).Divisions.ToList();
+    var achievements = (ViewBag.DbContext as ValuatingSystemContext).Achievements.ToList();
 }
 
 <html>
@@ -23,7 +27,7 @@
         <a href="/employee/update"> Изменить работника </a>
     </nav>
 
-    <table border="1">
+    <table id="table" border="1">
         <tr>
             <th>Код</th>
             <th>Имя</th>
@@ -35,15 +39,80 @@
 
         @foreach (Employee employee in employees) {
             <tr>
-                <td>@employee.ID</td>
-                <td>@employee.Name</td>
-                <td>@employee.HireDate</td>
-                <td>@employee.Achievement?.Text</td>
-                <td>@employee.Division?.Name</td>
-                <td>@employee.Mark?.Value</td>
+                <td>
+                    <button class="editButton" data-id="@employee.ID">@employee.ID</button>
+                </td>
+
+                <td>
+                    <button class="editButton" data-id="@employee.ID">@employee.Name</button>
+                </td>
+
+                <td>
+                    <button class="editButton" data-id="@employee.ID">@employee.HireDate</button>
+                </td>
+
+                <td>
+                    <button class="editButton" data-id="@employee.ID">@employee.Achievement?.Text</button>
+                </td>
+
+                <td>
+                    <button class="editButton" data-id="@employee.ID">@employee.Division?.Name</button>
+                </td>
+
+                <td>
+                    <button class="editButton" data-id="@employee.ID">@employee.Mark?.Value</button>
+                </td>
             </tr>
         }
     </table>
+
+    <form class="update-form" action="/employee/update">
+        <label> Выберите новую оценку: </label> <br />
+        <select name="MarkId">
+            <option value=""> Оценка </option>
+            @foreach (Mark mark in marks) {
+
+                <option value="@mark.ID">
+                    @mark.Value
+                </option>
+            }
+        </select> <br />
+
+        <label> Выберите новый отдел: </label> <br />
+        <select name="DivisionId">
+            <option value=""> Отдел </option>
+            @foreach (Division division in divisions) {
+
+                <option value="@division.ID">
+                    @division.ID | @division.Name
+                </option>
+            }
+        </select> <br />
+
+        <label> Выберите достижение: </label> <br />
+        <select name="AchievementId">
+            <option value=""> Достижение </option>
+            @foreach (Achievement achievement in achievements) {
+
+                <option value="@achievement.ID">
+                    @achievement.ID | @achievement.Text
+                </option>
+            }
+        </select> <br />
+
+        <label> Введите новую дату найма: </label> <br />
+        <input name="HireDate" type="date" /> <br />
+
+        <label> Введите новое имя: </label> <br />
+        <input name="Name" type="text" /> <br />
+
+        <input name="Id" id="Id" value="" type="hidden"/>
+        <input type="hidden" name="PageNumber" value="@pageNumber" />
+
+        <input type="submit" value="Изменить" />
+    </form>
+
+    <script src="/js/ShowTable.js"></script>
 
     @Html.Partial("_pagingPartial")
 

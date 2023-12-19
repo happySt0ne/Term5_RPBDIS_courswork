@@ -5,7 +5,7 @@ using Term5_RPBDIS_library.models.tables;
 
 namespace Term5_RPBDIS_Web.Controllers {
     public class DateController : ExpandedController<Date> {
-        public DateController([FromServices] ValuatingSystemContext context) : base(context) { }
+        public DateController(ValuatingSystemContext context) : base(context) { }
 
         [Authorize]
         public override IActionResult Create() {
@@ -20,9 +20,12 @@ namespace Term5_RPBDIS_Web.Controllers {
 
         [Authorize]
         public override IActionResult Update() {
-            ViewBag.Dates = _context.Dates.ToList();
+            TryGetFromQuery("PageNumber", out int? PageNumber);
+            
+            if (!TryGetFromQuery("Id", out int? id)) {
 
-            if (!TryGetFromQuery("Id", out int? id)) return View();
+                return RedirectToAction("ShowTable", "Date", new { pageNumber = PageNumber });
+            }
 
             Date date = _context.Dates.Find(id);
 
@@ -35,10 +38,9 @@ namespace Term5_RPBDIS_Web.Controllers {
 
                 date.EndDate = endDate;
             }
-
             _context.SaveChanges();
 
-            return View();
+            return RedirectToAction("ShowTable", "Date", new { pageNumber = PageNumber });
         }
     }
 }

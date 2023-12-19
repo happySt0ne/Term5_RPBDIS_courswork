@@ -24,12 +24,12 @@ namespace Term5_RPBDIS_Web.Controllers {
 
         [Authorize]
         public override IActionResult Update() {
-            ViewBag.Divisions = _context.Divisions.ToList();
-            ViewBag.PlannedEfficiencies = _context.PlannedEfficiencies.ToList();
-            ViewBag.RealEfficiencies = _context.RealEfficiencies.ToList();
-            ViewBag.Marks = _context.Marks.ToList();
+            TryGetFromQuery("PageNumber", out int? PageNumber);
 
-            if (!TryGetFromQuery("Id", out int? id)) return View();
+            if (!TryGetFromQuery("Id", out int? id)) { 
+            
+                return RedirectToAction("ShowTable", "Division", new { pageNumber = PageNumber });
+            }
 
             Division division = _context.Divisions.Find(id);
 
@@ -50,9 +50,10 @@ namespace Term5_RPBDIS_Web.Controllers {
                 division.RealEfficiencyId = realEfficiencyId;
             }
 
+
             _context.SaveChanges();
 
-            return View();
+            return RedirectToAction("ShowTable", "Division", new { pageNumber = PageNumber });
         }
     }
 }
