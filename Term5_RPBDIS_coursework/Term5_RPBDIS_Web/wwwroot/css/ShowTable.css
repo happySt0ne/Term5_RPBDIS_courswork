@@ -144,3 +144,26 @@ table {
 .errors {
     color: red;
 }
+
+input[type="submit"] {
+    margin: 10px;
+    color: red;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: rgba(4,79,54, 0.4);
+}
+
+    input[type="submit"]:hover {
+        font-size: 25px;
+        color: #87f9fd;
+        background-color: darkred;
+    }
+
+select {
+    background-color: red;
+    color: #850797;
+    height: 30px;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+}
