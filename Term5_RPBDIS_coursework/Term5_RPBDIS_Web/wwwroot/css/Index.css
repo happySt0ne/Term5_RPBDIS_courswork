@@ -91,23 +91,6 @@ li {
     position: relative;
 }
 
-.rofl {
-    position: absolute;
-    display: inline-flex;
-    align-items: center;
-    height: 350px; /* Изменяем высоту на высоту картинки */
-    padding: 0;
-    left: 230px;
-    z-index: 1;
-}
-
-    .rofl img {
-        width: 500px;
-        height: 450px;
-        position: relative;
-        margin: 0; /* Устанавливаем margin на 0 */
-    }
-
 .account-type {
     background-color: #5A0897;
     color: #55f3fb;
