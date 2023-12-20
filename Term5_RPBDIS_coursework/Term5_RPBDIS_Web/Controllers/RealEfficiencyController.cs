@@ -21,10 +21,12 @@ namespace Term5_RPBDIS_Web.Controllers {
 
         [Authorize]
         public override IActionResult Update() {
-            ViewBag.RealEfficiency = _context.RealEfficiencies.ToList();
-            ViewBag.Dates = _context.Dates.ToList();
+            TryGetFromQuery("PageNumber", out int? PageNumber);
 
-            if (!TryGetFromQuery("Id", out int? id)) return View();
+            if (!TryGetFromQuery("Id", out int? id)) {
+
+                return RedirectToAction("ShowTable", "RealEfficiency", new { pageNumber = PageNumber });
+            } 
 
             RealEfficiency realEfficiencies = _context.RealEfficiencies.Find(id);
 
@@ -40,7 +42,7 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             _context.SaveChanges();
 
-            return View();
+            return RedirectToAction("ShowTable", "RealEfficiency", new { pageNumber = PageNumber });
         }
     }
 }

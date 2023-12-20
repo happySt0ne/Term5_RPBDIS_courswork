@@ -1,9 +1,12 @@
-﻿@using Term5_RPBDIS_library.models.tables;
+﻿@using Term5_RPBDIS_library
+@using Term5_RPBDIS_library.models.tables;
+@using Microsoft.EntityFrameworkCore;
 @{
     var realEfficiencies = ViewBag.Data as List<RealEfficiency>;
     int pageNumber = ViewBag.pageNumber ?? 1;
     int totalPages = ViewBag.totalPages ?? 0;
     ViewBag.PageType = "realEfficiency";
+    var dates = await (ViewBag.DbContext as ValuatingSystemContext).Dates.ToListAsync();
 }
 
 <html>
@@ -19,11 +22,9 @@
         <a href="/realEfficiency/create"> Добавить реальную эффективность </a>
         <span> | </span>
         <a href="/realEfficiency/delete"> Удалить реальную эффективность </a>
-        <span> | </span>
-        <a href="/realEfficiency/update"> Изменить реальную эффективность </a>
     </nav>
 
-    <table border="1">
+    <table id="table" border="1">
         <tr>
             <th> Код </th>
             <th> Эффективность </th>
@@ -33,13 +34,47 @@
 
         @foreach (RealEfficiency realEfficiency in realEfficiencies) {
             <tr>
-                <td> @realEfficiency.ID </td>
-                <td> @realEfficiency.Efficiecy </td>
-                <td> @realEfficiency.Date?.StartDate </td>
-                <td> @realEfficiency.Date?.EndDate </td>
+                <td>
+                    <button class="editButton" data-id="@realEfficiency.ID">@realEfficiency.ID</button>
+                </td>
+
+                <td>
+                    <button class="editButton" data-id="@realEfficiency.ID">@realEfficiency.Efficiecy</button>
+                </td>
+
+                <td>
+                    <button class="editButton" data-id="@realEfficiency.ID">@realEfficiency.Date?.StartDate</button>
+                </td>
+
+                <td>
+                    <button class="editButton" data-id="@realEfficiency.ID">@realEfficiency.Date?.EndDate</button>
+                </td>
             </tr>
         }
     </table>
+
+    <form class="update-form" action="/realEfficiency/update">
+        <label for="Date"> Выберите новый временной период: <br></label>
+        <select name="Date">
+            <option value=""> Выберите дату </option>
+            @foreach (Date date in dates) {
+
+                <option value="@date.ID">
+                    @date.ID | @date.StartDate | @date.EndDate 
+                </option>
+            }
+        </select><br />
+
+        <label for="Efficiecy"> Введите новую реальную эффективность: <br></label>
+        <input type="number" name="Efficiecy" /><br />
+
+        <input value="" type="hidden" name="Id" id="Id" />
+        <input type="hidden" name="PageNumber" value="@pageNumber" />
+
+        <input type="submit" value="Изменить" />
+    </form>
+
+    <script src="/js/ShowTable.js"></script>
 
     @Html.Partial("_pagingPartial")
 

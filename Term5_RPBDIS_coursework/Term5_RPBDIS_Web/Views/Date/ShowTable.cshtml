@@ -19,11 +19,9 @@
         <a href="/date/create"> Добавить дату </a>
         <span> | </span>
         <a href="/date/delete"> Удалить дату </a>
-        <span> | </span>
-        <a href="/date/update"> Изменить дату </a>
     </nav>
 
-    <table border="1">
+    <table id="table" border="1">
         <tr>
             <th>Код</th>
             <th>Начальная дата</th>
@@ -32,12 +30,33 @@
 
         @foreach (Date date in dates) {
             <tr>
-                <td>@date.ID</td>
-                <td>@date.StartDate</td>
-                <td>@date.EndDate</td>
+                <td>
+                    <button class="editButton" data-id="@date.ID">@date.ID</button>
+                </td>
+                <td>
+                    <button class="editButton" data-id="@date.ID">@date.StartDate</button>
+                </td>
+                <td>
+                    <button class="editButton" data-id="@date.ID">@date.EndDate</button>
+                </td>
             </tr>
         }
     </table>
+
+    <form class="update-form" action="/date/update">
+        <label for="StartDate"> Введите новую начальную дату: </label> <br>
+        <input type="date" name="StartDate" /><br />
+
+        <label for="EndDate"> Введите новую конечную дату: <br></label>
+        <input type="date" name="EndDate" /><br />
+        
+        <input id="Id" name="Id" value="" type="hidden"/>
+        <input type="hidden" name="PageNumber" value="@pageNumber" />
+
+        <input type="submit" value="Изменить" />
+    </form>
+
+    <script src="/js/ShowTable.js"></script>
 
     @Html.Partial("_pagingPartial")
 

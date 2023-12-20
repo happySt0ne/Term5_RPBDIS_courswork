@@ -32,6 +32,7 @@ namespace Term5_RPBDIS_Web.Controllers {
             ViewBag.data = data;
             ViewBag.pageNumber = pageNumber;
             ViewBag.totalPages = totalPages;
+            ViewBag.DbContext = _context;
 
             return View();
         }

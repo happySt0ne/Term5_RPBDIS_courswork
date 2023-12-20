@@ -19,11 +19,9 @@
         <a href="/mark/create"> Добавить оценку </a>
         <span> | </span>
         <a href="/mark/delete"> Удалить оценку </a>
-        <span> | </span>
-        <a href="/mark/update"> Изменить оценку </a>
     </nav>
 
-    <table border="1">
+    <table id="table" border="1">
         <tr>
             <th>Код</th>
             <th>Оценка</th>
@@ -31,11 +29,28 @@
 
         @foreach (Mark mark in marks) {
             <tr>
-                <td>@mark.ID</td>
-                <td>@mark.Value</td>
+                <td>
+                    <button class="editButton" data-id="@mark.ID">@mark.ID</button>
+                </td>
+
+                <td>
+                    <button class="editButton" data-id="@mark.ID">@mark.Value</button>
+                </td>
             </tr>
         }
     </table>
+
+    <form class="update-form" action="/mark/update">
+        <label for="Value"> Введите новое значение: <br></label>
+        <input type="number" name="Value" /><br />
+
+        <input value="" type="hidden" name="Id" id="Id" />
+        <input type="hidden" name="PageNumber" value="@pageNumber" />
+
+        <input type="submit" value="Изменить" />
+    </form>
+
+    <script src="/js/ShowTable.js"></script>
 
     @Html.Partial("_pagingPartial")
 

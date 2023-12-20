@@ -23,10 +23,12 @@ namespace Term5_RPBDIS_Web.Controllers {
 
         [Authorize]
         public override IActionResult Update() {
-            ViewBag.PlannedEfficiencies = _context.PlannedEfficiencies.ToList();
-            ViewBag.Dates = _context.Dates.ToList();
+            TryGetFromQuery("PageNumber", out int? PageNumber);
 
-            if (!TryGetFromQuery("Id", out int? id)) return View();
+            if (!TryGetFromQuery("Id", out int? id)) {
+
+                return RedirectToAction("ShowTable", "PlannedEfficiency", new { pageNumber = PageNumber });
+            } 
 
             PlannedEfficiency plannedEfficiencies = _context.PlannedEfficiencies.Find(id);
 
@@ -39,10 +41,10 @@ namespace Term5_RPBDIS_Web.Controllers {
 
                 plannedEfficiencies.Efficiecy = efficiecy;
             }
-
+            
             _context.SaveChanges();
 
-            return View();
+            return RedirectToAction("ShowTable", "PlannedEfficiency", new { pageNumber = PageNumber });
         }
     }
 }

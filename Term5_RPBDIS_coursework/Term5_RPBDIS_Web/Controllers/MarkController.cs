@@ -19,9 +19,12 @@ namespace Term5_RPBDIS_Web.Controllers {
 
         [Authorize]
         public override IActionResult Update() {
-            ViewBag.Marks = _context.Marks.ToList();
+            TryGetFromQuery("PageNumber", out int? PageNumber);
 
-            if (!TryGetFromQuery("Id", out int? id)) return View();
+            if (!TryGetFromQuery("Id", out int? id)) {
+
+                return RedirectToAction("ShowTable", "Mark", new { pageNumber = PageNumber });
+            } 
 
             Mark mark = _context.Marks.Find(id);
 
@@ -32,7 +35,7 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             _context.SaveChanges();
 
-            return View();
+            return RedirectToAction("ShowTable", "Mark", new { pageNumber = PageNumber });
         }
     }
 }
