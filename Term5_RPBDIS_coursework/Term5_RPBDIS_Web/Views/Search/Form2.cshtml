@@ -1,8 +1,10 @@
 ﻿@using Term5_RPBDIS_mainLogic.sessionStuff;
 @{
-    var responseList = ViewBag.Response as List<string>;
+    var isFinded = ViewBag.IsFinded as bool? ?? false;
+    var responseList = ViewBag.Response;
+    var columns = ViewBag.Columns as List<string> ?? new();
 }
-@model SearchSession
+@model SearchSession;
 
 <html>
 <head>
@@ -16,12 +18,11 @@
             padding: 10px;
         }
     </style>
-
     <link rel="stylesheet" href="/css/ShowTable.css" type="text/css" />
     <title> Поиск </title>
 </head>
 <body>
-    <nav> 
+    <nav>
         <a href="/"> На главную </a>
         <span> | </span>
         <a href="/search/form1"> К форме 1 </a>
@@ -55,18 +56,36 @@
         </div>
 
         <div>
-
             @if (responseList is not null) {
-            
-                <h5> Результат поиска в таблице @Model.tableName по столбцу @Model.columnName </h5>
-                <h5> Текст для поиска "@Model.textForSearch" </h5>
 
-                @foreach (string answer in responseList) {
+                if (isFinded) {
 
-                    <p> @answer </p>
+                    var a = responseList as List<Dictionary<string, string>>;
+
+                    <table border="1">
+                        <tr>
+                            @foreach (var col in columns) {
+
+                                <th>@col</th>
+                            }
+                        </tr>
+                        @foreach (var answer in responseList) {
+
+                            <tr>
+                                @foreach (var c in columns) {
+
+                                    <td>@answer[c]</td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                } else {
+
+                    var a = responseList as string;
+                    <div>@a</div>
                 }
-            }
 
+            }
         </div>
     </div>
 </body>

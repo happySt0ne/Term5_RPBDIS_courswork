@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Identity.Client;
 using System.Linq.Dynamic.Core;
+using System.Runtime.CompilerServices;
 using Term5_RPBDIS_library;
 using Term5_RPBDIS_mainLogic.sessionStuff;
 
@@ -14,16 +15,18 @@ namespace Term5_RPBDIS_Web.Controllers {
                 TryGetCookie("column", out string? chosenColumn) &&
                 TryGetCookie("textForSearch", out string? textForSearch)) {
 
-                if (!Find(chosenTable, chosenColumn, textForSearch, out List<string> result)) {
+                bool isFinded = Find(chosenTable, chosenColumn, textForSearch,
+                                        out List<Dictionary<string, string>> result);
 
-                    result.Add(ColumnNotFoundHandler(GetColumnNames(chosenTable)));
-                }
-
-                ViewBag.Response = result;
+                ViewBag.Response = isFinded 
+                                    ? result as dynamic 
+                                    : ColumnNotFoundHandler(GetColumnNames(chosenTable));
 
                 ViewBag.Table = chosenTable;
                 ViewBag.Column = chosenColumn;
                 ViewBag.TextForSearch = textForSearch;
+                ViewBag.Columns = GetColumnNames(chosenTable);
+                ViewBag.IsFinded = isFinded;
             }
 
             return View();
@@ -36,23 +39,24 @@ namespace Term5_RPBDIS_Web.Controllers {
             bool isTextForSearchNotNull = TryGetFromServer("textForSearch", out string? textForSearch);
 
             if (isChosenTableNotNull && isChosenColumnNotNull && isTextForSearchNotNull) {
+                bool isFinded = Find(chosenTable, chosenColumn, textForSearch,
+                                        out List<Dictionary<string, string>> result);
 
-                if (!Find(chosenTable, chosenColumn, textForSearch, out List<string> result)) {
-
-                    result.Add(ColumnNotFoundHandler(GetColumnNames(chosenTable)));
-                }
-
-                ViewBag.Response = result;
+                ViewBag.Response = isFinded
+                                    ? result as dynamic
+                                    : ColumnNotFoundHandler(GetColumnNames(chosenTable));
 
                 Response.Cookies.Append("choosingList", chosenTable);
                 Response.Cookies.Append("column", chosenColumn);
                 Response.Cookies.Append("textForSearch", textForSearch);
+                
+                ViewBag.IsFinded = isFinded;
             }
             
             ViewBag.Table = chosenTable;
             ViewBag.Column = chosenColumn;
             ViewBag.TextForSearch = textForSearch;
-
+            ViewBag.Columns = GetColumnNames(chosenTable);
 
             return View();
         }
@@ -63,15 +67,18 @@ namespace Term5_RPBDIS_Web.Controllers {
             
             if (searchSession.isSaved) {
 
-                if (!Find(searchSession.tableName,searchSession.columnName,
-                          searchSession.textForSearch, out List<string> result)) {
+                var isFinded = Find(searchSession.tableName,
+                                    searchSession.columnName,
+                                    searchSession.textForSearch,
+                                    out List<Dictionary<string, string>> result);
 
-                    result.Add(ColumnNotFoundHandler(GetColumnNames(searchSession.tableName)));
-                }
+                ViewBag.Response = isFinded 
+                                    ? result as dynamic
+                                    : ColumnNotFoundHandler(GetColumnNames(searchSession.tableName));
 
-                ViewBag.Response = result;
+                ViewBag.IsFinded = isFinded;
+                ViewBag.Columns = GetColumnNames(searchSession.tableName);
             }
-
             return View(searchSession);
         }
 
@@ -81,15 +88,18 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             if (TryGetFromServer(searchSession)) {
 
-                if (!Find(searchSession.tableName, searchSession.columnName,
-                          searchSession.textForSearch, out List<string> result)) {
+                var isFinded = Find(searchSession.tableName,
+                                     searchSession.columnName,
+                                     searchSession.textForSearch,
+                                     out List<Dictionary<string, string>> result);
 
-                    result.Add(ColumnNotFoundHandler(GetColumnNames(searchSession.tableName)));
-                }
+                ViewBag.Response = isFinded
+                                    ? result as dynamic
+                                    : ColumnNotFoundHandler(GetColumnNames(searchSession.tableName));
 
-                ViewBag.Response = result;
+                ViewBag.IsFinded = isFinded;
             }
-
+            ViewBag.Columns = GetColumnNames(searchSession.tableName);
             return View(searchSession);
         }
 
@@ -135,12 +145,12 @@ namespace Term5_RPBDIS_Web.Controllers {
             return true;
         }
 
-        private string GetPropertyValues(List<string> columnNames, object item) {
-            string result = "";
+        private Dictionary<string, string> GetPropertyValues(List<string> columnNames, object item) {
+            Dictionary<string, string> result = new();
 
             foreach (var column in columnNames) {
-                
-                result += GetPropertyValue(item, column) + " ";
+
+                result[column] = GetPropertyValue(item, column);
             }
 
             return result;
@@ -150,7 +160,7 @@ namespace Term5_RPBDIS_Web.Controllers {
             item.GetType().GetProperty(columnName).GetValue(item, null).ToString();
 
         private bool Find(string chosenTable, string chosenColumn, 
-                          string textForSearch, out List<string> result) {
+                          string textForSearch, out List<Dictionary<string, string>> result) {
             List<string> columnNames = GetColumnNames(chosenTable);
             result = new();
 
