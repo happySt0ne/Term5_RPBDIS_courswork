@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Identity.Client;
 using System.Linq.Dynamic.Core;
 using Term5_RPBDIS_library;
@@ -11,9 +12,14 @@ namespace Term5_RPBDIS_Web.Controllers {
         public IActionResult Form1() {
             if (TryGetCookie("choosingList", out string? chosenTable) &&
                 TryGetCookie("column", out string? chosenColumn) &&
-                TryGetCookie("textForSearch", out string? textForSearch)) { 
-                
-                ViewBag.Response = Find(chosenTable, chosenColumn, textForSearch);
+                TryGetCookie("textForSearch", out string? textForSearch)) {
+
+                if (!Find(chosenTable, chosenColumn, textForSearch, out List<string> result)) {
+
+                    result.Add(ColumnNotFoundHandler(GetColumnNames(chosenTable)));
+                }
+
+                ViewBag.Response = result;
 
                 ViewBag.Table = chosenTable;
                 ViewBag.Column = chosenColumn;
@@ -31,11 +37,16 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             if (isChosenTableNotNull && isChosenColumnNotNull && isTextForSearchNotNull) {
 
-                ViewBag.Response = Find(chosenTable, chosenColumn, textForSearch);
+                if (!Find(chosenTable, chosenColumn, textForSearch, out List<string> result)) {
 
-                    Response.Cookies.Append("choosingList", chosenTable);
-                    Response.Cookies.Append("column", chosenColumn);
-                    Response.Cookies.Append("textForSearch", textForSearch);
+                    result.Add(ColumnNotFoundHandler(GetColumnNames(chosenTable)));
+                }
+
+                ViewBag.Response = result;
+
+                Response.Cookies.Append("choosingList", chosenTable);
+                Response.Cookies.Append("column", chosenColumn);
+                Response.Cookies.Append("textForSearch", textForSearch);
             }
             
             ViewBag.Table = chosenTable;
@@ -52,9 +63,13 @@ namespace Term5_RPBDIS_Web.Controllers {
             
             if (searchSession.isSaved) {
 
-                ViewBag.Response = Find(searchSession.tableName, 
-                                        searchSession.columnName, 
-                                        searchSession.textForSearch);
+                if (!Find(searchSession.tableName,searchSession.columnName,
+                          searchSession.textForSearch, out List<string> result)) {
+
+                    result.Add(ColumnNotFoundHandler(GetColumnNames(searchSession.tableName)));
+                }
+
+                ViewBag.Response = result;
             }
 
             return View(searchSession);
@@ -66,7 +81,13 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             if (TryGetFromServer(searchSession)) {
 
-                ViewBag.Response = Find(searchSession.tableName, searchSession.columnName, searchSession.textForSearch);
+                if (!Find(searchSession.tableName, searchSession.columnName,
+                          searchSession.textForSearch, out List<string> result)) {
+
+                    result.Add(ColumnNotFoundHandler(GetColumnNames(searchSession.tableName)));
+                }
+
+                ViewBag.Response = result;
             }
 
             return View(searchSession);
@@ -118,44 +139,45 @@ namespace Term5_RPBDIS_Web.Controllers {
             string result = "";
 
             foreach (var column in columnNames) {
-
-                var propertyValue = GetPropertyValue(item, column);
-                result += propertyValue + " ";
+                
+                result += GetPropertyValue(item, column) + " ";
             }
 
             return result;
         }
 
-        private object GetPropertyValue(object item, string columnName) =>
-            item.GetType().GetProperty(columnName).GetValue(item, null);
+        private string GetPropertyValue(object item, string columnName) =>
+            item.GetType().GetProperty(columnName).GetValue(item, null).ToString();
 
-        private List<string> Find(string chosenTable, string chosenColumn, string textForSearch) {
+        private bool Find(string chosenTable, string chosenColumn, 
+                          string textForSearch, out List<string> result) {
             List<string> columnNames = GetColumnNames(chosenTable);
-            List<string> answer = new();
+            result = new();
 
-            if (columnNames.Contains(chosenColumn)) {
-
-                var table = GetTable(chosenTable);
+            if (!columnNames.Contains(chosenColumn)) return false;
+            
+            var table = GetTable(chosenTable);
                 
-                foreach (var item in table) {
+            foreach (var item in table) {
 
-                    if (GetPropertyValue(item, chosenColumn).ToString().Contains(textForSearch)) {
+                if (GetPropertyValue(item, chosenColumn).Contains(textForSearch)) {
 
-                        answer.Add(GetPropertyValues(columnNames, item));
-                    }
+                    result.Add(GetPropertyValues(columnNames, item));
                 }
-
-                return answer;
             }
 
-            answer.Add("Такого столбца нет в выбранной таблице.");
-            answer.Add("Вы можете выбрать из:");
+            return true;
+        }
 
-            foreach (var a in columnNames) {
-                answer.Add(a);
-            }
+        private string ColumnNotFoundHandler(List<string> columnNames) {
+            string answer = "";
 
-            return answer;
+            answer += "Такого столбца нет в выбранной таблице.\n";
+            answer += "Вы можете выбрать из:\n";
+
+            columnNames.ForEach(col => answer += $"{col}, ");
+
+            return answer[..^2];
         }
 
         private List<string> GetColumnNames(string tableName) {
