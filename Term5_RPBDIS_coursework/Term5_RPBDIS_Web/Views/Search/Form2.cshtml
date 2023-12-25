@@ -37,9 +37,9 @@
                     <option value='Date'>Даты</option>
                     <option value='Division'>Отделы</option>
                     <option value='Employee'>Работники</option>
-                    <option value='Term5_RPBDIS_libraryMark'>Оценки</option>
-                    <option value='PlannedEfficiecy'>Планируемая эффективность</option>
-                    <option value='RealEfficiecy'>Реальная эффективность</option>
+                    <option value='Mark'>Оценки</option>
+                    <option value='PlannedEfficiency'>Планируемая эффективность</option>
+                    <option value='RealEfficiency'>Реальная эффективность</option>
                 </select><br>
 
                 <label for='column'>Введите название столбца для поиска по таблице:<br></label>
@@ -50,6 +50,7 @@
 
                 <input type='submit' value='найти'>
 
+                <input type="hidden" id="tableValue" value="@Model.tableName" />
             </form>
         </div>
 
@@ -71,9 +72,4 @@
 </body>
 </html>
 
-<script>
-    window.onload = function () {
-        document.getElementById("choosingList").value = @Model.tableName
-                }
-</script>
-
+<script src="/js/Search.js"></script>
