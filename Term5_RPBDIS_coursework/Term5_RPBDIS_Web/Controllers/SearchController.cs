@@ -119,12 +119,15 @@ namespace Term5_RPBDIS_Web.Controllers {
 
             foreach (var column in columnNames) {
 
-                var propertyValue = item.GetType().GetProperty(column).GetValue(item, null);
+                var propertyValue = GetPropertyValue(item, column);
                 result += propertyValue + " ";
             }
 
             return result;
         }
+
+        private object GetPropertyValue(object item, string columnName) =>
+            item.GetType().GetProperty(columnName).GetValue(item, null);
 
         private List<string> Find(string chosenTable, string chosenColumn, string textForSearch) {
             List<string> columnNames = GetColumnNames(chosenTable);
@@ -133,23 +136,14 @@ namespace Term5_RPBDIS_Web.Controllers {
             if (columnNames.Contains(chosenColumn)) {
 
                 var table = GetTable(chosenTable);
-                var tableAfterSelect = table.Select(chosenColumn);
-                var a = table.Where($"{chosenColumn} == {textForSearch}");
-                var v = table.First();
-
-                var b = GetPropertyValues(columnNames, v);
-
+                
                 foreach (var item in table) {
-                    answer.Add(String.Join(" ", item));
+
+                    if (GetPropertyValue(item, chosenColumn).ToString().Contains(textForSearch)) {
+
+                        answer.Add(GetPropertyValues(columnNames, item));
+                    }
                 }
-
-                //foreach (var item in tableAfterSelect) {
-
-                //    if (item.ToString().Contains(textForSearch)) {
-
-                //        answer.Add(item.ToString());
-                //    }
-                //}
 
                 return answer;
             }
