@@ -1,0 +1,68 @@
+﻿@using Term5_RPBDIS_library.models.tables
+@{
+    var employees = ViewBag.Employees as List<Employee>;
+    var divisions = ViewBag.Divisions as List<Division>;
+    var dates = ViewBag.Dates as List<Date>;
+    var method = ViewBag.Method as string;
+}
+
+<html>
+<head>
+    <title>Рейтинг сотрудников</title>
+    <link rel="stylesheet" type="text/css" href="/css/ShowTable.css"/>
+</head>
+<body>
+    <nav>
+        <a href="/">На главную</a>
+    </nav>
+    @if (method == "get") {
+
+        <form method="post">
+            <label>Выберите подразделение:</label><br />
+            <select name="DivisionId" required>
+                @foreach (Division division in divisions) {
+
+                    <option value="@division.ID">@division.Name</option>
+                }
+            </select><br />
+
+            <label>Выберите временной промежуток:</label><br />
+            <select name="DateId" required>
+                @foreach (Date date in dates) {
+
+                    <option value="@date.ID">@date.StartDate | @date.EndDate</option>
+                }
+            </select><br />
+
+            <input type="submit" value="Далее" />
+        </form>
+    } else {
+        <a style="background-color: red;" href="/rating/employees">Вернутся к заполнению формы</a>
+        
+        @if (employees.Count() < 1) {
+            
+            <div class="panel">
+                Не удалось найти ни одного подобного работника(
+            </div>
+        } else {
+            <div style="float: right;"> 
+                <p>Отдел: @employees[0].Division.Name</p>
+                <p>Начало временного промежутка: @employees[0].Division.RealEfficiency.Date.StartDate</p>
+                <p>Конец временного промежутка: @employees[0].Division.RealEfficiency.Date.EndDate</p>
+            </div>
+            <table border="1">
+                <tr>
+                    <th>Имя</th>
+                    <th>Оценка</th>
+                </tr>
+                @foreach (Employee employee in employees) {
+                    <tr>
+                        <td>@employee.Name</td>
+                        <td>@employee.Mark.Value</td>
+                    </tr>
+                }
+            </table>
+        }
+    }
+</body>
+</html>

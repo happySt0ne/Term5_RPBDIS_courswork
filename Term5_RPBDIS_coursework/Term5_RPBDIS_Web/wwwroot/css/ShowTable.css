@@ -183,3 +183,14 @@ select {
 .editButton:hover {
     font-size: 20px;
 }
+
+.panel {
+    background-color: rgba(4,79,54, 0.4);
+    border-radius: 15px;
+    backdrop-filter: blur(2px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    z-index: 5;
+}
