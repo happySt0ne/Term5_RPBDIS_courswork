@@ -24,7 +24,7 @@ namespace Term5_RPBDIS_Infrastructure {
         /// Выводит список объектов. 
         /// </summary>
         [HttpGet]
-        public IEnumerable<T> Get() => _context.Set<T>().ToList();
+        public Task<List<T>> Get() => _context.Set<T>().ToListAsync();
 
         /// <summary>
         /// Создаёт новый объект. Передаваемый объект не должен содержать ID.
