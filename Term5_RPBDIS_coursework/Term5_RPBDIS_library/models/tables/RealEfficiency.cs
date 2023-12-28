@@ -15,5 +15,6 @@ public partial class RealEfficiency : ISqlTable {
     [JsonIgnore]
     public virtual ICollection<Division> Divisions { get; set; } = new List<Division>();
 
+    [JsonIgnore]
     public int ID => RealEfficiencyId;
 }

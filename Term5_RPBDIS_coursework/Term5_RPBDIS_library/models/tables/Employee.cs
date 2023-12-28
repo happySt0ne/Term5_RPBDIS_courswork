@@ -23,5 +23,6 @@ public partial class Employee : ISqlTable {
 
     public virtual Mark? Mark { get; set; }
 
+    [JsonIgnore]
     public int ID => EmployeeId;
 }

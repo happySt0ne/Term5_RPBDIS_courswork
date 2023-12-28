@@ -1,4 +1,5 @@
-﻿using Term5_RPBDIS_sql_library;
+﻿using System.Text.Json.Serialization;
+using Term5_RPBDIS_sql_library;
 
 namespace Term5_RPBDIS_library.models.tables;
 
@@ -21,5 +22,6 @@ public partial class Division : ISqlTable {
 
     public virtual RealEfficiency? RealEfficiency { get; set; }
 
+    [JsonIgnore]
     public int ID => DivisionId;
 }

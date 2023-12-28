@@ -14,5 +14,6 @@ public partial class Mark : ISqlTable {
     [JsonIgnore]
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
+    [JsonIgnore]
     public int ID => MarkId;
 }

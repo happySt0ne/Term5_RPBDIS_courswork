@@ -16,5 +16,6 @@ public partial class Date : ISqlTable {
     [JsonIgnore]
     public virtual ICollection<RealEfficiency> RealEfficiencies { get; set; } = new List<RealEfficiency>();
 
+    [JsonIgnore]
     public int ID => DateId;
 }
