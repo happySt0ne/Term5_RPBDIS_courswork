@@ -6,8 +6,8 @@ using Term5_RPBDIS_library;
 using Term5_RPBDIS_library.models.tables;
 
 namespace Term5_RPBDIS_Web.Controllers {
-    public class AchievementController : ExpandedApiController<Achievement> {
-        public AchievementController(ValuatingSystemContext context) 
+    public class RealEfficiencyController : ExpandedApiController<RealEfficiency> {
+        public RealEfficiencyController(ValuatingSystemContext context) 
             : base(context) {}
     }
 }
