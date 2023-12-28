@@ -1,0 +1,6 @@
+@Term5_RPBDIS_webApi_HostAddress = http://localhost:5022
+
+GET {{Term5_RPBDIS_webApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
