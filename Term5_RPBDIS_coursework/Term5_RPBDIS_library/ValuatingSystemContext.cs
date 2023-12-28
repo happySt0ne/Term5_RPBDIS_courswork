@@ -54,7 +54,6 @@ public partial class ValuatingSystemContext : IdentityDbContext<IdentityUser> {
         optionsBuilder.UseLazyLoadingProxies();
     }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
 

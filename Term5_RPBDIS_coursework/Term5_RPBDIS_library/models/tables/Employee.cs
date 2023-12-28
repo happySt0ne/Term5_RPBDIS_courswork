@@ -1,4 +1,5 @@
-﻿using Term5_RPBDIS_sql_library;
+﻿using System.Text.Json.Serialization;
+using Term5_RPBDIS_sql_library;
 
 namespace Term5_RPBDIS_library.models.tables;
 
@@ -17,6 +18,7 @@ public partial class Employee : ISqlTable {
 
     public virtual Achievement? Achievement { get; set; }
 
+    [JsonIgnore]
     public virtual Division? Division { get; set; }
 
     public virtual Mark? Mark { get; set; }
