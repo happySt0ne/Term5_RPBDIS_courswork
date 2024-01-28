@@ -1,22 +1,30 @@
-﻿<html>
+﻿@{
+    ViewBag.PageType = "achievement";
+}
+
+<!DOCTYPE html>
+<html>
 <head>
     <title>Удаление достижения</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/ShowTable.css" type="text/css" />
 </head>
 <body>
     <nav>
-        <a href="/home"> На главную </a>
+        <a href="/home">На главную</a>
         <span> | </span>
-        <a href="/achievement"> Список достижений </a>
+        <a href="/achievement">Список достижений</a>
         <span> | </span>
-        <a href="/achievement/create"> Добавить достижение </a>
+        <a href="/achievement/create">Добавить достижение</a>
     </nav>
 
-    <form action="/achievement/delete">
-        <label for="Id"> Введите код достижения для удаления: <br></label>
-        <input type="number" name="Id" required /> <br />
-
-        <input type="submit" value="Удалить" />
+    <form class="confirm-form" action="/achievement/delete" method="get">
+        <label for="Id">Введите код достижения для удаления:</label><br>
+        <input type="number" name="Id" id="id-input" required /><br>
+        
+        <input type="submit" value="Удалить" id="confirm-button" />
     </form>
+
+    @Html.Partial("_deletingModalWindow")
 </body>
 </html>

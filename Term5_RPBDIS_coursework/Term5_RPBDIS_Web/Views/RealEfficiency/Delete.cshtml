@@ -1,6 +1,11 @@
-﻿<html>
+﻿@{
+    ViewBag.PageType = "realEfficiency";
+}
+
+<html>
 <head>
     <title> Удаление результата </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/ShowTable.css" type="text/css" />
 </head>
 <body>
@@ -12,11 +17,13 @@
         <a href="/realEfficiency/create"> Добавить реальную эффективность </a>
     </nav>
 
-    <form action="/realEfficiency/delete">
+    <form class="confirm-form" method="get" action="/realEfficiency/delete">
         <label for="Id"> Введите код результата для удаления: <br></label>
-        <input type="number" name="Id" required />
+        <input type="number" name="Id" id="id-input" required />
 
-        <input type="submit" value="Удалить" />
+        <input type="submit" value="Удалить" id="confirm-button" />
     </form>
+
+    @Html.Partial("_deletingModalWindow")
 </body>
 </html>

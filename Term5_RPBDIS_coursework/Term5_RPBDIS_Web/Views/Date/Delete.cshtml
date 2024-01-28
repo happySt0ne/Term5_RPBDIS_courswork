@@ -1,6 +1,11 @@
-﻿<html>
+﻿@{
+    ViewBag.PageType = "date";
+}
+
+<html>
 <head>
     <title>Удаление даты</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/ShowTable.css" type="text/css" />
 </head>
 <body>
@@ -12,11 +17,13 @@
         <a href="/date/create"> Добавить дату </a>
     </nav>
 
-    <form action="/date/delete">
+    <form class="confirm-form" action="/date/delete" method="get">
         <label for="Id"> Введите код даты для удаления: </label><br>
-        <input type="number" name="Id" required /> <br>
+        <input type="number" name="Id" id="id-input" required /> <br>
 
-        <input type="submit" value="Удалить" />
+        <input type="submit" value="Удалить" id="confirm-button" />
     </form>
+
+    @Html.Partial("_deletingModalWindow")
 </body>
 </html>
