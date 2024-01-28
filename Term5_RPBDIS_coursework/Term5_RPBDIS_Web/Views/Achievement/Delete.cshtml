@@ -1,22 +1,59 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html>
 <head>
     <title>Удаление достижения</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/ShowTable.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
     <nav>
-        <a href="/home"> На главную </a>
+        <a href="/home">На главную</a>
         <span> | </span>
-        <a href="/achievement"> Список достижений </a>
+        <a href="/achievement">Список достижений</a>
         <span> | </span>
-        <a href="/achievement/create"> Добавить достижение </a>
+        <a href="/achievement/create">Добавить достижение</a>
     </nav>
-
-    <form action="/achievement/delete">
-        <label for="Id"> Введите код достижения для удаления: <br></label>
-        <input type="number" name="Id" required /> <br />
-
-        <input type="submit" value="Удалить" />
+    <form class="confirm-form" action="/achievement/delete" method="get">
+        <label for="Id">Введите код достижения для удаления:</label><br>
+        <input type="number" name="Id" id="id-input" required /><br>
+        <input type="submit" value="Удалить" id="confirm-button" />
     </form>
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Подтверждение действия</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Вы уверены, что хотите выполнить это действие?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary" id="confirm-modal-button">Подтвердить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var actionUrl = '/achievement/delete';
+
+            $('.confirm-form').submit(function (e) {
+                e.preventDefault();
+                $('#confirmModal').modal('show');
+            });
+
+            $('#confirm-modal-button').click(function () {
+                var idValue = $('#id-input').val();
+                var deleteUrl = actionUrl + '?Id=' + idValue;
+                window.location.href = deleteUrl;
+            });
+        });
+    </script>
 </body>
 </html>
