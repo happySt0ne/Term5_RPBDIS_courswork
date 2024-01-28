@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewBag.PageType = "achievement";
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <title>Удаление достижения</title>
@@ -17,6 +21,7 @@
     <form class="confirm-form" action="/achievement/delete" method="get">
         <label for="Id">Введите код достижения для удаления:</label><br>
         <input type="number" name="Id" id="id-input" required /><br>
+        
         <input type="submit" value="Удалить" id="confirm-button" />
     </form>
 

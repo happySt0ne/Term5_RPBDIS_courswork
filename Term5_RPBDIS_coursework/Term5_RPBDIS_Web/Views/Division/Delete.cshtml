@@ -1,6 +1,11 @@
-﻿<html>
+﻿@{
+    ViewBag.PageType = "division";
+}
+
+<html>
 <head>
     <title>Удаление отделения</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/ShowTable.css" type="text/css" />
 </head>
 <body>
@@ -12,11 +17,13 @@
         <a href="/division/create"> Добавить отдел </a> 
     </nav>
 
-    <form action="/division/delete">
+    <form class="confirm-form" method="get" action="/division/delete">
         <label for="Id"> Введите код отделения для удаления: </label> <br>
-        <input type="number" name="Id" required /><br>
+        <input type="number" name="Id" id="id-input" required /><br>
 
-        <input type="submit" value="Удалить" />
+        <input type="submit" value="Удалить" id="confirm-button" />
     </form>
+
+    @Html.Partial("_deletingModalWindow")
 </body>
 </html>
