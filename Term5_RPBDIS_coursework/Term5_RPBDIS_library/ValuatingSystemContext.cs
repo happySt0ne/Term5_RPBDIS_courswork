@@ -46,7 +46,12 @@ public partial class ValuatingSystemContext : IdentityDbContext<IdentityUser> {
         builder.SetBasePath(Directory.GetCurrentDirectory());
         builder.AddJsonFile("appsettings.json");
         IConfigurationRoot config = builder.Build();
-        string connectionString = config.GetConnectionString("DefaultConnection")!;
+
+        var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+        var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+        var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+
+        string connectionString = $"Data Source={dbHost};Initial Catalog={dbName};User Id=sa;Password={dbPassword};TrustServerCertificate=true";
         _ = optionsBuilder
             .UseSqlServer(connectionString)
             .Options;

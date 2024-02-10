@@ -1,0 +1,35 @@
+version: '3.4'
+
+networks:
+  mynet:
+
+services:
+  db:
+    container_name: db-for-asp
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=A$13BigBen
+    ports:
+        - 8002:1433
+    networks:
+        - mynet
+    volumes:
+        - "./data-mssql:/var/opt/mssql/data"
+
+  term5_rpbdis_web:
+    container_name: asp-project
+    image: ${DOCKER_REGISTRY-}term5rpbdisweb
+    build:
+      context: .
+      dockerfile: Term5_RPBDIS_Web/Dockerfile
+    ports: 
+        - 8001:80
+    depends_on:
+        - db
+    networks:
+        - mynet
+    environment:
+        - DB_HOST=db
+        - DB_NAME=Term5_RPBDIS_Coursework
+        - DB_SA_PASSWORD=A$13BigBen
